@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ManageRolesController;
+use App\Livewire\AdminDashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,11 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-    Route::get('/manage-roles', \App\Livewire\RolesTable::class)
+Route::view('admin', 'livewire.admin-dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('admin');
+
+Route::get('/manage-roles', \App\Livewire\RolesTable::class)
     ->middleware(['auth', 'can:manage-roles'])
     ->name('manage-roles.index');
 
