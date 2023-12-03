@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ManageRolesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,20 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+    Route::get('/manage-roles', \App\Livewire\RolesTable::class)
+    ->middleware(['auth', 'can:manage-roles'])
+    ->name('manage-roles.index');
+
+Route::get('/manage-roles/create', \App\Livewire\CreateRole::class)
+    ->middleware(['auth', 'can:manage-roles'])
+    ->name('manage-roles.create');
+
+Route::get('/manage-roles/edit/{role}', \App\Livewire\EditRole::class)
+    ->name('manage-roles.edit');
+
+Route::delete('/manage-roles/{role}', \App\Livewire\DeleteRole::class)
+    ->middleware(['auth', 'can:manage-roles'])
+    ->name('manage-roles.destroy');
 
 require __DIR__.'/auth.php';

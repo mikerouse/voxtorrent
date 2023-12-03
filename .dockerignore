@@ -1,0 +1,55 @@
+# General
+.git/
+.gitignore
+.dockerignore
+Dockerfile
+docker-compose.yml
+README.md
+LICENSE
+
+# Laravel specific
+vendor/
+node_modules/
+storage/logs/
+storage/framework/
+.env
+.env.example
+.env.testing
+.phpunit.result.cache
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Compiled Source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# OS generated files
+ehthumbs.db
+Icon?

@@ -14,6 +14,17 @@
             </div>
 
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="max-w-7xl">
+                    @if(session()->has('message'))
+                    <div class="alert alert-success">
+                        {{ session('message') }}
+                    </div>
+                    @endif
+                    <livewire:profile.manage-roles :user="auth()->user()" />
+                </div>
+            </div>            
+
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <livewire:profile.update-password-form />
                 </div>
