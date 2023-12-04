@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -30,6 +32,12 @@ new #[Layout('layouts.guest')] class extends Component
         $validated['password'] = Hash::make($validated['password']);
 
         event(new Registered($user = User::create($validated)));
+
+         // If this is the first user
+        if (User::count() == 1) {
+            // assign 'Super Admin' role to the first user
+            $user->assignRole(Role::firstOrCreate(['name' => 'super admin']));
+        }
 
         Auth::login($user);
 

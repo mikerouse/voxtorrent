@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,9 +22,10 @@ class DatabaseSeeder extends Seeder
         //     'password' => bcrypt('mtr66b4A')
         // ]);
         $this->call([
-            RoleSeeder::class,
+            RolesAndPermissionsSeeder::class,
             ConstituencyTypeSeeder::class,
             // any other seeders you want to call
         ]);
+
     }
 }

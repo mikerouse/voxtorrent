@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Spatie\Permission\Models\Role;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,12 +24,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('manage-roles', function ($user) {
-            return in_array('System Administrator', $user->roles->pluck('name')->toArray());
-        });
-
-        Gate::define('manage-users', function ($user) {
-            return in_array('System Administrator', $user->roles->pluck('name')->toArray());
+        // Implicitly grant "Super Admin" role all permissions
+        // This works in the app by using gate-related functions like auth()->user->can() and @can()
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('super admin') ? true : null;
         });
     }
 }

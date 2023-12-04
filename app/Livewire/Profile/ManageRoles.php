@@ -3,9 +3,9 @@
 namespace App\Livewire\Profile;
 
 use Livewire\Component;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class ManageRoles extends Component
 {
