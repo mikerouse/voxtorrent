@@ -36,7 +36,7 @@ new #[Layout('layouts.guest')] class extends Component
          // If this is the first user
         if (User::count() == 1) {
             // assign 'Super Admin' role to the first user
-            $user->assignRole(Role::firstOrCreate(['name' => 'super admin']));
+            $user->assignRole('super admin');
         }
 
         Auth::login($user);
