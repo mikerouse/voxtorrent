@@ -14,14 +14,15 @@ class Constituency extends Model
         'nation',
         'population',
         'incumbent_party',
+        'constituency_type_id',
     ];
 
-    public function type()
+    public function constituency_type()
     {
         return $this->belongsTo(ConstituencyType::class);
     }
 
-    public function decisionMakers()
+    public function decision_makers()
     {
         return $this->belongsToMany(DecisionMaker::class);
     }
