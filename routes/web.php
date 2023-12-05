@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ManageRolesController;
 use App\Livewire\AdminDashboard;
-use App\Livewire\ConstituencyTypeManager;
+use App\Livewire\ConstituencyManager\Dashboard;
+use App\Livewire\ConstituencyManager\Constituencies;
+use App\Livewire\ConstituencyManager\Types;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +31,18 @@ Route::view('admin', 'livewire.admin-dashboard')
     ->middleware(['auth', 'verified'])
     ->name('admin');
 
-Route::get('/admin/constituency-type-manager', ConstituencyTypeManager::class)
+Route::get('/constituency-manager/dashboard', Dashboard::class)
     ->middleware(['auth', 'verified'])
-    ->name('admin/constituency-type-manager');
+    ->name('constituency-manager/dashboard');
+
+// Define the route for Constituencies
+Route::get('/constituency-manager/constituencies', Constituencies::class)
+    ->name('constituency-manager.constituencies')
+    ->middleware(['auth', 'verified']);
+
+// Define the route for Types
+Route::get('/constituency-manager/types', Types::class)
+    ->name('constituency-manager.types')
+    ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

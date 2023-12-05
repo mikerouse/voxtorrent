@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\ConstituencyManager;
 
 use Livewire\Component;
 use App\Models\ConstituencyType;
+use Illuminate\Support\Facades\Log;
 
-class ConstituencyTypeManager extends Component
+class Types extends Component
 {
     public $constituencyTypes;
     public $name, $acronym, $constituencyType_id;
@@ -16,8 +17,9 @@ class ConstituencyTypeManager extends Component
     }
     public function render()
     {
-        return view('livewire.constituency-manager.types');
+        return view('livewire.constituency-manager.types')->layout('layouts.app');
     }
+
     public function create()
     {
         $this->resetCreateForm();
@@ -27,11 +29,16 @@ class ConstituencyTypeManager extends Component
     public function openModal()
     {
         $this->isModalOpen = true;
+
+        Log::info("openModal");
     }
 
     public function closeModal()
     {
         $this->isModalOpen = false;
+        dd("closeModal method called");
+
+        Log::info("closeModal");
     }
 
     private function resetCreateForm(){

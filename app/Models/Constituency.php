@@ -20,4 +20,9 @@ class Constituency extends Model
     {
         return $this->belongsTo(ConstituencyType::class);
     }
+
+    public function decisionMakers()
+    {
+        return $this->belongsToMany(DecisionMaker::class);
+    }
 }

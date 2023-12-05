@@ -15,7 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('constituency');
+            $table->timestamps();
+        });
+
+        Schema::create('constituency_decision_maker', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('decision_maker_id')->constrained()->onDelete('cascade');
+            $table->foreignId('constituency_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('constituency_decision_maker');
         Schema::dropIfExists('decision_makers');
     }
 };

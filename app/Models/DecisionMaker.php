@@ -12,6 +12,10 @@ class DecisionMaker extends Model
     protected $fillable = [
         'name',
         'email',
-        'constituency',
     ];
+
+    public function constituencies()
+    {
+        return $this->belongsToMany(Constituency::class);
+    }
 }

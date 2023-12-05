@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <!-- Constituency Types Table -->
     <table class="table-auto w-full mt-4 text-gray-900 dark:text-white">
         <thead>
