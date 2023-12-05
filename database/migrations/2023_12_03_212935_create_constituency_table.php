@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedInteger('population');
             $table->string('incumbent_party');
             $table->unsignedBigInteger('constituency_type_id');
-
+            $table->timestamps();
             $table->foreign('constituency_type_id')
                   ->references('id')
                   ->on('constituency_types')
