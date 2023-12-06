@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('nation');
-            $table->unsignedInteger('population');
-            $table->string('incumbent_party');
+            $table->unsignedInteger('population')->nullable();
+            $table->string('incumbent_party')->nullable();
             $table->unsignedBigInteger('constituency_type_id');
             $table->timestamps();
             $table->foreign('constituency_type_id')

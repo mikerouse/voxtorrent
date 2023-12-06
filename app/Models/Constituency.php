@@ -15,6 +15,7 @@ class Constituency extends Model
         'population',
         'incumbent_party',
         'constituency_type_id',
+        'ons_id'
     ];
 
     public function constituency_type()

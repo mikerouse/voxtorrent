@@ -12,7 +12,7 @@ class Constituencies extends Component
     public $nations;
     public $constituencies;
     public $constituencyTypes;
-    public $constituency_id, $name, $nation, $population, $incumbent_party, $constituency_type;
+    public $constituency_id, $name, $nation, $population, $incumbent_party, $constituency_type, $ons_id;
     public $isModalOpen = false;
     public function mount()
     {
