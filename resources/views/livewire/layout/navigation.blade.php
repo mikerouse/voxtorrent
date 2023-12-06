@@ -33,14 +33,14 @@ new class extends Component
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('VoxTorrents Dashboard') }}
                     </x-nav-link>
-                    @hasrole('super admin')
+                    @can('do anything')
                     <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')" wire:navigate>
                         {{ __('Super Admin') }}
                     </x-nav-link>
                     <x-nav-link :href="route('constituency-manager/dashboard')" :active="request()->routeIs('constituency-manager/dashboard')" wire:navigate>
                         {{ __('Constituency Manager') }}
                     </x-nav-link>
-                    @endhasrole
+                    @endcan
                 </div>
             </div>
 

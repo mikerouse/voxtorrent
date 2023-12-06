@@ -9,6 +9,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -36,6 +37,17 @@
                         <p class="text-2xl text-gray-900 dark:text-gray-100">
                             resonate, don't agitate
                         </p>
+                    </div>
+                </div>
+
+                <div class="mt-16 mb-16">
+                    <div class="text-center">
+                        <a href="/create-new-torrent" class="inline-flex items-center mx-2 justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-500 hover:bg-red-600">
+                            <i class="fas fa-plus-circle mr-2"></i> create
+                        </a>
+                        <a href="/popular" class="inline-flex items-center justify-center mx-2 px-5 py-3 border border-transparent text-base font-medium rounded-md text-red-500 bg-white hover:bg-gray-50">
+                            <i class="fas fa-chart-line mr-2"></i> rising
+                        </a>
                     </div>
                 </div>
 
