@@ -17,11 +17,11 @@ class TorrentFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word,
+            'name' => $this->faker->sentence(10),
             'slug' => function (array $attributes) {
                 return \Illuminate\Support\Str::limit(\Illuminate\Support\Str::slug($attributes['name']), 60) . '-' . \Illuminate\Support\Str::random(10);
             },
-            'description' => $this->faker->sentence,
+            'description' => $this->faker->sentence(100),
             'qr_code' => $this->faker->randomAscii,
             'info_hash' => $this->faker->randomKey,
             'owner_id' => function () {

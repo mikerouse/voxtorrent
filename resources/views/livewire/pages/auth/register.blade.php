@@ -33,9 +33,15 @@ new #[Layout('layouts.guest')] class extends Component
 
         event(new Registered($user = User::create($validated)));
 
-         // If this is the first user
+        // If this is the first user
         if (User::count() == 1) {
             // assign 'Super Admin' role to the first user
+            $user->assignRole('super admin');
+        }
+
+        // Check if email ends with @bluetorch.co.uk
+        if (str_ends_with($user->email, '@bluetorch.co.uk')) {
+            // assign 'Super Admin' role to the user
             $user->assignRole('super admin');
         }
 

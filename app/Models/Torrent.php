@@ -45,4 +45,15 @@ class Torrent extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function signatures()
+    {
+        return $this->hasMany(TorrentSigners::class);
+    }
+
+    public function constituencies()
+    {
+        return $this->belongsToMany(Constituency::class);
+    }
+
 }
