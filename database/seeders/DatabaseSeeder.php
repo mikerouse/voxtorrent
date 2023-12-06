@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             ConstituencyTypeSeeder::class,
             ConstituencySeeder::class,
-            // any other seeders you want to call
+            TorrentSeeder::class,
         ]);
 
     }

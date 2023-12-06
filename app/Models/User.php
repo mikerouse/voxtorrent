@@ -43,6 +43,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-    ];    
+    ];
+    
+    public function owned_torrents()
+    {
+        return $this->hasMany(Torrent::class);
+    }
+
+    public function torrents_signed()
+    {
+        return $this->hasMany(TorrentSigners::class);
+    }
+
+    public function torrent_teams_joined()
+    {
+        return $this->belongsToMany(Torrent::class);
+    }
+
+    public function decision_maker_teams_joined()
+    {
+        return $this->belongsToMany(DecisionMakers::class);
+    }
+
+    public function constituencies()
+    {
+        return $this->belongsToMany(Constituency::class);
+    }
 }
 

@@ -25,6 +25,17 @@ class Constituency extends Model
 
     public function decision_makers()
     {
-        return $this->belongsToMany(DecisionMaker::class);
+        return $this->belongsToMany(DecisionMakers::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function torrents()
+    {
+        return $this->belongsToMany(Torrent::class);
+    }
+
 }
