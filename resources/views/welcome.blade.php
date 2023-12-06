@@ -30,8 +30,10 @@
 
                 <div class="mt-16 mb-16">
                     <div class="text-center">
-                        <h1 class="text-6xl text-white">voxtorrent</h1>
-                        <p class="text-2xl text-white">
+                        <h1 class="text-6xl text-gray-900 dark:text-gray-100">
+                            voxtorrent
+                        </h1>
+                        <p class="text-2xl text-gray-900 dark:text-gray-100">
                             resonate, don't agitate
                         </p>
                     </div>
