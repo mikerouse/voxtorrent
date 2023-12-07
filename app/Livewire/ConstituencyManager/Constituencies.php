@@ -6,25 +6,57 @@ use Livewire\Component;
 use App\Models\Constituency;
 use App\Models\ConstituencyType;
 use Illuminate\Support\Facades\Log;
+use Livewire\WithPagination;
 
 class Constituencies extends Component
 {
+    use WithPagination;
     public $nations;
     public $constituencies;
     public $constituencyTypes;
     public $constituency_id, $name, $nation, $population, $incumbent_party, $constituency_type, $ons_id;
     public $isModalOpen = false;
+    public $sortColumn = 'name';
+    public $sortDirection = 'asc';
+    public $searchTerm = '';
+    
+
     public function mount()
     {
-        $this->constituencies = Constituency::all();
+        $this->constituencies = null;
         $this->constituencyTypes = ConstituencyType::all();
         $this->nations = config('constants.nations');
         $this->nation = '';
         $this->constituency_type;
+        $this->searchTerm = '';
     }
     public function render()
     {
-        return view('livewire.constituency-manager.constituencies')->layout('layouts.app');
+        Log::info('Search term: ' . $this->searchTerm);
+        if (!empty($this->searchTerm)) {
+            $paginated_constituencies = Constituency::where('name', 'like', '%' . $this->searchTerm . '%')
+                ->orderBy($this->sortColumn, $this->sortDirection)
+                ->paginate(10);
+            Log::info('Filtered constituencies count: ' . $paginated_constituencies->count());
+        } else {
+            $paginated_constituencies = Constituency::orderBy($this->sortColumn, $this->sortDirection)
+                ->paginate(10);
+        }
+
+        return view('livewire.constituency-manager.constituencies', ['paginated_constituencies' => $paginated_constituencies])->layout('layouts.app');
+    }
+    
+    public function updatedSearchTerm()
+    {
+        $this->resetPage(); // Resets pagination to the first page on search change
+    }
+
+    public function sortBy($column)
+    {
+        $this->sortDirection = $this->sortColumn === $column
+            ? ($this->sortDirection === 'asc' ? 'desc' : 'asc')
+            : 'asc';
+        $this->sortColumn = $column;
     }
 
     public function create()

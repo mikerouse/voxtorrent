@@ -5,7 +5,23 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="pt-8 flex">
+            <a href="/create-new-torrent" class="inline-flex items-center mx-2 justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-500 hover:bg-red-600">
+                <i class="fas fa-plus-circle mr-2"></i> create
+            </a>
+            <!-- Add more buttons here -->
+            <a href="/another-link" class="inline-flex items-center mx-2 justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-300 hover:bg-gray-300">
+                <i class="fas fa-plus-circle mr-2"></i> Another Button
+            </a>
+            <a href="/yet-another-link" class="inline-flex items-center mx-2 justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-300 hover:bg-gray-500">
+                <i class="fas fa-plus-circle mr-2"></i> Yet Another Button
+            </a>
+        </div>
+    </div>
+    
+
+    <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">

@@ -1,14 +1,3 @@
-<?php 
-
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\Rule;
-use Livewire\Volt\Component;
-
-?>
-
 <div>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -17,7 +6,7 @@ use Livewire\Volt\Component;
     </x-slot>
 
     <div class="pt-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-12xl mx-auto sm:px-6 lg:px-8">
             <button wire:click="create()" data-toggle="modal" data-target="#create-constituency" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Create Constituency
             </button>
@@ -85,10 +74,86 @@ use Livewire\Volt\Component;
     @endif
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-12xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    @include('livewire.constituency-manager.constituencies-table', ['constituencies' => $constituencies])
+
+                    <div class="max-w-12xl">
+                        <div class="px-0">
+                            <div class="max-w-12xl">
+                                <input class="w-full bg-black bg-opacity-40 rounded" wire:model.debounce.150ms="searchTerm" wire:blur="$refresh" type="text" placeholder="Search constituencies...">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="">
+                        @if (session()->has('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                        @elseif (session()->has('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
+                        @if ($paginated_constituencies == null) 
+                            <div class="alert alert-warning">
+                                Constituencies data array is null.
+                            </div>
+                        @endif
+
+                        @if ($paginated_constituencies != null) 
+                             <!-- Constituencies Table -->
+                        <table class="table-auto w-full mt-4 text-gray-900 dark:text-white">
+                            <thead>
+                                <tr class="bg-gray-100 dark:bg-gray-700">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Our ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ONS ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">HoP ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <a wire:click.prevent="sortBy('name')" role="button" href="#">
+                                            Name
+                                            @include('partials.sort-icon', ['field' => 'name'])
+                                        </a>
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nation</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Population</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Incumbent Party</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">HoP Member ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($paginated_constituencies as $constituency)
+                                    <tr class="text-gray-900 dark:text-white">
+                                        <td class="border px-4 py-2">{{ $constituency->id }}</td>
+                                        <td class="border px-4 py-2">{{ $constituency->ons_id }}</td>
+                                        <td class="border px-4 py-2">{{ $constituency->hop_id }}</td>
+                                        <td class="border px-4 py-2">{{ $constituency->name }}</td>
+                                        <td class="border px-4 py-2">{{ $constituency->constituency_type->name }}</td>
+                                        <td class="border px-4 py-2">{{ $constituency->nation }}</td>
+                                        <td class="border px-4 py-2">{{ $constituency->population }}</td>
+                                        <td class="border px-4 py-2">{{ $constituency->incumbent_party }}</td>
+                                        <td class="border px-4 py-2">{{ $constituency->hop_member_id }}</td>
+                                        <td class="border px-4 py-2">
+                                            <button wire:click="edit({{ $constituency->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                                            <button wire:click="delete({{ $constituency->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @if(!empty($paginated_constituencies))
+                            <div class="w-full py-6">
+                                {{ $paginated_constituencies->links() }}
+                            </div>
+                        @endif
+
+                        @endif
+                    </div>
+
                 </div>
             </div>
         </div>
