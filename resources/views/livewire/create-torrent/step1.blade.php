@@ -7,6 +7,7 @@
             <div class="mb-4">
                 <label for="decisionMakers" class="block text-gray-700 dark:text-gray-300">Start typing to find decision makers</label>
                 <input type="text" id="decisionMakers" wire:model="decisionMakers" required class="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:outline-none focus:bg-white dark:focus:bg-gray-800">
+                <p class="text-gray-500 dark:text-gray-300; text-sm py-2">Tip: You can type the name of a Member of Parliament, a Councillor, or an organisation.</p>
             </div>
             <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600">Next</button>
         </form>
