@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Constituency;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 class ConstituencySeeder extends Seeder
 {
@@ -13,6 +16,11 @@ class ConstituencySeeder extends Seeder
      * @return void
      */
     public function run()
+    {
+        $this->seedFromGeoJson();
+        $this->updateFromApi();
+    }
+    public function seedFromGeoJson()
     {
         $geoJsonData = file_get_contents(database_path('seeds/westminster.geojson'));
         $constituencies = json_decode($geoJsonData, true)['features'];
@@ -55,5 +63,53 @@ class ConstituencySeeder extends Seeder
                 'constituency_type_id' => $constituency_type_id,
             ]);
         }
+    }
+    private function updateFromApi()
+    {
+        $client = new Client();
+        $constituenciesInDb = Constituency::all();
+        $errors = 0;
+        $successes = 0;
+    
+        Log::channel('constituencySeeder')->info('Starting constituency update', ['count' => $constituenciesInDb->count()]);
+
+        foreach ($constituenciesInDb as $constituencyInDb) {
+            Log::channel('constituencySeeder')->info('Searching for constituency by name', ['name' => $constituencyInDb->name]);
+
+            $response = $client->request('GET', 'https://members-api.parliament.uk/api/Location/Constituency/Search/', [
+                'query' => [
+                    'searchText' => $constituencyInDb->name
+                ]
+            ]);
+
+            $constituencyData = json_decode($response->getBody()->getContents(), true);
+            $constituency = $constituencyData['items'][0]['value'] ?? null;
+
+            if ($constituency) {
+                Log::channel('constituencySeeder')->info('Received response for constituency', ['name' => $constituencyInDb->name, 'response' => $constituency]);
+                if ($constituencyInDb) {
+                    Log::channel('constituencySeeder')->info('Mapping data for constituency', ['name' => $constituency['name'], 'data' => $constituency]);
+        
+                    $constituencyInDb->hop_id = $constituency['id'];
+                    $constituencyInDb->start_date = $constituency['startDate'];
+                    $constituencyInDb->end_date = $constituency['endDate'];
+                    $constituencyInDb->hop_member_id = $constituency['currentRepresentation']['member']['value']['id'];
+                    $constituencyInDb->incumbent_party = $constituency['currentRepresentation']['member']['value']['latestParty']['name'];
+                    $constituencyInDb->save();
+
+                    $successes++;
+        
+                    Log::channel('constituencySeeder')->info('Successfully saved constituency', ['name' => $constituency['name'], 'data' => $constituencyInDb]);
+                }
+                
+            } else {
+                $errors++;
+                Log::channel('constituencySeeder')->warning('No constituency found for name', ['searchText' => $constituencyInDb->name, 'result' => $constituencyData ?? 'No results', 'response' => $response ?? 'No response']);
+            }
+
+        }
+
+        Log::channel('constituencySeeder')->info('Finished constituency update', ['errors' => $errors, 'successes' => $successes]);
+
     }
 }

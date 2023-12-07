@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('is_anonymous_to_decision_maker')->default(false); // Hide the signer's identity from the decision maker
             $table->boolean('is_anonymous_to_public')->default(false); // Hide the signer's identity from the public
             $table->boolean('is_opted_in_to_contact_about_this_signature')->default(false); // Allow the decision maker to contact the signer
-            $table->string('reason_for_signing')->nullable(); // A reason for signing the torrent
+            $table->text('reason_for_signing')->nullable(); // A reason for signing the torrent
             $table->unsignedBigInteger('digital_certificate')->nullable(); // ID of the digital certificate used to sign the torrent
             $table->string('public_key')->nullable(); // The public key of the signer
             $table->timestamps();
