@@ -38,7 +38,10 @@ new class extends Component
                         {{ __('Super Admin') }}
                     </x-nav-link>
                     <x-nav-link :href="route('constituency-manager/dashboard')" :active="request()->routeIs('constituency-manager/dashboard')" wire:navigate>
-                        {{ __('Constituency Manager') }}
+                        {{ __('Constituencies') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('decision-makers/dashboard')" :active="request()->routeIs('decision-makers/dashboard')" wire:navigate>
+                        {{ __('Decision Makers') }}
                     </x-nav-link>
                     @endcan
                 </div>
