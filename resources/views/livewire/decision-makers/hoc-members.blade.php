@@ -16,7 +16,7 @@
     @endif
 
     @if ($hoc_members !== null && count($hoc_members) > 0)
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 my-6">
             <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @foreach ($hoc_members as $member)
                     <li class="border p-4 rounded shadow">

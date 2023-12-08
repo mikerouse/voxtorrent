@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\VoltServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Livewire\LivewireServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -23,7 +23,7 @@ class UKParliamentMembers extends Component
 
     public function render()
     {
-        $hoc_members = DecisionMakers::with('constituency')
+        $hoc_members = DecisionMakers::with('constituencies')
             ->where('hop_member_id', '!=', null)
             ->orderBy('last_name', 'asc')
             ->paginate(10);

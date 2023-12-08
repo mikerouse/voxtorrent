@@ -108,7 +108,7 @@ class ConstituencySeeder extends Seeder
                 
             } else {
                 $errors++;
-                Log::channel('constituencySeeder')->warning('No constituency found for name', ['searchText' => $constituencyInDb->name, 'result' => $constituencyData ?? 'No results', 'response' => $response ?? 'No response']);
+                Log::channel('constituencySeeder')->warning('No constituency found for name', ['searchText' => $constituencyInDb->name, 'result' => $constituencyData ?? 'No results', 'errors' => $errors]);
             }
 
         }
