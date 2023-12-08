@@ -23,6 +23,11 @@ class UKParliamentMembers extends Component
 
     public function render()
     {
-        
+        $hoc_members = DecisionMakers::with('constituency')
+            ->where('hop_member_id', '!=', null)
+            ->orderBy('last_name', 'asc')
+            ->paginate(10);
+
+        return view('livewire.decision-makers.hoc-members', ['hoc_members' => $hoc_members])->layout('layouts.app');
     }
 }

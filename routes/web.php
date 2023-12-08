@@ -51,5 +51,8 @@ Route::get('/decision-makers/dashboard', \App\Livewire\DecisionMakers\Dashboard:
     ->middleware(['auth', 'verified'])
     ->name('decision-makers/dashboard');
 
+Route::get('/decision-makers/hoc-members', \App\Livewire\DecisionMakers\UKParliamentMembers::class)
+    ->middleware(['auth', 'verified'])
+    ->name('decision-makers/hoc-members');
 
 require __DIR__.'/auth.php';

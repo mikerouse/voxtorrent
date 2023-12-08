@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(20)->create();
+        \App\Models\User::factory(50)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             ConstituencyTypeSeeder::class,
             ConstituencySeeder::class,
+            DecisionMakerSeeder::class,
             TorrentSeeder::class,
         ]);
 

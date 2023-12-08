@@ -17,8 +17,8 @@ class TorrentSeeder extends Seeder
      */
     public function run(): void
     {
-        Torrent::factory(30)->create()->each(function ($torrent) {
-            $signaturesCount = rand(12, 3000); // A few dozen to a few thousand
+        Torrent::factory(5)->create()->each(function ($torrent) {
+            $signaturesCount = rand(12, 500);
             for ($i = 0; $i < $signaturesCount; $i += 100) {
                 $count = min(100, $signaturesCount - $i);
                 $torrent->signatures()->createMany(

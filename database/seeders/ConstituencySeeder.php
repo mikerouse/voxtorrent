@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Constituency;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class ConstituencySeeder extends Seeder
 {
@@ -76,13 +77,16 @@ class ConstituencySeeder extends Seeder
         foreach ($constituenciesInDb as $constituencyInDb) {
             Log::channel('constituencySeeder')->info('Searching for constituency by name', ['name' => $constituencyInDb->name]);
 
-            $response = $client->request('GET', 'https://members-api.parliament.uk/api/Location/Constituency/Search/', [
-                'query' => [
-                    'searchText' => $constituencyInDb->name
-                ]
-            ]);
-
-            $constituencyData = json_decode($response->getBody()->getContents(), true);
+            $constituencyData = Cache::remember('constituency_' . $constituencyInDb->name, 60*96, function () use ($client, $constituencyInDb) {
+                $response = $client->request('GET', 'https://members-api.parliament.uk/api/Location/Constituency/Search/', [
+                    'query' => [
+                        'searchText' => $constituencyInDb->name
+                    ]
+                ]);
+        
+                return json_decode($response->getBody()->getContents(), true);
+            });
+        
             $constituency = $constituencyData['items'][0]['value'] ?? null;
 
             if ($constituency) {
@@ -93,7 +97,7 @@ class ConstituencySeeder extends Seeder
                     $constituencyInDb->hop_id = $constituency['id'];
                     $constituencyInDb->start_date = $constituency['startDate'];
                     $constituencyInDb->end_date = $constituency['endDate'];
-                    $constituencyInDb->hop_member_id = $constituency['currentRepresentation']['member']['value']['id'];
+                    $constituencyInDb->current_hop_member_id = $constituency['currentRepresentation']['member']['value']['id'];
                     $constituencyInDb->incumbent_party = $constituency['currentRepresentation']['member']['value']['latestParty']['name'];
                     $constituencyInDb->save();
 

@@ -33,22 +33,13 @@ new class extends Component
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('VoxTorrents Dashboard') }}
                     </x-nav-link>
-                    @can('do anything')
-                    <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')" wire:navigate>
-                        {{ __('Super Admin') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('constituency-manager/dashboard')" :active="request()->routeIs('constituency-manager/dashboard')" wire:navigate>
-                        {{ __('Constituencies') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('decision-makers/dashboard')" :active="request()->routeIs('decision-makers/dashboard')" wire:navigate>
-                        {{ __('Decision Makers') }}
-                    </x-nav-link>
-                    @endcan
                 </div>
             </div>
 
+           
+
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ml-6 pt-1">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
@@ -76,6 +67,40 @@ new class extends Component
                     </x-slot>
                 </x-dropdown>
             </div>
+
+            @can('do anything')
+            <!-- Admin Dropdown -->
+            <div class="hidden sm:flex sm:items-center sm:ml-6 pt-1">
+                <x-dropdown align="right" width="48">
+                    <x-slot name="trigger">
+                        <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                            <div>Super Admin</div>
+
+                            <div class="ml-1">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </button>
+                    </x-slot>
+
+                    <x-slot name="content">
+                        <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')" wire:navigate>
+                            {{ __('Super Admin') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('constituency-manager/dashboard')" :active="request()->routeIs('constituency-manager/dashboard')" wire:navigate>
+                            {{ __('Constituencies') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('decision-makers/dashboard')" :active="request()->routeIs('decision-makers/dashboard')" wire:navigate>
+                            {{ __('Decision Makers') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('decision-makers/hoc-members')" :active="request()->routeIs('decision-makers/hoc-members')" wire:navigate>
+                            {{ __('- House of Commons') }}
+                        </x-nav-link>
+                    </x-slot>
+                </x-dropdown>
+            </div>
+            @endcan
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">

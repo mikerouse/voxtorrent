@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('nation');
+            $table->integer('current_hop_member_id')->nullable();
             $table->unsignedInteger('population')->nullable();
             $table->string('incumbent_party')->nullable();
             $table->unsignedBigInteger('constituency_type_id');

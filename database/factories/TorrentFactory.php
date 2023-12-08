@@ -19,20 +19,20 @@ class TorrentFactory extends Factory
         return [
             'name' => $this->faker->sentence(10),
             'slug' => function (array $attributes) {
-                return \Illuminate\Support\Str::limit(\Illuminate\Support\Str::slug($attributes['name']), 60) . '-' . \Illuminate\Support\Str::random(10);
+                return \Illuminate\Support\Str::limit(\Illuminate\Support\Str::slug($attributes['name']), 50) . '-' . \Illuminate\Support\Str::random(5);
             },
             'description' => $this->faker->sentence(100),
-            'qr_code' => $this->faker->randomAscii,
+            'qr_code' => $this->faker->randomKey,
             'info_hash' => $this->faker->randomKey,
             'owner_id' => function () {
-                return \App\Models\User::factory()->create()->id;
+                return \App\Models\User::all()->random()->id;
             },
-            'weight' => $this->faker->randomFloat(0, 0, 99999),
-            'views' => $this->faker->randomNumber(),
-            'likes' => $this->faker->randomNumber(),
-            'shares' => $this->faker->randomNumber(),
-            'dislikes' => $this->faker->randomNumber(),
-            'flags' => $this->faker->randomNumber(),
+            'weight' => $this->faker->randomFloat(0, 0, 999),
+            'views' => $this->faker->randomFloat(0, 0, 999),
+            'likes' => $this->faker->randomFloat(0, 0, 999),
+            'shares' => $this->faker->randomFloat(0, 0, 999),
+            'dislikes' => $this->faker->randomFloat(0, 0, 999),
+            'flags' => $this->faker->randomFloat(0, 0, 999),
             'is_blocked' => $this->faker->boolean,
             'is_sensitive' => $this->faker->boolean,
             'is_trash' => $this->faker->boolean,
