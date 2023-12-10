@@ -1,13 +1,15 @@
 <div class="flex flex-col space-y-4">
+    <form id="createTorrent" name="createTorrent">
     <div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900" id="chooseWhat">
         <div class="w-full max-w-xl m-4 bg-white dark:bg-gray-800 rounded shadow-md">
             <div class="px-6 pt-4">
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
                     <span class="text-red-500 dark:text-red-500">start</span> a torrent
                 </h1>
+                <p class="text-sm text-gray-600">what? why? </p>
             </div>
-            <div class="px-6">
-                <div class="mt-4">
+            <div class="px-4">
+                <div class="mt-2">
                     <div style="display: flex; flex-wrap: wrap; align-items: center;">
                         @foreach ($selectedDecisionMakers as $id => $decisionMaker)
                             <div class="bg-green-200" style="display: flex; align-items: center; justify-content: space-between; margin-right: 10px; margin-bottom: 10px; padding: 5px 10px; border-radius: 20px;">
@@ -22,7 +24,7 @@
                 </div>
                 <div class="mt-4">
                     <input type="text" id="decisionMakers" wire:model="searchText" wire:keyup="performSearch" 
-                    placeholder="Who do you want to convince?"
+                    placeholder="who are you trying to influence?"
                     class="w-full px-4 py-2 mt-2 text-gray-700 dark:text-gray-300 rounded-md focus:outline-none"
                     x-data x-on:refresh.window="$el.value = ''">
                     @if (!empty($searchResults))
@@ -36,15 +38,58 @@
                     @endif
                 </div>
                 <div class="mt-4">
-                    <div class="relative">
-                        <div id="highlightedContent" class="absolute top-0 left-0 px-3 py-1 mt-2 overflow-hidden dark:text-white bg-transparent rounded-md pointer-events-none"></div>
-                        <textarea id="torrentDescription" wire:model="torrentDescription" oninput="updateCount()" 
-                        rows="5" placeholder="What's the cause? Why does it matter?"
-                        class="w-full px-3 py-1 mt-2 bg-transparent text-transparent dark:bg-gray-700 rounded-md focus:outline-none focus:bg-white dark:focus:bg-gray-800"></textarea>
+                    <div id="torrent_content_container" class="mb-4" style="height: 190px;">
+                        <!-- Initialize Quill editor -->
+                        <div wire:ignore style="height: 150px;" class="mb-4">
+                            <div id="editor"></div>
+                        </div>
                     </div>
+
+               
+                
+
+                <style>
+                    .ql-mention-denotation-char {
+                        color: orange;
+                        font-weight: bold;
+                    }
+                    
+                    .ql-mention {
+                        color: orange;
+                        font-weight: bold;
+                    }
+
+                    .ql-toolbar {
+                        background: rgba(255, 255, 255, 0.741);
+                    }
+
+                    .ql-container {
+                        background: rgba(255, 255, 255, 1);
+                    }
+                </style>
+
+                    <script>
+                        function updateHashtags() {
+                            var text = document.getElementById('torrentDescription').value;
+                            var highlightedContent = text.replace(/(#\w+)/g, '<span class="highlight">$1</span>');
+                            document.getElementById('highlightedContent').innerHTML = highlightedContent;
+                            var hashtags = text.match(/#\w+/g);
+                            @this.set('hashtags', hashtags);
+                        }
+                    </script>
+
+                    <style>
+                        .highlight {
+                            color: orange;
+                        }
+                        #torrentDescription {
+                            background-color: transparent !important;
+                        }
+                    </style>
+
                 </div>
-                <div class="p-2 m-0 dark:text-gray-300 text-sm">tip: record a voice note or video to make your torrent even stronger</div>
-                <div class="mt-2 mb-4">
+          
+                <div class="mt-4 mb-1">
                     
                     <div class="flex justify-between items-center">
                         <div class="flex space-x-4">
@@ -65,8 +110,11 @@
                             <div id="charCount" class="text-gray-400 mr-2 text-sm">
                                 <span class="text-gray-400">0/512</span>
                             </div>
-                            <button id="nextButton" class="bg-blue-500 text-white rounded py-2 px-4 text-sm" onclick="document.getElementById('preparingTorrent').scrollIntoView({ behavior: 'smooth' });">
-                                next <i class="fa-solid fa-angle-right"></i>
+                            <button id="nextButton" 
+                                    class="{{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) ? 'bg-gray-500' : 'bg-blue-500' }} text-white rounded py-2 px-4 text-sm"
+                                    onclick="document.getElementById('preparingTorrent').scrollIntoView({ behavior: 'smooth' });"
+                                    {{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) < 1 ? 'disabled' : '' }}>
+                                post <i class="fas fa-angle-right"></i>
                             </button>
                         </div>
                         <script>
@@ -97,6 +145,20 @@
                     </div>
   
                 </div>
+
+                <div class="p-2 m-0 dark:text-gray-300 text-sm">
+                    @if($hashtags !== null && count($hashtags) > 0)
+                        <span class="text-gray-400">topics: </span>
+                        @foreach($hashtags as $hashtag)
+                            <span class="bg-gray-200 dark:bg-gray-700 rounded-full px-2 py-1 mr-1">{{ $hashtag }}</span>
+                        @endforeach
+                    @else
+                        <span class="text-gray-400">
+                            tip: you need to use at least 1 hashtag to be able to post your torrent 
+                        </span>
+                    @endif
+                </div>
+
             </div>
             <div class="bg-gray-100 dark:bg-gray-700">
                 <div class="p-6">
@@ -222,6 +284,7 @@
             </div>
         </div>
     </div>
+    </form>
 </div>
 
 
