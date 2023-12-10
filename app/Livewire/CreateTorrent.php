@@ -18,6 +18,31 @@ class CreateTorrent extends Component
 {
     // An array to hold the decision makers who will be the recipients of the torrent
     public $selectedDecisionMakers = [];
+    public $hashtags = [];
+    public $incomingHashtags = '';
+    protected $listeners = ['updateHashtags' => 'setHashtags'];
+    public function setHashtags($incomingHashtags)
+    {
+        Log::info("Received hashtags: " . print_r($incomingHashtags, true));
+        Log::info("Type of received hashtags: " . gettype($incomingHashtags));
+
+        if (is_string($incomingHashtags)) {
+            $hashtags = json_decode($incomingHashtags, true);
+
+            if ($hashtags === null && json_last_error() !== JSON_ERROR_NONE) {
+                Log::error("Failed to decode JSON: " . json_last_error_msg());
+            } else {
+                Log::info("Decoded hashtags: " . print_r($hashtags, true));
+                Log::info("Type of decoded hashtags: " . gettype($hashtags));
+                $this->hashtags = $hashtags;
+            }
+        } else {
+            $this->hashtags = $incomingHashtags;
+        }
+
+        Log::info("Final hashtags: " . print_r($this->hashtags, true));
+        Log::info("Type of final hashtags: " . gettype($this->hashtags));
+    }
     // Whilst difficult to name a torrent as they are merely an encapsulation of desired human change in the world, we do need a name for the torrent for system management purposes
     public $name;
     // A description of the torrent - which is the desired human change in the world in more detail
@@ -41,7 +66,6 @@ class CreateTorrent extends Component
     public $isAiThinking_message;
     public $AiDescriptionId;
 
-    public $hashtags = [];
 
     public function mount()
     {
@@ -55,6 +79,7 @@ class CreateTorrent extends Component
         $this->isAiThinking_message = "Thinking...";
         $this->AiDescriptionId = (string) Str::uuid();
         $this->hashtags = [];
+        $this->incomingHashtags = '';
     }
 
     public function render()
@@ -171,7 +196,7 @@ class CreateTorrent extends Component
     {
         // Validation
         $this->validate([
-            'description' => 'required',
+            'torrentDescription' => 'required',
         ]);
 
         // Store the torrent
