@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
         <!-- Scripts -->
+  
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
     </head>
@@ -41,6 +42,7 @@
                 {{ $slot }}
             </main>
         </div>
-    
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <script src="https://kit.fontawesome.com/f7ae14b249.js" crossorigin="anonymous"></script>
     </body>
 </html>
