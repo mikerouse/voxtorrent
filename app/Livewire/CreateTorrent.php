@@ -41,6 +41,8 @@ class CreateTorrent extends Component
     public $isAiThinking_message;
     public $AiDescriptionId;
 
+    public $hashtags = [];
+
     public function mount()
     {
         $this->decisionMakers = DecisionMakers::all();
@@ -52,6 +54,7 @@ class CreateTorrent extends Component
         $this->isAiThinking = false;
         $this->isAiThinking_message = "Thinking...";
         $this->AiDescriptionId = (string) Str::uuid();
+        $this->hashtags = [];
     }
 
     public function render()
