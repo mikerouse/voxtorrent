@@ -108,7 +108,7 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <div id="charCount" class="text-gray-400 mr-2 text-sm">
-                                <span class="text-gray-400" id="counter">0</span>
+                                <span class="text-gray-400" id="counter" wire:ignore>0</span>
                             </div>
                             <button id="nextButton" 
                                     class="{{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) ? 'bg-gray-500' : 'bg-blue-500' }} text-white rounded py-2 px-4 text-sm"
