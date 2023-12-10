@@ -42,7 +42,7 @@ class AnalyseTorrentContent implements ShouldQueue
         Log::info('OpenAI API prompt:', [$prompt]);
 
         $response = Http::withHeaders([
-        'Authorization' => 'Bearer ' . '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',
+        'Authorization' => 'Bearer ' . env('OPENAI_SECRET_KEY'),
         'Content-Type' => 'application/json',
         ])->post('https://api.openai.com/v1/chat/completions', [
         'model' => 'gpt-3.5-turbo',
