@@ -2,11 +2,17 @@
 
 namespace App\Livewire;
 
+use App\Jobs\AnalyseTorrentContent;
 use Livewire\Component;
 use App\Models\DecisionMakers;
 use Illuminate\Support\Facades\Log;
 use App\Models\Constituency;
 use App\Models\ConstituencyType;
+use App\Models\Torrent;
+use Illuminate\Support\Facades\Http;
+use App\Jobs\PopulateTorrentDescriptionJob;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class CreateTorrent extends Component
 {
@@ -16,49 +22,53 @@ class CreateTorrent extends Component
     public $name;
     // A description of the torrent - which is the desired human change in the world in more detail
     public $description;
-    // This is a multi-step creation process
-    // Step 1: Who do you want to target?
-    // Step 2: What do you want them to do?
-    // Step 3: Why do you want them to do it? Including an audio or video upload that explains the why.
-    // Step 4: Who can help you build this torrent? Includoing a list of the most-engaged users (the influencers) and the most-engaged decision makers (the decision makers who have been most engaged with torrents of a similar nature in the past).
-    // Step 4 is also where we enable the owner to share the torrent with their friends and family, and to share it on social media.
-    public $step = 1;
     // This variable will hold the decision makers that are returned from the database, not the list of selected decision makers
     public $decisionMakers;
     // Not sure what this is for yet
     public $request;
     // An empty search field to start with
-    public $search = '';
+    public $searchText = '';
     // An array to hold the search results temporarily
     public $searchResults = [];
+
+    // When we get to Step 2 we start to populate the torrent 
+    public $torrent;
+    public $torrentName; 
+    public $isTopicSet = false;
+    public $torrentDescription;
+    public $showSetTopicButton = false;
+    public $isAiThinking = false;
+    public $isAiThinking_message;
+    public $AiDescriptionId;
 
     public function mount()
     {
         $this->decisionMakers = DecisionMakers::all();
         $this->selectedDecisionMakers = [];
-    }
-
-    public function incrementStep()
-    {
-        $this->step++;
+        $this->torrent = new Torrent();
+        $this->torrentName;
+        $this->isTopicSet = false;
+        $this->torrentDescription;
+        $this->isAiThinking = false;
+        $this->isAiThinking_message = "Thinking...";
+        $this->AiDescriptionId = (string) Str::uuid();
     }
 
     public function render()
     {
-        switch ($this->step) {
-            case 1:
-                return view('livewire.create-torrent.step1')->layout('layouts.app');
-            case 2:
-                return view('livewire.create-torrent.step2', ['selectedDecisionMakers' => $this->selectedDecisionMakers])->layout('layouts.app');
-            default:
-                return view('livewire.create-torrent')->layout('layouts.app');
-        }
+        return view('livewire.torrents.create')->layout('layouts.app');
     }
 
     public function performSearch()
     {
-        if(strlen($this->search) >= 2) {
-            $this->searchResults = DecisionMakers::where('display_name', 'like', '%' . $this->search . '%')->get();
+        if(strlen($this->searchText) >= 3) {
+            $this->searchResults = DecisionMakers::where('display_name', 'like', '%' . $this->searchText . '%')
+                ->get()
+                ->map(function ($decisionMaker) {
+                    $constituencies = $decisionMaker->constituencies->pluck('name')->join(', ');
+                    $decisionMaker->constituencies_list = $constituencies;
+                    return $decisionMaker;
+                });
         } else {
             $this->searchResults = [];
         }
@@ -89,24 +99,75 @@ class CreateTorrent extends Component
 
     public function onRefreshList()
     {
-        // Handle the event
+        $this->searchResults = [];
+        $this->searchText = '';
+        if (empty($this->searchText))
+        {
+            // The text is empty here, we just need to tell the blade that it's empty and refresh the view
+            $this->dispatch('refresh');
+        }
     }
 
     public function removeDecisionMaker($decisionMakerId)
     {
         unset($this->selectedDecisionMakers[$decisionMakerId]);
     }
-    
-    public function goToStep2()
+
+    public function settingTopic()
     {
-        $this->step++;
+        $this->torrent->name = $this->torrentName;
+        if (strlen($this->torrent->name) > 5) {
+            $this->showSetTopicButton = true;
+        } else {
+            $this->showSetTopicButton = false;
+        }
+    }
+
+    public function showSetTopicButton()
+    {   
+        $this->showSetTopicButton = !empty($this->torrent->name);
+    }
+
+    public function analyseTorrentContent()
+    {
+        $this->isAiThinking = true;
+        
+        if ($this->isAiThinking) {
+            // We can do something whilst the AI is thinking
+            $this->isAiThinking_message = "We are thinking about your torrent. This may take a few seconds.";
+            $this->dispatch('AiThinking');
+            // Dispatch the job
+            AnalyseTorrentContent::dispatch($this, $this->torrentName, $this->AiDescriptionId);
+            // Dispatch a browser event
+            $this->dispatch('descriptionUpdateRequestSent');
+        }
+    }
+
+    public function checkForCompletedAnalysis()
+    {
+        $this->isAiThinking = true;
+        Log::info('Running checkForDescriptionUpdate for id: ' . $this->AiDescriptionId);
+        $key = 'description_for_' . $this->AiDescriptionId;
+
+        if (Cache::has($key)) {
+            Log::info('Cache hit for key: ' . $key);
+           
+            $this->torrentDescription = Cache::get($key);
+            $this->torrent->description = $this->torrentDescription;
+        
+            $this->dispatch('desriptionUpdateReceived');
+            Log::info('Cache value: ' . $this->torrentDescription);
+
+            $this->isAiThinking = false;
+            Cache::forget($key); // Clear the cache entry
+        }
+        $this->isAiThinking = false;
     }
 
     public function submitTorrent()
     {
         // Validation
         $this->validate([
-            'name' => 'required',
             'description' => 'required',
         ]);
 
