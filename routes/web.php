@@ -45,7 +45,7 @@ Route::get('/constituency-manager/types', Types::class)
     ->name('constituency-manager.types')
     ->middleware(['auth', 'verified']);
 
-Route::get('/create-new-torrent', \App\Livewire\CreateTorrent::class)->name('create');
+Route::get('/create', \App\Livewire\CreateTorrent::class)->name('create');
 
 Route::get('/decision-makers/dashboard', \App\Livewire\DecisionMakers\Dashboard::class)
     ->middleware(['auth', 'verified'])
