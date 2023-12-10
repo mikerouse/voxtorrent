@@ -108,7 +108,7 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <div id="charCount" class="text-gray-400 mr-2 text-sm">
-                                <span class="text-gray-400">0/512</span>
+                                <span class="text-gray-400" id="counter">0</span>
                             </div>
                             <button id="nextButton" 
                                     class="{{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) ? 'bg-gray-500' : 'bg-blue-500' }} text-white rounded py-2 px-4 text-sm"
@@ -117,31 +117,6 @@
                                 post <i class="fas fa-angle-right"></i>
                             </button>
                         </div>
-                        <script>
-                            function updateCount() {
-                                var textArea = document.getElementById('torrentDescription');
-                                var highlightedContent = document.getElementById('highlightedContent');
-                                var charCount = document.getElementById('charCount');
-                                var nextButton = document.getElementById('nextButton');
-                                var length = textArea.value.length;
-                                if (length > 512) {
-                                    charCount.className = 'text-red-500 mr-2 text-sm';
-                                    nextButton.disabled = true;
-                                    nextButton.className = 'bg-gray-500 text-white rounded py-2 px-4 text-sm';
-                                } else if (length > 412) {
-                                    charCount.className = 'text-yellow-500 mr-2 text-sm';
-                                    nextButton.disabled = false;
-                                    nextButton.className = 'bg-blue-500 text-white rounded py-2 px-4 text-sm';
-                                } else {
-                                    charCount.className = 'text-gray-400 mr-2 text-sm';
-                                    nextButton.disabled = false;
-                                    nextButton.className = 'bg-blue-500 text-white rounded py-2 px-4 text-sm';
-                                }
-                                charCount.textContent = length + '/512';
-                                highlightedContent.innerHTML = textArea.value.replace(/(#\w+)/g, '<span style="color: orange;">$1</span>').replace(/\n/g, '<br/>');
-                            }
-                            document.getElementById('torrentDescription').addEventListener('input', updateCount);
-                        </script>
                     </div>
   
                 </div>
