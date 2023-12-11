@@ -25,7 +25,7 @@
                 <div class="mt-4">
                     <input type="text" id="decisionMakers" wire:model="searchText" wire:keyup="performSearch" 
                     placeholder="who are you trying to influence?"
-                    class="w-full px-4 py-2 mt-2 text-gray-700 dark:text-gray-300 rounded-md focus:outline-none"
+                    class="w-full px-4 py-2 mt-2 text-black dark:text-white dark:bg-transparent rounded-md"
                     x-data x-on:refresh.window="$el.value = ''">
                     @if (!empty($searchResults))
                         <div class="mt-2 p-2 bg-white dark:bg-gray-900 border rounded shadow overflow-hidden">
