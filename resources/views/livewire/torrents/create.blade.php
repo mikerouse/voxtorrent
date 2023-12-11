@@ -38,36 +38,13 @@
                     @endif
                 </div>
                 <div class="mt-4">
-                    <div id="torrent_content_container" class="mb-4" style="height: 190px;">
-                        <!-- Initialize Quill editor -->
-                        <div wire:ignore style="height: 150px;" class="mb-4">
-                            <div id="editor"></div>
-                        </div>
+                    <div id="torrent_content_container" class="mb-4">
+                        <textarea rows="6" id="torrentDescription" name="torrentDescription" wire:model="torrentDescription"
+                            class="w-full rounded dark:text-white">
+                        </textarea>
                     </div>
 
-                    <textarea id="torrentDescription" name="torrentDescription" wire:model="torrentDescription">
-                    </textarea>
                     torrentDescription: {{ $torrentDescription }}
-
-                <style>
-                    .ql-mention-denotation-char {
-                        color: orange;
-                        font-weight: bold;
-                    }
-                    
-                    .ql-mention {
-                        color: orange;
-                        font-weight: bold;
-                    }
-
-                    .ql-toolbar {
-                        background: rgba(255, 255, 255, 0.741);
-                    }
-
-                    .ql-container {
-                        background: rgba(255, 255, 255, 1);
-                    }
-                </style>
 
                     <script>
                         function updateHashtags() {
@@ -88,6 +65,15 @@
                         }
                     </style>
 
+                </div>
+
+                <div class="mt-4">
+                    <div id="hashtag_entry_container" class="mb-4">
+                        <label for="hashtags" class="block text-sm font-medium text-gray-700 dark:text-gray-300">hashtags:</label>
+                        <input type="text" id="hashtags" name="hashtags" wire:model="hashtags"
+                            class="w-full rounded dark:text-white dark:bg-transparent"
+                            x-data x-on:refresh.window="$el.value = ''">
+                    </div>
                 </div>
           
                 <div class="mt-4 mb-1">
