@@ -56,23 +56,13 @@
                         }
                     </script>
 
-                    <style>
-                        .highlight {
-                            color: orange;
-                        }
-                        #torrentDescription {
-                            background-color: transparent !important;
-                        }
-                    </style>
-
                 </div>
 
                 <div class="mt-4">
                     <div id="hashtag_entry_container" class="mb-4">
                         <label for="hashtags" class="block text-sm font-medium text-gray-700 dark:text-gray-300">hashtags:</label>
                         <input type="text" id="hashtags" name="hashtags" wire:model="hashtags"
-                            class="w-full rounded dark:text-white dark:bg-transparent"
-                            x-data x-on:refresh.window="$el.value = ''">
+                            class="w-full rounded dark:text-white dark:bg-transparent" {{ wep_insert(['user']) }} placeholder="#climatechange #nhs #brexit" />
                     </div>
                 </div>
           
@@ -265,5 +255,4 @@
             });
         </script>
     @endpush
-    @this.set('torrentDescription', TorrentHtml)
 </div>

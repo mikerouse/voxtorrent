@@ -1,3 +1,10 @@
+@import "../../vendor/wire-elements/pro/resources/css/tailwind/insert-component.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Example: Disable the transition animation when reduced motion is enabled */
+.wep-modal-content,
+.wep-slide-over-container-inner-wrap {
+    @apply motion-reduce:transition-none;
+}

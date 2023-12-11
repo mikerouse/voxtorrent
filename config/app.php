@@ -159,7 +159,8 @@ return [
         /*
          * Package Service Providers...
          */
-
+        WireElements\Pro\Components\Insert\InsertServiceProvider::class,
+        WireElements\Pro\WireElementsProServiceProvider::class,
         /*
          * Application Service Providers...
          */
