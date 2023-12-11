@@ -6,6 +6,8 @@ import 'quill-mention/dist/quill.mention.css';
 
 if (window.Livewire) {
 
+    var hashtags = new Set();
+
     var toolbarOptions = ['bold', 'italic', 'underline', 'strike', 'link', { 'color': [] }, { 'background': [] }, 'blockquote', { 'list': 'ordered'}, { 'list': 'bullet' }];
 
     class Counter {
@@ -57,6 +59,15 @@ if (window.Livewire) {
 
                     renderList(values, searchTerm);
                 },
+                onSelect: function (item, insertItem) {
+                    // Insert the selected item
+                    insertItem(item);
+                    // Add selected hashtag to the Set
+                    hashtags.add('#' + item.value);
+    
+                    // Send update back to the component
+                    updateHashtags(); 
+                }
             },
             toolbar: toolbarOptions,
             counter: {
@@ -73,25 +84,26 @@ if (window.Livewire) {
         // Regular expression to match hashtags followed by specific terminators
         var hashtagRegex = /#(\w+)[.,;: ]/g;
         var matches;
-        var hashtags = [];
     
         while ((matches = hashtagRegex.exec(text)) !== null) {
             // Add the captured hashtag (without the terminator) to the hashtags array
-            hashtags.push('#' + matches[1]);
+            hashtags.add('#' + matches[1]);
         }
     
+        updateHashtags();
+    });
+
+    // Define updateHashtags function
+    function updateHashtags() {
         if (window.Livewire) {
-            if (hashtags.length > 0) {
-                console.log('Completed hashtags found: ', hashtags);
-                console.log('Type of hashtags: ' + typeof hashtags);
-                window.Livewire.dispatch('updateHashtags', { incomingHashtags: hashtags });
-            } else {
-                console.log('No completed hashtags found');
+            if (hashtags.size > 0) {
+                // Send update to the component
+                window.Livewire.dispatch('updateHashtags', { incomingHashtags: Array.from(hashtags) });
             }
         } else {
             console.error('Livewire is not loaded yet');
         }
-    });
+    }
 
 } else {
     console.error('1 Livewire is not loaded yet');
