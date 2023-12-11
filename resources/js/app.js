@@ -1,8 +1,4 @@
 import './bootstrap';
-import Quill from 'quill';
-import QuillMention from 'quill-mention';
-import 'quill/dist/quill.snow.css';
-import 'quill-mention/dist/quill.mention.css';
 
 // I only want this to run on the create torrent page
 if (document.getElementById('createTorrent')) {
