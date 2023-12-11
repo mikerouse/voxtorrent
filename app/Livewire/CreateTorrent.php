@@ -13,11 +13,14 @@ use Illuminate\Support\Facades\Http;
 use App\Jobs\PopulateTorrentDescriptionJob;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Validate; 
 
 class CreateTorrent extends Component
 {
     // An array to hold the decision makers who will be the recipients of the torrent
+    #[Validate('required')]
     public $selectedDecisionMakers = [];
+    #[Validate('required')]
     public $hashtags = [];
     public $incomingHashtags = '';
     protected $listeners = ['updateHashtags' => 'setHashtags'];
@@ -60,6 +63,7 @@ class CreateTorrent extends Component
     public $torrent;
     public $torrentName; 
     public $isTopicSet = false;
+    #[Validate('required')]
     public $torrentDescription;
     public $showSetTopicButton = false;
     public $isAiThinking = false;
@@ -194,13 +198,31 @@ class CreateTorrent extends Component
 
     public function submitTorrent()
     {
+        Log::info('Submitting torrent');
+           
         // Validation
-        $this->validate([
-            'torrentDescription' => 'required',
-        ]);
+        $this->validate();
+
+
+        // See Github issue #16 about the need to create a torrent name by using the hashtags and the decision makers and some random words
+        if($this->torrentName == null) {
+            $slug_hashtag = strtolower(str_replace(' ', '', $this->hashtags[0]));
+            $slug_hashtag = strtolower(str_replace('#', '', $slug_hashtag));
+            $slug_decisionMaker = strtolower(str_replace(' ', '', $this->selectedDecisionMakers[0]['display_name']));
+            $slug_date = date('Y-m-d');
+
+            $this->torrentName = $slug_decisionMaker ."-" . $slug_hashtag . "-" . $slug_date;
+        }
 
         // Store the torrent
-        // ...
+        Torrent::create(
+            [
+                'name' => $this->torrentName,
+                'description' => $this->torrentDescription,
+                'decision_makers' => json_encode($this->selectedDecisionMakers),
+                'hashtags' => json_encode($this->hashtags),
+            ]
+        );
 
         // Redirect to the dashboard
         return redirect()->route('dashboard');

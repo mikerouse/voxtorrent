@@ -1,5 +1,5 @@
 <div class="flex flex-col space-y-4">
-    <form id="createTorrent" name="createTorrent">
+    <form id="createTorrent" name="createTorrent" wire:submit.prevent="submitTorrent">
     <div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900" id="chooseWhat">
         <div class="w-full max-w-xl m-4 bg-white dark:bg-gray-800 rounded shadow-md">
             <div class="px-6 pt-4">
@@ -110,7 +110,7 @@
                             <div id="charCount" class="text-gray-400 mr-2 text-sm">
                                 <span class="text-gray-400" id="counter" wire:ignore>0</span>
                             </div>
-                            <button id="nextButton" 
+                            <button id="submit" name="submit" type="submit"
                                     class="{{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) ? 'bg-gray-500' : 'bg-blue-500' }} text-white rounded py-2 px-4 text-sm"
                                     onclick="document.getElementById('preparingTorrent').scrollIntoView({ behavior: 'smooth' });"
                                     {{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) < 1 ? 'disabled' : '' }}>
