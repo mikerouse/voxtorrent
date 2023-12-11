@@ -19,7 +19,7 @@ class AllTorrentsList extends Component
     }
     public function render()
     {
-        $torrents = Torrent::withCount('signatures')->paginate(10);
+        $torrents = Torrent::withCount('signatures')->paginate(25);
         return view('livewire.torrents.all-torrents-list', compact('torrents'))->layout('layouts.app');
     }
 }

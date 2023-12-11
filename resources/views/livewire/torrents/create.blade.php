@@ -45,8 +45,9 @@
                         </div>
                     </div>
 
-               
-                
+                    <textarea id="torrentDescription" name="torrentDescription" wire:model="torrentDescription">
+                    </textarea>
+                    torrentDescription: {{ $torrentDescription }}
 
                 <style>
                     .ql-mention-denotation-char {
@@ -110,9 +111,8 @@
                             <div id="charCount" class="text-gray-400 mr-2 text-sm">
                                 <span class="text-gray-400" id="counter" wire:ignore>0</span>
                             </div>
-                            <button id="submit" name="submit" type="submit"
+                            <button id="submitTorrent" name="submitTorrent" type="submit" x-on:click="$wire.$refresh()"
                                     class="{{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) ? 'bg-gray-500' : 'bg-blue-500' }} text-white rounded py-2 px-4 text-sm"
-                                    onclick="document.getElementById('preparingTorrent').scrollIntoView({ behavior: 'smooth' });"
                                     {{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) < 1 ? 'disabled' : '' }}>
                                 post <i class="fas fa-angle-right"></i>
                             </button>
@@ -133,6 +133,18 @@
                         </span>
                     @endif
                 </div>
+
+                @error('selectedDecisionMakers')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+
+                @error('torrentDescription')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+
+                @error('hashtags')
+                    <span class="error">{{ $message }}</span>
+                @enderror
 
             </div>
             <div class="bg-gray-100 dark:bg-gray-700">
@@ -165,7 +177,7 @@
                         <div class="w-full max-w-xl rounded p-5">
                             <div class="">
                                 <p class="text-md font-bold">get people to sign or like:</p>
-                                <input type="text" readonly class="w-full mt-2 mb-1 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" value="{{ url('/torrents/' . $torrent->id) }}" onclick="this.select();">
+                                <input type="text" id="torrentSharingLink" readonly class="w-full mt-2 mb-1 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" value="{{ url('/torrents/' . $torrent->id) }}" onclick="this.select();">
                                 <p class="text-xs text-white my-2">anyone with this link can sign your torrent, just like a petition</p>
                             </div>
                         </div>
@@ -260,4 +272,12 @@
         </div>
     </div>
     </form>
+    @push('scripts')
+        <script>
+            window.addEventListener('formSubmitted', () => {
+                document.getElementById('preparingTorrent').scrollIntoView({ behavior: 'smooth' });
+            });
+        </script>
+    @endpush
+    @this.set('torrentDescription', TorrentHtml)
 </div>

@@ -2,7 +2,7 @@
     @foreach($torrents as $torrent)
         <div class="p-4 border rounded bg-white dark:bg-gray-800">
             <h3 class="text-xl">
-                <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-500">{{ $torrent->name }}</a>
+                <a href="/vox/{{ $torrent->name }}" class="font-semibold text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-500">{{ $torrent->name }}</a>
             </h3>
             <p class="mt-2 text-gray-600 dark:text-gray-400">{{ $torrent->description }}</p>
             <div class="mt-4 space-x-2">

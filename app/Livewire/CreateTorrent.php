@@ -14,6 +14,7 @@ use App\Jobs\PopulateTorrentDescriptionJob;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate; 
+use Livewire\Form;
 
 class CreateTorrent extends Component
 {
@@ -23,7 +24,11 @@ class CreateTorrent extends Component
     #[Validate('required')]
     public $hashtags = [];
     public $incomingHashtags = '';
-    protected $listeners = ['updateHashtags' => 'setHashtags'];
+    protected $listeners = [
+        'updateHashtags' => 'setHashtags',
+        'submitForm' => 'handleFormSubmission',
+        'updateDescription' => 'updateDescription'
+    ];
     public function setHashtags($incomingHashtags)
     {
         Log::info("Received hashtags: " . print_r($incomingHashtags, true));
@@ -63,12 +68,13 @@ class CreateTorrent extends Component
     public $torrent;
     public $torrentName; 
     public $isTopicSet = false;
-    #[Validate('required')]
+    #[Validate('required', onUpdate: false, message: 'Torrents cannot be blank')]
     public $torrentDescription;
     public $showSetTopicButton = false;
     public $isAiThinking = false;
     public $isAiThinking_message;
     public $AiDescriptionId;
+    public $isFormValid = false;
 
 
     public function mount()
@@ -84,6 +90,17 @@ class CreateTorrent extends Component
         $this->AiDescriptionId = (string) Str::uuid();
         $this->hashtags = [];
         $this->incomingHashtags = '';
+        $this->isFormValid = false;
+    }
+
+    public function updated()
+    {
+        Log::info('Component Updated', ['torrentDescription' => $this->torrentDescription]);
+    }
+
+    public function updateDescription($htmlContent)
+    {
+        $this->torrentDescription = $htmlContent;
     }
 
     public function render()
@@ -196,35 +213,58 @@ class CreateTorrent extends Component
         $this->isAiThinking = false;
     }
 
+    public function handleFormSubmission($data)
+    {
+        Log::info('Handling form submission');
+        Log::info('Data: ' . print_r($data, true));
+    }
+
+    public function generateTorrentName()
+    {
+        $unixTime = time();
+        $randomLetters = chr(rand(97, 122)) . chr(rand(97, 122)); // generates two random lowercase letters
+    
+        $this->torrentName = $unixTime . $randomLetters;
+        Log::info('Generated torrent name: ' . $this->torrentName);
+    }
+
     public function submitTorrent()
     {
-        Log::info('Submitting torrent');
-           
+        if (empty($this->torrentDescription)) {
+            // We need a torrent content
+            $this->dispatch('noDescription');
+        }
+        Log::info('Submitting torrent. Decision Makers: ' . json_encode($this->selectedDecisionMakers) . ', Torrent Description: ' . json_encode($this->torrentDescription) . ', Hashtags: ' . json_encode($this->hashtags));
+
         // Validation
-        $this->validate();
+        $this->validate(
+            [
+                'selectedDecisionMakers' => 'required',
+                'hashtags' => 'required',
+                'torrentDescription' => 'required',
+            ]
+        );
+
 
 
         // See Github issue #16 about the need to create a torrent name by using the hashtags and the decision makers and some random words
-        if($this->torrentName == null) {
-            $slug_hashtag = strtolower(str_replace(' ', '', $this->hashtags[0]));
-            $slug_hashtag = strtolower(str_replace('#', '', $slug_hashtag));
-            $slug_decisionMaker = strtolower(str_replace(' ', '', $this->selectedDecisionMakers[0]['display_name']));
-            $slug_date = date('Y-m-d');
-
-            $this->torrentName = $slug_decisionMaker ."-" . $slug_hashtag . "-" . $slug_date;
-        }
+        $this->generateTorrentName();
 
         // Store the torrent
-        Torrent::create(
+        $created_torrent = Torrent::create(
             [
                 'name' => $this->torrentName,
                 'description' => $this->torrentDescription,
                 'decision_makers' => json_encode($this->selectedDecisionMakers),
                 'hashtags' => json_encode($this->hashtags),
+                'slug' => Str::slug($this->torrentName),
+                'owner_id' => auth()->user()->id,
             ]
         );
 
+        Log::info('Torrent created: ' . $this->torrentName);
+
         // Redirect to the dashboard
-        return redirect()->route('dashboard');
+        $this->dispatch('torrent-created', id: $created_torrent->id);
     }
 }
