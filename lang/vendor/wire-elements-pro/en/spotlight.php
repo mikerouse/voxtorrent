@@ -8,7 +8,7 @@ return [
     'to' => 'to',
     'tab' => 'Tab',
     'to_search' => 'to search',
-    'no_matching_results' => 'No matching results...',
+    'no_matching_results' => 'No matching results. Press space and we will attempt to create your entry when you hit save.',
     'to_navigate' => 'To navigate',
     'press_enter_to_select' => 'Press Enter to select',
     'search_or_jump_to' => 'Search or jump to',
