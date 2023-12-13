@@ -40,7 +40,7 @@
                 <div class="mt-4">
                     <div id="torrent_content_container" class="mb-4">
                         <textarea rows="6" id="torrentDescription" name="torrentDescription" wire:model="torrentDescription"
-                            class="w-full rounded dark:text-white">
+                            class="w-full rounded dark:text-white" @insert(user)>
                         </textarea>
                     </div>
 
