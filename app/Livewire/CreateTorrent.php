@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate; 
 use Livewire\Form;
+use App\Insert\HashtagInsert;
 
 class CreateTorrent extends Component
 {
@@ -25,10 +26,18 @@ class CreateTorrent extends Component
     public $hashtags = [];
     public $incomingHashtags = '';
     protected $listeners = [
-        'updateHashtags' => 'setHashtags',
         'submitForm' => 'handleFormSubmission',
-        'updateDescription' => 'updateDescription'
+        'updateDescription' => 'updateDescription',
+        'createNewHashtag' => 'handleNewHashtag',
     ];
+
+    public function handleNewHashtag($query)
+    {
+        Log::info('Handling new hashtag. Calling next method for this query:', ['query' => $query]);
+        // Logic to handle the new hashtag creation
+        $this->setHashtags($query);
+    }
+
     public function setHashtags($incomingHashtags)
     {
         Log::info("Received hashtags: " . print_r($incomingHashtags, true));
@@ -177,6 +186,33 @@ class CreateTorrent extends Component
         $this->showSetTopicButton = !empty($this->torrent->name);
     }
 
+    // public function handleSpacebar($hashtags)
+    // {
+    //     Log::info('Handling spacebar', ['hashtags' => $hashtags]);
+    
+    //     // Ensure we have a non-empty string, then explode, trim, and filter
+    //     if (is_string($hashtags) && trim($hashtags) !== '') {
+    //         $hashtagsArray = array_filter(array_map('trim', explode(' ', $hashtags)));
+    //     } else {
+    //         $hashtagsArray = [];
+    //     }
+    
+    //     Log::info('Processed Hashtags: ' . print_r($hashtagsArray, true));
+    
+    //     foreach ($hashtagsArray as $hashtag) {
+    //         $hashtag = '#' . ltrim($hashtag, '#'); // Ensure each hashtag starts with '#'
+    //         Log::info('Processing Hashtag: ' . $hashtag);
+    
+    //         if (!in_array($hashtag, $this->hashtags)) {
+    //             $this->hashtags[] = $hashtag;
+    //         } else {
+    //             Log::info('Hashtag already in array: ' . $hashtag);
+    //         }
+    //     }
+    
+    //     Log::info('Finalised array values: ' . print_r($this->hashtags, true));
+    // }
+
     public function analyseTorrentContent()
     {
         $this->isAiThinking = true;
@@ -219,6 +255,20 @@ class CreateTorrent extends Component
         Log::info('Data: ' . print_r($data, true));
     }
 
+    public function isFormValid()
+    {
+        // Check we have an array of decision makers, a torrent description and hashtags
+        if (empty($this->selectedDecisionMakers) || empty($this->torrentDescription) || empty($this->hashtags)) {
+            $this->isFormValid = false;
+            return false;
+        } else {
+            $this->isFormValid = true;
+            // Can we assign CSS classes here? To the button id #submitTorrent?
+
+            return true;
+        }
+    }
+
     public function generateTorrentName()
     {
         $unixTime = time();
@@ -253,6 +303,8 @@ class CreateTorrent extends Component
                 'torrentDescription' => 'required',
             ]
         );
+
+        $this->isFormValid = true;
 
         // See Github issue #16 about the need to create a torrent name by using the hashtags and the decision makers and some random words
         $this->generateTorrentName();

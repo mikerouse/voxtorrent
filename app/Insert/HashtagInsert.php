@@ -7,6 +7,7 @@ use WireElements\Pro\Components\Insert\InsertQueryResult;
 use WireElements\Pro\Components\Insert\InsertQueryResults;
 use WireElements\Pro\Components\Insert\Types\InsertType;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
  
 class HashtagInsert extends InsertType

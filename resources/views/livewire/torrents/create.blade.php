@@ -52,34 +52,22 @@
                     @endif
                 </div>
                 <div class="mt-4">
-
-                    @if($this->selectedDecisionMakers !== null && count($this->selectedDecisionMakers) > 0)
-                    
-                        <div id="torrent_content_container" class="mb-4">
-                            <label for="torrentDescription" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">share your views:</label>
-                            <textarea rows="6" id="torrentDescription" name="torrentDescription" wire:model="torrentDescription"
-                                class="w-full rounded dark:text-white" {{ wep_insert(['user', 'hashtag']) }} >
-                            </textarea>
-                        </div>
-
-                    @endif
-
-                </div>
-
-                @if($this->selectedDecisionMakers !== null && count($this->selectedDecisionMakers) > 0)
-
-                <div class="mt-4">
-                    <div id="hashtag_entry_container" class="mb-4">
-                        <label for="hashtags" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">hashtags:</label>
-                        <input type="text" id="hashtags" name="hashtags" wire:model="hashtags"
-                            class="w-full rounded dark:text-white dark:bg-transparent" {{ wep_insert(['hashtag']) }}  placeholder="#climatechange #nhs #brexit #genderdebate" />
+                    <div id="torrent_content_container" class="mb-4">
+                        <label for="torrentDescription" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">share your views:</label>
+                        <textarea rows="6" id="torrentDescription" name="torrentDescription" wire:model="torrentDescription" placeholder="what do you want to say?"
+                            class="w-full rounded dark:text-white dark:bg-transparent" {{ wep_insert(['user', 'hashtag']) }} >
+                        </textarea>
                     </div>
                 </div>
-
-                
-          
+                <div class="mt-4">
+                    <div id="hashtag_entry_container" class="mb-4" x-data="{ hashtags: '' }">
+                        <label for="hashtags" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">hashtags:</label>
+                        <input type="text" id="hashtags" name="hashtags" x-model="hashtags"
+                            wire:model="hashtags" class="hashtags-input w-full rounded dark:text-white dark:bg-transparent" {{ wep_insert(['hashtag']) }}  
+                            placeholder="#climatechange #nhs #brexit #genderdebate"/>
+                    </div>
+                </div>
                 <div class="mt-4 mb-1">
-                    
                     <div class="">
                         <div id="upload_tip">
                             <label for="uploads" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">attach something - why not add a voice note or a video:</label>
@@ -103,9 +91,9 @@
                                 <div id="charCount" class="text-gray-400 mr-2 text-sm">
                                     <span class="text-gray-400" id="counter" wire:ignore>0</span>
                                 </div>
-                                <button id="submitTorrent" name="submitTorrent" type="submit" x-on:click="$wire.$refresh()"
-                                        class="{{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) ? 'bg-gray-500' : 'bg-blue-500' }} text-white rounded py-2 px-4 text-sm"
-                                        {{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) < 1 ? 'disabled' : '' }}>
+                                <button id="submitTorrent" name="submitTorrent" type="submit" @click="submitTorrent"
+                                        class="{{ $isFormValid ? 'bg-blue-500' : 'bg-gray-500' }} text-white rounded py-2 px-4 text-sm"
+                                        {{ $isFormValid ? 'disabled' : '' }}>
                                     post <i class="fas fa-angle-right"></i>
                                 </button>
                             </div>
@@ -118,7 +106,7 @@
                 </div>
 
                 <div class="p-2 m-0 dark:text-gray-300 text-sm">
-                    @if($hashtags !== null && count($hashtags) > 0)
+                    @if(!is_string($hashtags) && $hashtags !== null && count($hashtags) > 0)
                         <span class="text-gray-400">topics: </span>
                         @foreach($hashtags as $hashtag)
                             <span class="bg-gray-200 dark:bg-gray-700 rounded-full px-2 py-1 mr-1">{{ $hashtag }}</span>
@@ -130,7 +118,7 @@
                     @endif
                 </div>
 
-                @endif
+         
 
             </div>
             <div class="bg-gray-100 dark:bg-gray-700">

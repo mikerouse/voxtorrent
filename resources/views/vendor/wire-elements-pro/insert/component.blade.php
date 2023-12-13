@@ -20,6 +20,11 @@
                 <li class="wep-insert-item-no-results" wire:key="no-results">
                     {{ __('wire-elements-pro::spotlight.no_matching_results') }}
                 </li>
+                <li class="wep-insert-item-no-results">
+                    <button @click="Livewire.dispatch('createNewHashtag', {
+                        query: '{{ $query }}',
+                    })">Create new: {{ $query }}</button>
+                </li>
             @endforelse
         </ul>
 
