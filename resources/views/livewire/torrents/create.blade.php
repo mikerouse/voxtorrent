@@ -7,6 +7,19 @@
                     <span class="text-red-500 dark:text-red-500">start</span> a torrent
                 </h1>
                 <p class="text-sm text-gray-600">what? why? </p>
+                <div>
+                    @error('selectedDecisionMakers')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+
+                    @error('torrentDescription')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+
+                    @error('hashtags')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
             <div class="px-4">
                 <div class="mt-2">
@@ -24,9 +37,10 @@
                 </div>
                 <div class="mt-4">
                     <input type="text" id="decisionMakers" wire:model="searchText" wire:keyup="performSearch" 
-                    placeholder="who are you trying to influence?"
+                    placeholder="who {{ (is_countable($selectedDecisionMakers) && count($selectedDecisionMakers) > 0) ? 'else ' : '' }}are you trying to influence?"
                     class="w-full px-4 py-2 mt-2 text-black dark:text-white dark:bg-transparent rounded-md"
                     x-data x-on:refresh.window="$el.value = ''">
+                    <label for="decisionMakers" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">tip: you can choose members of parliament, your councillors, whole councils or their departments, utlity providers, developers, charities - almost anything</label>
                     @if (!empty($searchResults))
                         <div class="mt-2 p-2 bg-white dark:bg-gray-900 border rounded shadow overflow-hidden">
                             @foreach ($searchResults as $result)
@@ -38,13 +52,17 @@
                     @endif
                 </div>
                 <div class="mt-4">
-                    <div id="torrent_content_container" class="mb-4">
-                        <textarea rows="6" id="torrentDescription" name="torrentDescription" wire:model="torrentDescription"
-                            class="w-full rounded dark:text-white" {{ wep_insert(['user', 'hashtag']) }} >
-                        </textarea>
-                    </div>
 
-                    torrentDescription: {{ $torrentDescription }}
+                    @if($this->selectedDecisionMakers !== null && count($this->selectedDecisionMakers) > 0)
+                    
+                        <div id="torrent_content_container" class="mb-4">
+                            <label for="torrentDescription" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">share your views:</label>
+                            <textarea rows="6" id="torrentDescription" name="torrentDescription" wire:model="torrentDescription"
+                                class="w-full rounded dark:text-white" {{ wep_insert(['user', 'hashtag']) }} >
+                            </textarea>
+                        </div>
+
+                    @endif
 
                     <script>
                         function updateHashtags() {
@@ -58,40 +76,52 @@
 
                 </div>
 
+                @if($this->selectedDecisionMakers !== null && count($this->selectedDecisionMakers) > 0)
+
                 <div class="mt-4">
                     <div id="hashtag_entry_container" class="mb-4">
-                        <label for="hashtags" class="block text-sm font-medium text-gray-700 dark:text-gray-300">hashtags:</label>
+                        <label for="hashtags" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">hashtags:</label>
                         <input type="text" id="hashtags" name="hashtags" wire:model="hashtags"
                             class="w-full rounded dark:text-white dark:bg-transparent" {{ wep_insert(['user', 'hashtag']) }}  placeholder="#climatechange #nhs #brexit #genderdebate" />
                     </div>
                 </div>
+
+                
           
                 <div class="mt-4 mb-1">
                     
-                    <div class="flex justify-between items-center">
-                        <div class="flex space-x-4">
-                            <button class="bg-gray-300 dark:bg-gray-600 rounded-full px-3 py-2">
-                                <i class="fas fa-image text-gray-700 dark:text-gray-300"></i>
-                            </button>
-                            <button class="bg-gray-300 dark:bg-gray-600  rounded-full px-3 py-2">
-                                <i class="fas fa-microphone text-gray-700 dark:text-gray-300"></i>
-                            </button>
-                            <button class="bg-gray-300 dark:bg-gray-600  rounded-full px-3 py-2">
-                                <i class="fas fa-video text-gray-700 dark:text-gray-300"></i>
-                            </button>
-                            <button class="bg-gray-300 dark:bg-gray-600  rounded-full px-4 py-2">
-                                <i class="fas fa-location-dot text-gray-700 dark:text-gray-300"></i>
-                            </button>
+                    <div class="">
+                        <div id="upload_tip">
+                            <label for="uploads" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">attach something - why not add a voice note or a video:</label>
                         </div>
                         <div class="flex justify-between items-center">
-                            <div id="charCount" class="text-gray-400 mr-2 text-sm">
-                                <span class="text-gray-400" id="counter" wire:ignore>0</span>
+                            <div class="flex space-x-4">
+                                <button class="bg-gray-300 dark:bg-gray-600 rounded-full px-3 py-2">
+                                    <i class="fas fa-image text-gray-700 dark:text-gray-300"></i>
+                                </button>
+                                <button class="bg-gray-300 dark:bg-gray-600  rounded-full px-3 py-2">
+                                    <i class="fas fa-microphone text-gray-700 dark:text-gray-300"></i>
+                                </button>
+                                <button class="bg-gray-300 dark:bg-gray-600  rounded-full px-3 py-2">
+                                    <i class="fas fa-video text-gray-700 dark:text-gray-300"></i>
+                                </button>
+                                <button class="bg-gray-300 dark:bg-gray-600  rounded-full px-4 py-2">
+                                    <i class="fas fa-location-dot text-gray-700 dark:text-gray-300"></i>
+                                </button>
                             </div>
-                            <button id="submitTorrent" name="submitTorrent" type="submit" x-on:click="$wire.$refresh()"
-                                    class="{{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) ? 'bg-gray-500' : 'bg-blue-500' }} text-white rounded py-2 px-4 text-sm"
-                                    {{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) < 1 ? 'disabled' : '' }}>
-                                post <i class="fas fa-angle-right"></i>
-                            </button>
+                            <div class="flex justify-between items-center">
+                                <div id="charCount" class="text-gray-400 mr-2 text-sm">
+                                    <span class="text-gray-400" id="counter" wire:ignore>0</span>
+                                </div>
+                                <button id="submitTorrent" name="submitTorrent" type="submit" x-on:click="$wire.$refresh()"
+                                        class="{{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) ? 'bg-gray-500' : 'bg-blue-500' }} text-white rounded py-2 px-4 text-sm"
+                                        {{ (is_null($selectedDecisionMakers) || count($selectedDecisionMakers) < 1) && (is_null($hashtags) || count($hashtags) < 1) < 1 ? 'disabled' : '' }}>
+                                    post <i class="fas fa-angle-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="">
+                           
                         </div>
                     </div>
   
@@ -110,17 +140,7 @@
                     @endif
                 </div>
 
-                @error('selectedDecisionMakers')
-                    <span class="error">{{ $message }}</span>
-                @enderror
-
-                @error('torrentDescription')
-                    <span class="error">{{ $message }}</span>
-                @enderror
-
-                @error('hashtags')
-                    <span class="error">{{ $message }}</span>
-                @enderror
+                @endif
 
             </div>
             <div class="bg-gray-100 dark:bg-gray-700">

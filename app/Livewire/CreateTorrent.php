@@ -230,6 +230,15 @@ class CreateTorrent extends Component
 
     public function submitTorrent()
     {
+
+        // Ask the user to login if they are not already logged-in or the session has expired. Keep hold of the torrent temporarily.
+        // @mikerouse - use a modal for this later so session can be renewed or created in the background without losing the torrent context.
+        if (!auth()->check()) {
+            Log::info('User not logged in. Redirecting to login page.');
+            session()->flash('error', 'You must be logged in to submit a torrent.');
+            return redirect()->route('login');
+        }
+
         if (empty($this->torrentDescription)) {
             // We need a torrent content
             $this->dispatch('noDescription');
@@ -244,8 +253,6 @@ class CreateTorrent extends Component
                 'torrentDescription' => 'required',
             ]
         );
-
-
 
         // See Github issue #16 about the need to create a torrent name by using the hashtags and the decision makers and some random words
         $this->generateTorrentName();
