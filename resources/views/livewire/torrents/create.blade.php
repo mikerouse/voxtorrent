@@ -64,16 +64,6 @@
 
                     @endif
 
-                    <script>
-                        function updateHashtags() {
-                            var text = document.getElementById('torrentDescription').value;
-                            var highlightedContent = text.replace(/(#\w+)/g, '<span class="highlight">$1</span>');
-                            document.getElementById('highlightedContent').innerHTML = highlightedContent;
-                            var hashtags = text.match(/#\w+/g);
-                            @this.set('hashtags', hashtags);
-                        }
-                    </script>
-
                 </div>
 
                 @if($this->selectedDecisionMakers !== null && count($this->selectedDecisionMakers) > 0)
@@ -82,7 +72,7 @@
                     <div id="hashtag_entry_container" class="mb-4">
                         <label for="hashtags" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">hashtags:</label>
                         <input type="text" id="hashtags" name="hashtags" wire:model="hashtags"
-                            class="w-full rounded dark:text-white dark:bg-transparent" {{ wep_insert(['user', 'hashtag']) }}  placeholder="#climatechange #nhs #brexit #genderdebate" />
+                            class="w-full rounded dark:text-white dark:bg-transparent" {{ wep_insert(['hashtag']) }}  placeholder="#climatechange #nhs #brexit #genderdebate" />
                     </div>
                 </div>
 
@@ -268,11 +258,4 @@
         </div>
     </div>
     </form>
-    @push('scripts')
-        <script>
-            window.addEventListener('formSubmitted', () => {
-                document.getElementById('preparingTorrent').scrollIntoView({ behavior: 'smooth' });
-            });
-        </script>
-    @endpush
 </div>
