@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Torrent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\TorrentSigners;
+use App\Models\Hashtags;
 
 class TorrentSeeder extends Seeder
 {
@@ -23,6 +24,9 @@ class TorrentSeeder extends Seeder
                 $count = min(100, $signaturesCount - $i);
                 $torrent->signatures()->createMany(
                     TorrentSigners::factory()->count($count)->make()->toArray()
+                );
+                $torrent->hashtags()->attach(
+                    Hashtags::factory()->count(rand(1, 5))->create()
                 );
             }
         });

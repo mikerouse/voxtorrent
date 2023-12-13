@@ -40,6 +40,7 @@ return [
             'view' => 'wire-elements-pro::insert.component',
             'types' => [
                 'user' => \App\Insert\UserInsert::class,
+                'hashtag' => \App\Insert\HashtagInsert::class,
                 // 'command' => \App\CommandInsert::class,
             ],
             'default-behavior' => [

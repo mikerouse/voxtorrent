@@ -45,4 +45,14 @@ class DecisionMakers extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function constituency_types()
+    {
+        return $this->belongsToMany(ConstituencyType::class);
+    }
+
+    public function hashtags()
+    {
+        return $this->belongsToMany(Hashtags::class);
+    }
 }

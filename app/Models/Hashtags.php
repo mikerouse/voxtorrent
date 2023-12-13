@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\DecisionMakers;
 use Illuminate\Foundation\Auth\User;
 
-class Torrent extends Model
+class Hashtags extends Model
 {
     use HasFactory;
 
@@ -15,9 +15,7 @@ class Torrent extends Model
         'name',
         'slug',
         'description',
-        'qr_code',
-        'info_hash',
-        'owner_id',
+        'creator_id',
         'weight',
         'views',
         'likes',
@@ -28,12 +26,21 @@ class Torrent extends Model
         'is_sensitive',
         'is_trash',
         'is_featured',
-        'avg_dwell_time_secs'
     ];
 
-    public function owner()
+    /** 
+     * 
+     * We want hashtags to be ubiquitous across all content types
+     * They should be able to be added to any content type
+     * Fully polymorphic, so we can add them to any content type
+     * Fully searchable, so we can search for them in any content type
+     * A fully taggable system, so we can tag them in any content type
+     * 
+     */
+
+    public function creator()
     {
-        return $this->belongsTo(User::class, 'owner_id');
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function decisionMakers()
@@ -56,9 +63,8 @@ class Torrent extends Model
         return $this->belongsToMany(Constituency::class);
     }
 
-    public function hashtags()
+    public function torrents()
     {
-        return $this->belongsToMany(Hashtags::class);
+        return $this->belongsToMany(Torrent::class);
     }
-
 }

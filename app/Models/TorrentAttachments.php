@@ -48,4 +48,24 @@ class TorrentAttachments extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function decisionMakers()
+    {
+        return $this->belongsToMany(DecisionMakers::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function hashtags()
+    {
+        return $this->belongsToMany(Hashtags::class);
+    }
+
+    public function constituencies()
+    {
+        return $this->belongsToMany(Constituency::class);
+    }
 }

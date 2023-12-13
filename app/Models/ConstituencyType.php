@@ -15,4 +15,24 @@ class ConstituencyType extends Model
     {
         return $this->hasMany(Constituency::class);
     }
+
+    public function decision_makers()
+    {
+        return $this->hasMany(DecisionMakers::class);
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function torrents()
+    {
+        return $this->hasMany(Torrent::class);
+    }
+
+    public function hashtags()
+    {
+        return $this->hasMany(Hashtags::class);
+    }
 }

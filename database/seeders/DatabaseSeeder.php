@@ -22,10 +22,11 @@ class DatabaseSeeder extends Seeder
         //     'password' => bcrypt('mtr66b4A')
         // ]);
         $this->call([
-            RolesAndPermissionsSeeder::class,
-            ConstituencyTypeSeeder::class,
-            ConstituencySeeder::class,
-            DecisionMakerSeeder::class,
+            // RolesAndPermissionsSeeder::class,
+            // ConstituencyTypeSeeder::class,
+            // ConstituencySeeder::class,
+            // DecisionMakerSeeder::class,
+            HashtagSeeder::class,
             TorrentSeeder::class,
         ]);
 

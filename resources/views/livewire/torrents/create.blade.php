@@ -40,7 +40,7 @@
                 <div class="mt-4">
                     <div id="torrent_content_container" class="mb-4">
                         <textarea rows="6" id="torrentDescription" name="torrentDescription" wire:model="torrentDescription"
-                            class="w-full rounded dark:text-white" @insert(user)>
+                            class="w-full rounded dark:text-white" {{ wep_insert(['user', 'hashtag']) }} >
                         </textarea>
                     </div>
 
@@ -62,7 +62,7 @@
                     <div id="hashtag_entry_container" class="mb-4">
                         <label for="hashtags" class="block text-sm font-medium text-gray-700 dark:text-gray-300">hashtags:</label>
                         <input type="text" id="hashtags" name="hashtags" wire:model="hashtags"
-                            class="w-full rounded dark:text-white dark:bg-transparent" {{ wep_insert(['user']) }} placeholder="#climatechange #nhs #brexit" />
+                            class="w-full rounded dark:text-white dark:bg-transparent" {{ wep_insert(['user', 'hashtag']) }}  placeholder="#climatechange #nhs #brexit #genderdebate" />
                     </div>
                 </div>
           

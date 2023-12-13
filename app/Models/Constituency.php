@@ -49,4 +49,9 @@ class Constituency extends Model
         return $this->belongsToMany(Torrent::class);
     }
 
+    public function hashtags()
+    {
+        return $this->belongsToMany(Hashtags::class);
+    }
+
 }
