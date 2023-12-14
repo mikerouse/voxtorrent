@@ -23,6 +23,11 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'location' => fake()->city(),
+            'hometown' => fake()->city(),
+            'bio' => fake()->paragraph(),
+            'handle' => fake()->userName(),
+            'job_title' => fake()->jobTitle(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
