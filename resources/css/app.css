@@ -8,3 +8,5 @@
 .wep-slide-over-container-inner-wrap {
     @apply motion-reduce:transition-none;
 }
+
+[x-cloak] { display: none; }
