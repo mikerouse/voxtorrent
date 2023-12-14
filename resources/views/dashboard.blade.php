@@ -5,10 +5,10 @@
         </h2>
     </x-slot>
 
-    <div class="py-8">
+    <div class="py-8 max-w-2xl tems-center justify-center items-center m-auto" id="torrent-list-container">
 
-        <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex">
+        <div class="w-full mx-auto sm:px-6 lg:px-8 justify-center" id="torrent-list-top-toolbar-container">
+            <div class="">
                 <a href="/create" class="inline-flex items-center mx-2 justify-center py-2 px-4 border border-transparent text-base font-medium rounded-md text-white bg-orange-400 hover:bg-red-600">
                     <i class="fa-regular fa-pen-to-square"></i>
                 </a>
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
+        <div class="w-full mx-auto sm:px-6 lg:px-8 justify-center" id="#torrent-list-container">
             <div class="overflow-hidden sm:rounded-lg">
                 <div class="p-2 text-gray-900 dark:text-gray-100">
                     
