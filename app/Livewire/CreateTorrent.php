@@ -8,6 +8,7 @@ use App\Models\DecisionMakers;
 use Illuminate\Support\Facades\Log;
 use App\Models\Constituency;
 use App\Models\ConstituencyType;
+use App\Models\Hashtags;
 use App\Models\Torrent;
 use Illuminate\Support\Facades\Http;
 use App\Jobs\PopulateTorrentDescriptionJob;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 use Livewire\Attributes\Validate; 
 use Livewire\Form;
 use App\Insert\HashtagInsert;
+use WireElements\Pro\Icons\Hashtag;
 
 class CreateTorrent extends Component
 {
@@ -33,32 +35,66 @@ class CreateTorrent extends Component
 
     public function handleNewHashtag($query)
     {
-        Log::info('Handling new hashtag. Calling next method for this query:', ['query' => $query]);
-        // Logic to handle the new hashtag creation
-        $this->setHashtags($query);
-    }
-
-    public function setHashtags($incomingHashtags)
-    {
-        Log::info("Received hashtags: " . print_r($incomingHashtags, true));
-        Log::info("Type of received hashtags: " . gettype($incomingHashtags));
-
-        if (is_string($incomingHashtags)) {
-            $hashtags = json_decode($incomingHashtags, true);
-
-            if ($hashtags === null && json_last_error() !== JSON_ERROR_NONE) {
-                Log::error("Failed to decode JSON: " . json_last_error_msg());
-            } else {
-                Log::info("Decoded hashtags: " . print_r($hashtags, true));
-                Log::info("Type of decoded hashtags: " . gettype($hashtags));
-                $this->hashtags = $hashtags;
-            }
-        } else {
-            $this->hashtags = $incomingHashtags;
+        // Check that the query is a string - it should be - and make sure it is a string
+        if (!is_string($query)) {
+            Log::info('Query is not a string: ' . $query);
+            return;
         }
 
-        Log::info("Final hashtags: " . print_r($this->hashtags, true));
-        Log::info("Type of final hashtags: " . gettype($this->hashtags));
+        // Now we need to check that the hashtag does not already exist in the database
+        // If it does already exist by 'name' then return early
+        if (Hashtags::where('name', $query)->exists()) {
+            Log::info('Hashtag already exists in the database: ' . $query);
+            return;
+        }
+
+        // First, we need to make sure the we strip any starting '#' from the query if there is one
+        $query = ltrim($query, '#');
+        // Next, trim any whitespace.
+        $query = trim($query);
+        // Next, make everything lowercase
+        $query = strtolower($query);
+        
+        $this->saveNewHashtag($query);
+
+        // dispatch an event back to the browser to update the hashtag list
+        $this->dispatch('hashtagCreated', $query);
+    }
+
+    public function setHashtags(array $incomingHashtags = [])
+    {
+        
+        $this->hashtags = $incomingHashtags;
+        
+        foreach ($this->hashtags as $hashtag) {
+            // Log::info("Hashtag: " . $hashtag);
+            $this->saveNewHashtag($hashtag);
+        }
+        
+    }
+
+    public function saveNewHashtag($hashtag)
+    {
+        // Invoke the Hashtags class and save a new Hashtag to the database 
+        $newHashtag = Hashtags::create(
+            [
+                'name' => $hashtag,
+                'slug' => Str::slug($hashtag),
+                'description' => 'This is a new hashtag. Edit the description to add more information.',
+                'creator_id' => auth()->user()->id,
+                'weight' => 0,
+                'views' => 0,
+                'likes' => 0,
+                'shares' => 0,
+                'dislikes' => 0,
+                'flags' => 0,
+                'is_blocked' => false,
+                'is_sensitive' => false,
+                'is_trash' => false,
+                'is_featured' => false,
+            ]
+        );
+        Log::info('Saved new hashtag: ' . $hashtag . ' with slug: ' . $newHashtag->slug . ' to the database with ID '. $newHashtag->id);
     }
     // Whilst difficult to name a torrent as they are merely an encapsulation of desired human change in the world, we do need a name for the torrent for system management purposes
     public $name;
