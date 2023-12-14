@@ -67,4 +67,10 @@ class Hashtags extends Model
     {
         return $this->belongsToMany(Torrent::class);
     }
+
+    public function politicalParties()
+    {
+        return $this->belongsToMany(PoliticalParty::class);
+    }
+
 }
