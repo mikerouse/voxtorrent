@@ -32,4 +32,19 @@ class TorrentSigners extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function political_party_at_time()
+    {
+        return $this->belongsTo(PoliticalParty::class);
+    }
+
+    public function decision_maker_at_time()
+    {
+        return $this->belongsTo(DecisionMakers::class);
+    }
+
+    public function constituency_at_time()
+    {
+        return $this->belongsTo(Constituency::class);
+    }
 }

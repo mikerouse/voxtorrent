@@ -23,6 +23,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'handle',
+        'job_title',
+        'bio',
+        'hometown',
+        'location',
     ];
 
     /**
@@ -68,6 +73,21 @@ class User extends Authenticatable
     public function constituencies()
     {
         return $this->belongsToMany(Constituency::class);
+    }
+
+    public function primary_political_party()
+    {
+        return $this->belongsTo(PoliticalParty::class);
+    }
+
+    public function primary_constituency()
+    {
+        return $this->belongsTo(Constituency::class);
+    }
+
+    public function party_memberships()
+    {
+        return $this->belongsToMany(PoliticalParty::class);
     }
 }
 

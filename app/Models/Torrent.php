@@ -36,7 +36,7 @@ class Torrent extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function decisionMakers()
+    public function decision_makers()
     {
         return $this->belongsToMany(DecisionMakers::class);
     }
