@@ -54,4 +54,9 @@ class Constituency extends Model
         return $this->belongsToMany(Hashtags::class);
     }
 
+    public function ukparliamentparty()
+    {
+        return $this->belongsTo(PoliticalParty::class);
+    }
+
 }
