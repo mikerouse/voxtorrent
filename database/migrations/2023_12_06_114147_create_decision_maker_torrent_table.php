@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('decision_maker_torrent', function (Blueprint $table) {
+        Schema::create('decision_makers_torrent', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('decision_maker_id');
-            $table->foreign('decision_maker_id')->references('id')->on('decision_makers');
+            $table->unsignedBigInteger('decision_makers_id');
+            $table->foreign('decision_makers_id')->references('id')->on('decision_makers');
             $table->unsignedBigInteger('torrent_id');
             $table->foreign('torrent_id')->references('id')->on('torrents');
             $table->integer('weight')->default(1);
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('decision_maker_torrent');
+        Schema::dropIfExists('decision_makers_torrent');
     }
 };
