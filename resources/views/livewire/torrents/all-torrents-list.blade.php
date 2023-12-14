@@ -1,7 +1,14 @@
 <div class="space-y-4">
+
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('torrents') }}
+        </h2>
+    </x-slot>
+
     @foreach($torrents as $torrent)
-        <div class="border rounded">
-            <div id="torrent-owner-name-and-photo-container" class="flex items-center space-x-2 p-4 bg-white">
+        <div class="border dark:border-slate-600 rounded">
+            <div id="torrent-owner-name-and-photo-container" class="flex items-center space-x-2 p-4 dark:bg-gray-900 bg-white">
                 <img class="w-15 h-15 rounded-full" src="{{ sprintf('https://ui-avatars.com/api/?name=%s', urlencode($torrent->owner->name)) }}" alt="{{ $torrent->owner->name }}'s photo">
                 <span>
                     <div class="font-bold">
@@ -11,11 +18,30 @@
                         </span>
                     </div>
                     <div class="font-light text-sm">
-                        {{ $torrent->owner->location }}London || 2hrs ago || 1.2k views
+                        {{ $torrent->owner->location }} || 2hrs ago || 1.2k views
                     </div>
                 </span>
             </div>
-            <div class="text-gray-600 dark:text-gray-400 text-lg bg-white pt-0 pr-4 pl-4 pb-0">
+            <div id="torrent-decision-makers" class="flex flex-wrap p-4">
+                @php
+                    $displayDecisionMakers = $torrent->decision_makers->sortBy('weight')->take(3);
+                    $remainingCount = $torrent->decision_makers->count() - 3;
+                @endphp
+                
+                @foreach($displayDecisionMakers as $decisionMaker)
+                    <span class="inline-flex items-center pr-2.5 py-0 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mr-2 mb-2">
+                        <img class="w-8 h-8 rounded-full mr-1.5" src="{{ $decisionMaker->thumbnail_url }}" alt="{{ $decisionMaker->display_name }}'s photo">
+                        {{ $decisionMaker->display_name }}
+                    </span>
+                @endforeach
+                
+                @if($remainingCount > 0)
+                    <a href="#" class="inline-flex items-center text-xs font-medium text-gray-200">
+                        and {{ $remainingCount }} more...
+                    </a>
+                @endif
+            </div>
+            <div class="text-gray-600 dark:text-gray-400 text-lg bg-white dark:bg-gray-700 p-4">
                 {{ $torrent->description }}
             </div>
             <div class="p-4 bg-white dark:bg-transparent flex justify-between" id="torrent-bottom-bar-container">

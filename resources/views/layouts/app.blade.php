@@ -29,19 +29,48 @@
                 <livewire:layout.guest-navigation />
             @endguest
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+            
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            <div class="flex h-screen bg-gray-300 dark:bg-gray-800" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
+
+                <!-- Sidebar -->
+                <!-- Desktop Sidebar - Always visible on md screens and larger -->
+                <div class="hidden md:block md:static md:overflow-y-auto md:flex-shrink-0 md:h-full md:w-64 bg-gray-800 text-white overflow-y-auto">
+                    <div class="h-full flex flex-col py-6">
+                        <!-- Your sidebar content for desktop -->
+                        <livewire:layout.sidebar />
+                    </div>
+                </div>
+
+                <!-- Mobile Sidebar - Controlled by Alpine.js -->
+                <div x-show="sidebarOpen" class="block md:hidden fixed inset-0 z-40 bg-gray-800 text-white overflow-y-auto transform transition-transform" :class="{ 'translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }" @click.away="sidebarOpen = false" @keydown.escape.window="sidebarOpen = false">
+                    <div class="h-full flex flex-col py-6">
+                        <!-- Your sidebar content for mobile -->
+                        <livewire:layout.sidebar />
+                    </div>
+                </div>
+
+
+                <div class="flex flex-col w-0 flex-1 overflow-hidden">
+                    <!-- Mobile menu button -->
+                    <div class="relative z-10 flex-shrink-0 flex h-16 bg-white dark:bg-gray-900 shadow md:hidden" id="mobile-menu-button">
+                        <button @click.stop="sidebarOpen = true" class="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:bg-gray-100 focus:text-gray-600 md:hidden" aria-label="Open sidebar">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                
+                    <main class="flex-1 relative overflow-y-auto focus:outline-none">
+                        <div class="py-6">
+                            <!-- Your page content -->
+                            {{ $slot }}
+                        </div>
+                    </main>
+
+                </div>
+            </div>
+
         </div>
         @livewire('insert-pro')
         @livewireScripts
