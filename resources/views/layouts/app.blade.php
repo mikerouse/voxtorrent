@@ -20,17 +20,7 @@
     </head>
     <body class="font-sans antialiased dark:bg-gray-800">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-800">
-            
-            <!-- Navigation -->
-            @auth
-                <livewire:layout.navigation />
-            @endauth
-            @guest
-                <livewire:layout.guest-navigation />
-            @endguest
-
-            
-
+           
             <div class="flex h-screen bg-gray-300 dark:bg-gray-800" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
 
                 <!-- Sidebar -->
