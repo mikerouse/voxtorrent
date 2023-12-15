@@ -16,4 +16,4 @@ If you discover a security vulnerability within voxtorrent, please send an e-mai
 
 ## license
 
-voxtorrent is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+read the licence.md file
