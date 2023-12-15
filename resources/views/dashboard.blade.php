@@ -7,14 +7,10 @@
                 <div class="p-2 text-gray-900 dark:text-gray-100">
                     
                 <h2 class="my-4 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __("latest") }}
+                    {{ __("your dashboard") }}
                 </h2>
-                @livewire('all-torrents-list')
-                
-                <h2 class="my-4 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __("Your Torrents") }}
-                </h2>
-                @livewire('torrent-list')
+              
+                <!-- TODO: Create a user's dashboard -->
 
                 </div>
             </div>
