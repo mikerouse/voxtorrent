@@ -1,8 +1,8 @@
-<div class="flex flex-col space-y-4">
+<div class="flex flex-col space-y-4 mt-7 dark:bg-gray-800">
     <form id="createTorrent" name="createTorrent" wire:submit.prevent="submitTorrent">
-    <div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900" id="chooseWhat">
-        <div class="w-full max-w-xl m-4 bg-white dark:bg-gray-800 rounded shadow-md">
-            <div class="px-6 pt-4">
+    <div class="flex items-center justify-center bg-gray-100 dark:bg-gray-800" id="chooseWhat">
+        <div class="w-full max-w-xl bg-white dark:bg-gray-800 rounded shadow-md">
+            <div class="px-6">
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
                     <span class="text-red-500 dark:text-red-500">start</span> a torrent
                 </h1>
@@ -136,113 +136,6 @@
                     {{ session('error') }}
                 </div>
             @endif
-        </div>
-    </div>
-    <div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900" id="preparingTorrent">
-        <div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-            <div class="w-full max-w-xl p-6 mt-4 ml-4 mb-4 mr-1 bg-white dark:bg-gray-800 rounded shadow-md">
-    
-                <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
-                    unleash your torrent ...
-                </h1>
-    
-                <div class="row mt-3 mb-3">
-                    <div class="bg-orange-500 dark:bg-orange-700 rounded shadow-md text-white">
-                        <div class="w-full max-w-xl rounded p-5">
-                            <div class="">
-                                <p class="text-md font-bold">get people to sign or like:</p>
-                                <input type="text" id="torrentSharingLink" readonly class="w-full mt-2 mb-1 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" value="{{ url('/torrents/' . $torrent->id) }}" onclick="this.select();">
-                                <p class="text-xs text-white my-2">anyone with this link can sign your torrent, just like a petition</p>
-                            </div>
-                        </div>
-    
-                        <div class="w-full max-w-xl p-5 bg-orange-400 rounded shadow-md">
-                            <div class="">
-                                <p class="text-md font-bold">share to your socials</p>
-                                <div class="flex space-x-4 mt-4">
-                                    <button class="bg-gray-500 rounded-full p-2 px-4">
-                                        <i class="fa-brands fa-facebook-f text-white"></i>
-                                    </button>
-                                    <button class="bg-gray-500 rounded-full p-2 px-4">
-                                        <i class="fa-brands fa-twitter text-white"></i>
-                                    </button>
-                                    <button class="bg-gray-500 rounded-full p-2 px-4">
-                                        <i class="fa-brands fa-instagram text-white"></i>
-                                    </button>
-                                    <button class="bg-gray-500 rounded-full p-2 px-4">
-                                        <i class="fa-brands fa-linkedin-in text-white"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="row mt-3 mb-3 text-right">
-                    <div class="rounded mt-2">
-                        <div class="w-full max-w-xl p-0 mt-3 bg-white dark:bg-transparent rounded">
-                            <div class="pt-2">
-                                <button class="bg-blue-500 text-white px-4 py-2 rounded">view voxtorrent</button>
-                                <button class="bg-gray-200 text-gray-900 px-4 py-2 rounded">make changes</button>
-                            </div>
-                            <div class="pt-4 text-xs lowercase text-gray-400">
-                                <a href="">support free software: donations welcome</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-            </div>
-        </div>
-        <div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 hidden md:flex" id="infoSlides">
-            <div class="bg-gray-100 dark:bg-transparent dark:text-white rounded">
-    
-                <div x-data="{ step: 0 }" x-init="setInterval(() => { step = (step + 1) % 3 }, 5000)">
-                    <div class="w-full max-w-md p-6 rounded" 
-                         x-show="step === 0" 
-                         x-transition:enter="transition ease-in duration-1000 transform" 
-                         x-transition:enter-start="opacity-0 scale-90" 
-                         x-transition:enter-end="opacity-100 scale-100" 
-                         x-transition:leave="transition ease-out duration-1000 transform" 
-                         x-transition:leave-start="opacity-100 scale-100" 
-                         x-transition:leave-end="opacity-0 scale-90" 
-                         id="info1">
-                         <div class="">
-                            <p class="text-md font-bold">what happens next?</p>
-                            <p>if people agree with your voxtorrent we'll start engaging decision makers on your behalf.</p>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-md p-6 rounded" 
-                         x-show="step === 1" 
-                         x-transition:enter="transition ease-in duration-1000 transform" 
-                         x-transition:enter-start="opacity-0 scale-90" 
-                         x-transition:enter-end="opacity-100 scale-100" 
-                         x-transition:leave="transition ease-out duration-1000 transform" 
-                         x-transition:leave-start="opacity-100 scale-100" 
-                         x-transition:leave-end="opacity-0 scale-90" 
-                         id="info2">
-                         <div class="">
-                            <p class="text-md font-bold">get signatures and likes</p>
-                            <p>the more people who sign your torrent, or hit the like button, the bigger your torrent becomes -- and the harder it is to ignore. But remember - people can disagree with it too.</p>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-md p-6 rounded" 
-                         x-show="step === 2" 
-                         x-transition:enter="transition ease-in duration-1000 transform" 
-                         x-transition:enter-start="opacity-0 scale-90" 
-                         x-transition:enter-end="opacity-100 scale-100" 
-                         x-transition:leave="transition ease-out duration-1000 transform" 
-                         x-transition:leave-start="opacity-100 scale-100" 
-                         x-transition:leave-end="opacity-0 scale-90" 
-                         id="info3">
-                         <div class="">
-                            <p class="text-md font-bold">what's a decision maker?</p>
-                            <p>decision makers are people who can make a difference. They can be politicians, business leaders, or anyone with the power to change things (or the power to maintain a status quo if that's what you want).</p>
-                        </div>
-                    </div>
-                </div>
-    
-            </div>
         </div>
     </div>
     </form>

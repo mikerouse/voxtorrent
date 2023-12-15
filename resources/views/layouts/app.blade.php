@@ -18,8 +18,8 @@
         @vite(['resources/css/app.css'])
         @livewireStyles
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <body class="font-sans antialiased dark:bg-gray-800">
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-800">
             
             <!-- Navigation -->
             @auth
@@ -62,7 +62,7 @@
                     </div>
                 
                     <main class="flex-1 relative overflow-y-auto focus:outline-none">
-                        <div class="py-6">
+                        <div class="py-6 dark:bg-gray-800">
                             <!-- Your page content -->
                             {{ $slot }}
                         </div>

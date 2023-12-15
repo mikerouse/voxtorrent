@@ -1,11 +1,5 @@
 <div class="space-y-4">
 
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('torrents') }}
-        </h2>
-    </x-slot>
-
     @foreach($torrents as $torrent)
         <div class="border dark:border-slate-600 rounded">
             <div id="torrent-owner-name-and-photo-container" class="flex items-center space-x-2 p-4 dark:bg-gray-900 bg-white">
@@ -96,12 +90,12 @@
                 <div class="bg-purple-500" style="width: {{ $torrent->ukipLikesPercentage }}%"></div>
                 <div class="bg-green-500" style="width: {{ $torrent->greenLikesPercentage }}%"></div>
             </div> --}}
-            <div class="flex w-full h-4" id="likes-by-party-percentages-bar">
-                <div class="bg-blue-500" style="width: 60%"></div>
-                <div class="bg-red-500" style="width: 10%"></div>
-                <div class="bg-yellow-500" style="width: 10%"></div>
-                <div class="bg-purple-500" style="width: 10%"></div>
-                <div class="bg-green-500" style="width: 10%"></div>
+            <div class="flex w-full h-2" id="likes-by-party-percentages-bar">
+                <div class="bg-blue-500" style="width: {{ rand(10, 80) }}%"></div>
+                <div class="bg-red-500" style="width: {{ rand(10, 80) }}%"></div>
+                <div class="bg-yellow-500" style="width: {{ rand(10, 80) }}%"></div>
+                <div class="bg-purple-500" style="width: {{ rand(10, 80) }}%"></div>
+                <div class="bg-green-500" style="width: {{ rand(10, 80) }}%"></div>
             </div>
         </div>
     @endforeach
