@@ -15,6 +15,11 @@ return new class extends Migration
         if (Schema::hasTable('decision_maker_torrent')) {
             Schema::rename('decision_maker_torrent', 'decision_makers_torrent');
         }
+
+        // Rename the 'decision_maker_id' column to 'decision_makers_id'
+        Schema::table('decision_makers_torrent', function (Blueprint $table) {
+            $table->renameColumn('decision_maker_id', 'decision_makers_id');
+        });
     }
 
     /**
@@ -23,8 +28,14 @@ return new class extends Migration
     public function down(): void
     {
         // Rename it back
+        Schema::table('decision_makers_torrent', function (Blueprint $table) {
+            $table->renameColumn('decision_makers_id', 'decision_maker_id');
+        });
+
         if (Schema::hasTable('decision_makers_torrent')) {
             Schema::rename('decision_makers_torrent', 'decision_maker_torrent');
         }
+
+        
     }
 };
