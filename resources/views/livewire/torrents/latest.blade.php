@@ -23,7 +23,7 @@ function formatNumber($number) {
 
                     @foreach($this->torrents as $torrent)
                         <div class="border dark:border-slate-500 rounded-md mb-4">
-                            <div id="torrent-owner-name-and-photo-container" class="flex items-center space-x-2 p-4 dark:bg-gray-900 bg-white">
+                            <div id="torrent-owner-name-and-photo-container" class="flex items-center space-x-2 p-4 dark:bg-gray-800 bg-white">
                                 <img class="w-15 h-15 rounded-full" src="{{ sprintf('https://ui-avatars.com/api/?name=%s', urlencode($torrent->owner->name)) }}" alt="{{ $torrent->owner->name }}'s photo">
                                 <span>
                                     <div class="font-bold">
@@ -33,7 +33,11 @@ function formatNumber($number) {
                                         </span>
                                     </div>
                                     <div class="font-light text-sm">
-                                        <span class="text-xs mr-4 text-gray-500">{{ $torrent->owner->location }}</span>
+                                        <span class="text-xs mr-4 text-gray-500">
+                                            <a href="/{{ $torrent->owner->handle }}">
+                                                {{ '@' . $torrent->owner->handle }}
+                                            </a>
+                                        </span>
                                         <span class="text-xs mr-4 text-gray-500">{{ $torrent->created_at->diffForHumans() }}</span>
                                         <span class="text-xs text-gray-500">{{ formatNumber($torrent->views) }} views</span>
                                     </div>
@@ -58,7 +62,7 @@ function formatNumber($number) {
                                     </a>
                                 @endif
                             </div>
-                            <div class="text-gray-600 dark:text-gray-400 text-lg bg-white dark:bg-gray-700 p-4">
+                            <div class="text-gray-600 dark:text-gray-400 text-lg bg-white dark:bg-gray-800 p-4">
                                 {{ $torrent->description }}
                             </div>
                             <div class="p-4 bg-white dark:bg-transparent flex justify-between" id="torrent-bottom-bar-container">

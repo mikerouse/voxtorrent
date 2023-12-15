@@ -20,7 +20,7 @@
                         {{ session('message') }}
                     </div>
                     @endif
-                    <livewire:profile.public :user="auth()->user()" />
+                    <livewire:profile.public-profile :user="auth()->user()" />
                 </div>
             </div>   
 

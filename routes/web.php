@@ -5,6 +5,10 @@ use App\Livewire\AdminDashboard;
 use App\Livewire\ConstituencyManager\Dashboard;
 use App\Livewire\ConstituencyManager\Constituencies;
 use App\Livewire\ConstituencyManager\Types;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use App\Livewire\Profile\Spring;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +20,22 @@ use App\Livewire\ConstituencyManager\Types;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+$reservedRouteSlugs = [
+    'admin',
+    'dashboard',
+    'decision-makers',
+    'decision-makers/dashboard',
+    'decision-makers/hoc-members',
+    'constituency-manager',
+    'constituency-manager/dashboard',
+    'constituency-manager/constituencies',
+    'constituency-manager/types',
+    'create',
+    'latest',
+    'profile',
+    'you',
+];
 
 Route::view('/', 'welcome');
 
@@ -48,6 +68,11 @@ Route::get('/constituency-manager/types', Types::class)
 Route::get('/create', \App\Livewire\CreateTorrent::class)->name('create');
 
 Route::get('/latest', \App\Livewire\Torrents\Latest::class)->name('latest');
+
+// If the route is *not* within the list of reserved routes, assume we are trying to view a user's profile and send them to the profile page for that user.
+Route::get('/{handle}', Spring::class)
+    ->middleware(['auth', 'verified'])
+    ->where('handle', '^(?!' . implode('|', $reservedRouteSlugs) . ').*');
 
 Route::get('/decision-makers/dashboard', \App\Livewire\DecisionMakers\Dashboard::class)
     ->middleware(['auth', 'verified'])

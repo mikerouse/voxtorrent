@@ -52,7 +52,7 @@ class User extends Authenticatable
     
     public function owned_torrents()
     {
-        return $this->hasMany(Torrent::class);
+        return $this->hasMany(Torrent::class, 'owner_id');
     }
 
     public function torrents_signed()

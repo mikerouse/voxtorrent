@@ -16,8 +16,13 @@
             </p>
         </header>
 
-        <form wire:submit.prevent="updateRoles">
+        <form wire:submit.prevent="updatePublicProfile">
             <div class="mt-6">
+                <div>
+                    <x-input-label for="update_handle" :value="__('@handle')" />
+                    <x-text-input wire:model="handle" id="update_handle" name="handle" type="text" class="mt-1 block w-full" autocomplete="handle" />
+                    <x-input-error :messages="$errors->get('handle')" class="mt-2" />
+                </div>
                 <div>
                     <x-input-label for="update_location" :value="__('current location')" />
                     <x-text-input wire:model="location" id="update_location" name="location" type="text" class="mt-1 block w-full" autocomplete="city" />
@@ -35,8 +40,8 @@
             </div>
             @enderror
             <button type="submit" class="px-4 py-2 mt-6 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:bg-blue-700">{{ __('Save Public Profile') }}</button>
-            <div x-data="{ show: false }" x-show.transition.opacity.out.duration.1500ms="show" x-init="@this.on('roles-updated', () => { show = true; setTimeout(() => { show = false; }, 2000); })" class="mt-3 text-green-500">
-                {{ __('Roles updated.') }}
+            <div x-data="{ show: false }" x-show.transition.opacity.out.duration.1500ms="show" x-init="@this.on('public-profile-updated', () => { show = true; setTimeout(() => { show = false; }, 2000); })" class="mt-3 text-green-500">
+                {{ __('Public profile information updated.') }}
             </div>
         </form>
     </div>

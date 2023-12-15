@@ -54,18 +54,23 @@ new class extends Component
             @auth
                 <div class="text-white font-light mt-4 mb-4">
                     <a class="text-white no-underline hover:text-white hover:no-underline" href="#">
-                        <span class="text-2xl pl-0">your profile</span>
+                        <span class="text-2xl pl-0">{{ auth()->user()->handle }}</span>
                     </a>
                 </div>
                 <ul class="list-reset flex flex-col justify-between flex-1 items-start dark:text-white">
                     <li class="mb-3 flex items-center">
+                        <a class="inline-block py-2 text-gray-500 no-underline" href="/{{ auth()->user()->handle }}">
+                            <i class="fas fa-circle-user mr-4"></i>your profile
+                        </a>
+                    </li>
+                    <li class="mb-3 flex items-center">
                         <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('dashboard') }}">
-                            <i class="fas fa-briefcase mr-4"></i>dashboard
+                            <i class="fas fa-briefcase mr-4"></i>tools
                         </a>
                     </li>
                     <li class="mb-3 flex items-center">
                         <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('profile') }}">
-                            <i class="fas fa-circle-user mr-4"></i>profile
+                            <i class="fas fa-cog mr-4"></i>user settings
                         </a>
                     </li>
                     <li class="mb-3 flex items-center">
