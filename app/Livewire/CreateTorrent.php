@@ -359,7 +359,10 @@ class CreateTorrent extends Component
 
         Log::info('Torrent created: ' . $this->torrentName);
 
-        // Redirect to the dashboard
+        // Dispatach an event to the browser to update the UI
         $this->dispatch('torrent-created', id: $created_torrent->id);
+
+        // Redirect to the /latest route
+        return redirect()->route('latest');
     }
 }

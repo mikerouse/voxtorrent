@@ -1,6 +1,11 @@
-<div class="flex flex-col space-y-4 mt-7 dark:bg-gray-800">
+<div class="flex flex-col space-y-4 mt-7 dark:bg-gray-800 bg-white">
     <form id="createTorrent" name="createTorrent" wire:submit.prevent="submitTorrent">
-    <div class="flex items-center justify-center bg-gray-100 dark:bg-gray-800" id="chooseWhat">
+        @if (session()->has('error'))
+                <div class="bg-red-500 text-white px-4 py-2 rounded">
+                    {{ session('error') }}
+                </div>
+            @endif
+    <div class="flex items-center justify-center bg-white dark:bg-gray-800" id="chooseWhat">
         <div class="w-full max-w-xl bg-white dark:bg-gray-800 rounded shadow-md">
             <div class="px-6">
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
@@ -131,11 +136,6 @@
                     </ul>
                 </div>
             </div>
-            @if (session()->has('error'))
-                <div class="bg-red-500 text-white px-4 py-2 rounded">
-                    {{ session('error') }}
-                </div>
-            @endif
         </div>
     </div>
     </form>

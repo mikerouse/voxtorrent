@@ -51,8 +51,8 @@
                         </button>
                     </div>
                 
-                    <main class="flex-1 relative overflow-y-auto focus:outline-none">
-                        <div class="py-6 dark:bg-gray-800">
+                    <main class="flex-1 relative overflow-y-auto focus:outline-none bg-white dark:bg-gray-800">
+                        <div class="py-6 dark:bg-gray-800 bg-white">
                             <!-- Your page content -->
                             {{ $slot }}
                         </div>

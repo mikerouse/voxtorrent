@@ -1,3 +1,14 @@
+@php
+function formatNumber($number) {
+    if ($number >= 1000 && $number < 1000000) {
+        return number_format($number / 1000, 1) . 'K';
+    } elseif ($number >= 1000000) {
+        return number_format($number / 1000000, 1) . 'M';
+    } else {
+        return $number;
+    }
+}
+@endphp
 <div class="space-y-4">
 
     <div class="max-w-2xl mt-1 tems-center justify-center items-center m-auto" id="torrent-list-container">
@@ -22,7 +33,9 @@
                                         </span>
                                     </div>
                                     <div class="font-light text-sm">
-                                        {{ $torrent->owner->location }} || 2hrs ago || 1.2k views
+                                        <span class="text-xs mr-4 text-gray-500">{{ $torrent->owner->location }}</span>
+                                        <span class="text-xs mr-4 text-gray-500">{{ $torrent->created_at->diffForHumans() }}</span>
+                                        <span class="text-xs text-gray-500">{{ formatNumber($torrent->views) }} views</span>
                                     </div>
                                 </span>
                             </div>

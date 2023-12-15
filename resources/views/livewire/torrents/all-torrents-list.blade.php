@@ -1,5 +1,16 @@
-<div class="space-y-4">
+<?php
+function formatNumber($number) {
+    if ($number >= 1000 && $number < 1000000) {
+        return number_format($number / 1000, 1) . 'K';
+    } elseif ($number >= 1000000) {
+        return number_format($number / 1000000, 1) . 'M';
+    } else {
+        return $number;
+    }
+}
+?>
 
+<div class="space-y-4">
     @foreach($torrents as $torrent)
         <div class="border dark:border-slate-600 rounded">
             <div id="torrent-owner-name-and-photo-container" class="flex items-center space-x-2 p-4 dark:bg-gray-900 bg-white">
@@ -12,7 +23,9 @@
                         </span>
                     </div>
                     <div class="font-light text-sm">
-                        {{ $torrent->owner->location }} || 2hrs ago || 1.2k views
+                        <span class="">{{ $torrent->owner->location }}</span>
+                        <span class="">{{ $torrent->created_at->diffForHumans() }}</span>
+                        <span class="">{{ formatNumber($torrent->views) }} views</span>
                     </div>
                 </span>
             </div>
