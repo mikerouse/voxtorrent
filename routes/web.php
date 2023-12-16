@@ -35,6 +35,7 @@ $reservedRouteSlugs = [
     'constituency-manager/constituencies',
     'constituency-manager/types',
     'create',
+    'handle',
     'latest',
     'profile',
     'you',
@@ -42,9 +43,12 @@ $reservedRouteSlugs = [
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::middleware('check.handle')->group(function () {
+    // Routes that require a handle...
+    Route::view('dashboard', 'dashboard')
+        ->middleware(['auth', 'verified'])
+        ->name('dashboard');
+});
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -67,6 +71,10 @@ Route::get('/constituency-manager/constituencies', Constituencies::class)
 Route::get('/constituency-manager/types', Types::class)
     ->name('constituency-manager.types')
     ->middleware(['auth', 'verified']);
+
+Route::get('/handle', \App\Livewire\Profile\Handle::class)
+    ->middleware(['auth'])
+    ->name('handle');
 
 Route::get('/create', \App\Livewire\CreateTorrent::class)->name('create');
 

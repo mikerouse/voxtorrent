@@ -52,7 +52,7 @@
                     </div>
                 
                     <main class="flex-1 relative overflow-y-auto focus:outline-none bg-white dark:bg-gray-800">
-                        <div class="py-6 dark:bg-gray-800 bg-white">
+                        <div class="py-6">
                             <!-- Your page content -->
                             {{ $slot }}
                         </div>
