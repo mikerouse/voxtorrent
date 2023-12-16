@@ -24,7 +24,7 @@
 
         <!-- List of torrents -->
         <div class="px-4 mt-6">
-            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-200">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4">
                 {{ $user->handle }}'s torrents
             </h2>
             <ul class="space-y-2">

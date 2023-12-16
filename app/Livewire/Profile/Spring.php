@@ -23,6 +23,29 @@ class Spring extends Component
     }
     public function render()
     {
+        // Early return for guests
+        if (Auth::guest()) {
+            return view('livewire.profile.spring')->layout('layouts.app');
+        }
+
+        if ($this->user === null) {
+            abort(404);
+        }
+
+        // Not a guest, so get the user
+        $user = $this->user;
+
+        // if the user has not set various required profile fields we need to redirect them to the appropriate page to set those details
+        if (empty($user->location) || empty($user->bio)) {
+            $this->redirect('/profile');
+        }
+
+        // If the user is viewing their own spring, show the edit form or at least additional controls
+        if ($user->id === $this->user->id) {
+            return view('livewire.profile.spring')->layout('layouts.app');
+        }
+
+        // If the user is not viewing their own spring, show the public profile
         return view('livewire.profile.spring')->layout('layouts.app');
     }
 }
