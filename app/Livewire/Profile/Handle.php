@@ -43,6 +43,6 @@ class Handle extends Component
 
         session()->flash('message', 'Handle updated.');
         $this->dispatch('handle-updated');
-        return redirect()->to('/latest');
+        return redirect()->to('/' . $user->handle);
     }
 }
