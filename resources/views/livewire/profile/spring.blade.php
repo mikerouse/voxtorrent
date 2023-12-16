@@ -29,7 +29,7 @@
             </h2>
             <ul class="space-y-2">
                 @foreach($user->owned_torrents as $torrent)
-                <livewire:torrents.components.timeline-single :torrent="$torrent" :key="$torrent->id" />
+                    <livewire:torrents.components.timeline-single :torrent="$torrent" :key="$torrent->id" />
                 @endforeach
             </ul>
         </div>
