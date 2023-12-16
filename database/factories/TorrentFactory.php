@@ -21,7 +21,7 @@ class TorrentFactory extends Factory
             'slug' => function (array $attributes) {
                 return \Illuminate\Support\Str::limit(\Illuminate\Support\Str::slug($attributes['name']), 50) . '-' . \Illuminate\Support\Str::random(5);
             },
-            'description' => $this->faker->sentence(100),
+            'description' => $this->faker->paragraphs(3, true),
             'qr_code' => $this->faker->randomKey,
             'info_hash' => $this->faker->randomKey,
             'owner_id' => function () {

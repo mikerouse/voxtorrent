@@ -12,6 +12,11 @@ class Election extends Model
     protected $fillable = [
         'name',
         'polling_day',
+        'seats_contested',
+        'seats_available',
+        'seats_total',
+        'registered_voters',
+        'ballots_cast',
         'description',
         'slug',
         'is_active',
