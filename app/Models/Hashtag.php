@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\DecisionMakers;
 use Illuminate\Foundation\Auth\User;
 
-class Hashtags extends Model
+class Hashtag extends Model
 {
     use HasFactory;
 
