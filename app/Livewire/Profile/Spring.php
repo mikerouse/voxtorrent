@@ -19,7 +19,7 @@ class Spring extends Component
     public function mount($handle)
     {
         $this->handle = $handle;
-        $this->user = Auth::user()->where('handle', $this->handle)->first();
+        $this->user = User::where('handle', $this->handle)->first();
     }
     public function render()
     {

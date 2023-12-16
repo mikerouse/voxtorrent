@@ -88,7 +88,7 @@ new class extends Component
                 </div>
                 <ul class="list-reset flex flex-col justify-between flex-1 items-start dark:text-white">
                     <li class="mb-3 flex items-center">
-                        <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('dashboard') }}">
+                        <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('register') }}">
                             <i class="fas fa-briefcase mr-4"></i>register
                         </a>
                     </li>

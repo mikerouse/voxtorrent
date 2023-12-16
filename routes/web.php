@@ -23,6 +23,8 @@ use App\Livewire\Hashtags;
 */
 
 $reservedRouteSlugs = [
+    'login',
+    'register',
     'admin',
     'dashboard',
     'decision-makers',
@@ -73,9 +75,7 @@ Route::get('/latest', \App\Livewire\Torrents\Latest::class)->name('latest');
 Route::get('/hashtags', Hashtags::class)->name('hashtags');
 
 // If the route is *not* within the list of reserved routes, assume we are trying to view a user's profile and send them to the profile page for that user.
-Route::get('/{handle}', Spring::class)
-    ->middleware(['auth', 'verified'])
-    ->where('handle', '^(?!' . implode('|', $reservedRouteSlugs) . ').*');
+Route::get('/{handle}', Spring::class)->where('handle', '^(?!' . implode('|', $reservedRouteSlugs) . ').*');
 
 Route::get('/decision-makers/dashboard', \App\Livewire\DecisionMakers\Dashboard::class)
     ->middleware(['auth', 'verified'])
