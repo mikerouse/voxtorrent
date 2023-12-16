@@ -26,9 +26,6 @@ class TorrentSeeder extends Seeder
                 $torrent->signatures()->createMany(
                     TorrentSigners::factory()->count($count)->make()->toArray()
                 );
-                $torrent->hashtags()->attach(
-                    Hashtag::factory()->count(rand(1, 5))->create()
-                );
 
                 // Add decision makers
                 $decisionMakers = DecisionMakers::inRandomOrder()->take(rand(1, 5))->pluck('id');
