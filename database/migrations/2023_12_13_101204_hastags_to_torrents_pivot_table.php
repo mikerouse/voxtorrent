@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hashtags_torrent', function (Blueprint $table) {
+        Schema::create('hashtag_torrent', function (Blueprint $table) {
             // Create a table to connect hashtags to torrents
             $table->id();
-            $table->foreignId('hashtags_id')->constrained();
+            $table->foreignId('hashtag_id')->constrained();
             $table->foreignId('torrent_id')->constrained();
             $table->float('weight')->default(0);
             $table->timestamps();
@@ -26,13 +26,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('hashtags_torrent', function (Blueprint $table) {
+        Schema::table('hashtag_torrent', function (Blueprint $table) {
             // Drop the table to connect hashtags to torrents
-            $table->dropForeign(['hashtags_id']);
+            $table->dropForeign(['hashtag_id']);
             $table->dropForeign(['torrent_id']);
-            $table->dropColumn(['hashtags_id', 'torrent_id']);
+            $table->dropColumn(['hashtag_id', 'torrent_id']);
         });
 
-        Schema::dropIfExists('hashtags_to_torrents_pivot');
+        Schema::dropIfExists('hashtag_to_torrent_pivot');
     }
 };

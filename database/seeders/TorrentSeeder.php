@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Torrent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\TorrentSigners;
-use App\Models\Hashtags;
+use App\Models\Hashtag;
 use App\Models\DecisionMakers;
 
 class TorrentSeeder extends Seeder
@@ -27,7 +27,7 @@ class TorrentSeeder extends Seeder
                     TorrentSigners::factory()->count($count)->make()->toArray()
                 );
                 $torrent->hashtags()->attach(
-                    Hashtags::factory()->count(rand(1, 5))->create()
+                    Hashtag::factory()->count(rand(1, 5))->create()
                 );
 
                 // Add decision makers
@@ -36,7 +36,7 @@ class TorrentSeeder extends Seeder
 
                 // Add hashtags
                 $torrent->hashtags()->attach(
-                    Hashtags::factory()->count(rand(1, 5))->create()
+                    Hashtag::factory()->count(rand(1, 5))->create()
                 );
 
             }

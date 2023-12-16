@@ -19,7 +19,7 @@ class Hashtags extends Component
 
     public function render()
     {
-        $hashtags = Hashtags::withCount('torrents')->paginate(25);
-        return view('livewire.hashtags', compact('hashtags'))->layout('layouts.app');
+        $hashtags = Hashtag::withCount('torrents')->paginate(25);
+        return view('livewire.hashtags.welcome', compact('hashtags'))->layout('layouts.app');
     }
 }

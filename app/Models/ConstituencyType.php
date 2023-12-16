@@ -33,6 +33,6 @@ class ConstituencyType extends Model
 
     public function hashtags()
     {
-        return $this->hasMany(Hashtags::class);
+        return $this->hasMany(Hashtag::class);
     }
 }

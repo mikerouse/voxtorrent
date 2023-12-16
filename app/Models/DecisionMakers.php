@@ -53,7 +53,7 @@ class DecisionMakers extends Model
 
     public function hashtags()
     {
-        return $this->belongsToMany(Hashtags::class);
+        return $this->belongsToMany(Hashtag::class);
     }
     public function political_party()
     {

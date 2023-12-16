@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Hashtags;
+use App\Models\Hashtag;
 
 class HashtagSeeder extends Seeder
 {
@@ -14,6 +14,6 @@ class HashtagSeeder extends Seeder
      */
     public function run(): void
     {
-        Hashtags::factory(50)->create();
+        Hashtag::factory(50)->create();
     }
 }

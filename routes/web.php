@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Livewire\Profile\Spring;
+use App\Livewire\Hashtags;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,8 @@ Route::get('/constituency-manager/types', Types::class)
 Route::get('/create', \App\Livewire\CreateTorrent::class)->name('create');
 
 Route::get('/latest', \App\Livewire\Torrents\Latest::class)->name('latest');
+
+Route::get('/hashtags', Hashtags::class)->name('hashtags');
 
 // If the route is *not* within the list of reserved routes, assume we are trying to view a user's profile and send them to the profile page for that user.
 Route::get('/{handle}', Spring::class)
