@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Livewire\Profile\Spring;
 use App\Livewire\Hashtags;
+use App\Livewire\Voting\Elections;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,11 @@ $reservedRouteSlugs = [
     'constituency-manager/dashboard',
     'constituency-manager/constituencies',
     'constituency-manager/types',
+    'voting',
+    'voting/elections',
+    'voting/elections/types',
+    'voting/elections/dashboard',
+    'voting/elections/types/dashboard',
     'create',
     'latest',
     'profile',
@@ -84,5 +90,13 @@ Route::get('/decision-makers/dashboard', \App\Livewire\DecisionMakers\Dashboard:
 Route::get('/decision-makers/hoc-members', \App\Livewire\DecisionMakers\UKParliamentMembers::class)
     ->middleware(['auth', 'verified'])
     ->name('decision-makers/hoc-members');
+
+Route::get('/voting/elections', Elections\Dashboard::class)
+    ->middleware(['auth', 'verified'])
+    ->name('voting/elections');
+
+    Route::get('/voting/elections/types', Elections\Types::class)
+    ->middleware(['auth', 'verified'])
+    ->name('voting/elections/types');
 
 require __DIR__.'/auth.php';
