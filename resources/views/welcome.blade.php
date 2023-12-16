@@ -16,28 +16,25 @@
     </head>
     <body class="antialiased">
 
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-            <div class="flex">
-                <div class="flex-shrink-0">
-                    <!-- Heroicon name: solid/exclamation -->
-                    <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 12a1 1 0 11-2 0 1 1 0 012 0zm-1-10a1 1 0 00-.867.5l-4 8a1 1 0 00.73 1.5h8a1 1 0 00.867-1.5l-4-8A1 1 0 0010 4z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-                <div class="ml-3">
-                    <p class="text-sm text-yellow-700">
-                        This is an alpha system and is still under development. <a href="https://github.com/mikerouse/voxtorrent/discussions">Please report any issues you encounter</a>.
-                    </p>
+        <div class="justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+
+            <div class="max-w-7xl mx-auto p-6 lg:p-8">
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <!-- Heroicon name: solid/exclamation -->
+                            <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 12a1 1 0 11-2 0 1 1 0 012 0zm-1-10a1 1 0 00-.867.5l-4 8a1 1 0 00.73 1.5h8a1 1 0 00.867-1.5l-4-8A1 1 0 0010 4z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-yellow-700">
+                                This is an alpha system and is still under development. <a href="https://github.com/mikerouse/voxtorrent/discussions">Please report any issues you encounter</a>.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-
-
-            @if (Route::has('login'))
-                <livewire:welcome.navigation />
-            @endif
 
             <div class="max-w-7xl mx-auto p-6 lg:p-8">
                 <div class="flex justify-center">
