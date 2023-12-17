@@ -13,7 +13,11 @@
                     {{ '@' . $torrent->owner->handle }}
                 </a>
             </span>
-            <span class="text-xs mr-4 text-gray-500">{{ $torrent->created_at->diffForHumans() }}</span>
+            <span class="text-xs mr-4 text-gray-500">
+                <a href="/t/{{ $torrent->id }}">
+                   {{ $torrent->created_at->diffForHumans() }}
+                </a>
+            </span>
             <span class="text-xs text-gray-500">{{ formatNumber($torrent->views) }} views</span>
         </div>
     </span>
