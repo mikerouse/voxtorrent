@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             // DecisionMakerSeeder::class,
             HashtagSeeder::class,
             TorrentSeeder::class,
+            CitiesSeeder::class,
         ]);
 
     }
