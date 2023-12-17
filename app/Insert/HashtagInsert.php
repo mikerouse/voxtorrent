@@ -2,7 +2,7 @@
 namespace App\Insert;
 
 use App\Models\User;
-use App\Models\Hashtags;
+use App\Models\Hashtag;
 use WireElements\Pro\Components\Insert\InsertQueryResult;
 use WireElements\Pro\Components\Insert\InsertQueryResults;
 use WireElements\Pro\Components\Insert\Types\InsertType;
@@ -18,7 +18,7 @@ class HashtagInsert extends InsertType
     public function search($query): InsertQueryResults
     {
         return InsertQueryResults::make(
-            Hashtags::query()
+            Hashtag::query()
                 ->where('name', 'like', "%{$query}%")
                 ->orderBy('name')
                 ->get()

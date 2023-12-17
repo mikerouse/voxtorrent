@@ -41,11 +41,13 @@
                     </div>
                 </div>
                 <div class="mt-4">
+                    <label for="decisionMakers" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">
+                        who {{ (is_countable($selectedDecisionMakers) && count($selectedDecisionMakers) > 0) ? 'else ' : '' }}are the influencers or decision makers?
+                    </label>
                     <input type="text" id="decisionMakers" wire:model="searchText" wire:keyup="performSearch" 
-                    placeholder="who {{ (is_countable($selectedDecisionMakers) && count($selectedDecisionMakers) > 0) ? 'else ' : '' }}are you trying to influence?"
+                    placeholder="tip: tag your mp, councillors, the councils, utlity - almost anything"
                     class="w-full px-4 py-2 mt-2 text-black dark:text-white dark:bg-transparent rounded-md"
                     x-data x-on:refresh.window="$el.value = ''">
-                    <label for="decisionMakers" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">tip: you can choose members of parliament, your councillors, whole councils or their departments, utlity providers, developers, charities - almost anything</label>
                     @if (!empty($searchResults))
                         <div class="mt-2 p-2 bg-white dark:bg-gray-900 border rounded shadow overflow-hidden">
                             @foreach ($searchResults as $result)
@@ -55,6 +57,13 @@
                             @endforeach
                         </div>
                     @endif
+                </div>
+                <div class="mt-4">
+                    <div id="torrent_name_container" class="mb-4">
+                        <label for="torrentName" class="p-2 block text-sm font-medium text-gray-400 dark:text-gray-300">title or headline:</label>
+                        <input id="torrentName" name="torrentName" wire:model="torrentName" placeholder="sum it up in a sentence"
+                            class="w-full rounded dark:text-white dark:bg-transparent" {{ wep_insert(['user', 'hashtag']) }} />
+                    </div>
                 </div>
                 <div class="mt-4">
                     <div id="torrent_content_container" class="mb-4">

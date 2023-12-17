@@ -8,7 +8,6 @@ use App\Models\DecisionMakers;
 use Illuminate\Support\Facades\Log;
 use App\Models\Constituency;
 use App\Models\ConstituencyType;
-use App\Models\Hashtags;
 use App\Models\Torrent;
 use Illuminate\Support\Facades\Http;
 use App\Jobs\PopulateTorrentDescriptionJob;
@@ -18,6 +17,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Form;
 use App\Insert\HashtagInsert;
 use WireElements\Pro\Icons\Hashtag;
+use App\Models\Hashtag as ModelsHashtag;
 
 class CreateTorrent extends Component
 {
@@ -43,7 +43,7 @@ class CreateTorrent extends Component
 
         // Now we need to check that the hashtag does not already exist in the database
         // If it does already exist by 'name' then return early
-        if (Hashtags::where('name', $query)->exists()) {
+        if (ModelsHashtag::where('name', $query)->exists()) {
             Log::info('Hashtag already exists in the database: ' . $query);
             return;
         }
@@ -76,7 +76,7 @@ class CreateTorrent extends Component
     public function saveNewHashtag($hashtag)
     {
         // Invoke the Hashtags class and save a new Hashtag to the database 
-        $newHashtag = Hashtags::create(
+        $newHashtag = ModelsHashtag::create(
             [
                 'name' => $hashtag,
                 'slug' => Str::slug($hashtag),
@@ -222,33 +222,6 @@ class CreateTorrent extends Component
         $this->showSetTopicButton = !empty($this->torrent->name);
     }
 
-    // public function handleSpacebar($hashtags)
-    // {
-    //     Log::info('Handling spacebar', ['hashtags' => $hashtags]);
-    
-    //     // Ensure we have a non-empty string, then explode, trim, and filter
-    //     if (is_string($hashtags) && trim($hashtags) !== '') {
-    //         $hashtagsArray = array_filter(array_map('trim', explode(' ', $hashtags)));
-    //     } else {
-    //         $hashtagsArray = [];
-    //     }
-    
-    //     Log::info('Processed Hashtags: ' . print_r($hashtagsArray, true));
-    
-    //     foreach ($hashtagsArray as $hashtag) {
-    //         $hashtag = '#' . ltrim($hashtag, '#'); // Ensure each hashtag starts with '#'
-    //         Log::info('Processing Hashtag: ' . $hashtag);
-    
-    //         if (!in_array($hashtag, $this->hashtags)) {
-    //             $this->hashtags[] = $hashtag;
-    //         } else {
-    //             Log::info('Hashtag already in array: ' . $hashtag);
-    //         }
-    //     }
-    
-    //     Log::info('Finalised array values: ' . print_r($this->hashtags, true));
-    // }
-
     public function analyseTorrentContent()
     {
         $this->isAiThinking = true;
@@ -331,19 +304,23 @@ class CreateTorrent extends Component
         }
         Log::info('Submitting torrent. Decision Makers: ' . json_encode($this->selectedDecisionMakers) . ', Torrent Description: ' . json_encode($this->torrentDescription) . ', Hashtags: ' . json_encode($this->hashtags));
 
+        if ($this->torrentName === null)
+        {
+            $this->generateTorrentName();
+        }
+
         // Validation
         $this->validate(
             [
                 'selectedDecisionMakers' => 'required',
                 'hashtags' => 'required',
                 'torrentDescription' => 'required',
+                'torrentName' => 'required',
             ]
         );
 
         $this->isFormValid = true;
-
-        // See Github issue #16 about the need to create a torrent name by using the hashtags and the decision makers and some random words
-        $this->generateTorrentName();
+        
 
         // Store the torrent
         $created_torrent = Torrent::create(
