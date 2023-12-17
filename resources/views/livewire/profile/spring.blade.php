@@ -50,6 +50,11 @@
             <h2 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4">
                 {{ $user->handle }}'s torrents
             </h2>
+            @if($user->owned_torrents->count() == 0)
+                <div class="text-gray-900 dark:text-gray-200 mb-4">
+                    {{ $user->handle }} has not created any torrents yet.
+                </div>
+            @endif
             <ul class="space-y-2">
                 @foreach($user->owned_torrents as $torrent)
                     <livewire:torrents.components.timeline-single :torrent="$torrent" :key="$torrent->id" />
