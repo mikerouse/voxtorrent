@@ -1,5 +1,65 @@
 <div class="space-y-4">
     <div class="max-w-2xl mt-1 items-center justify-center m-auto" id="spring-container">
+        @if($owner)
+            <div class="w-full text-center dark:bg-blue-50 p-5 text-sm">
+                <div>
+                    viewing your own profile
+                </div>
+                @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Oops!</strong>
+                        <span class="block sm:inline">Something went wrong.</span>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <div>
+                    @if($editing)
+                        <button wire:click="savechanges" class="text-blue-500 hover:text-blue-700">
+                            save changes
+                        </button>
+                    @else
+                        <button wire:click="editmode" class="text-blue-500 hover:text-blue-700">
+                            edit profile
+                        </button>
+                    @endif
+                </div>
+            </div>
+        @endif
+        @can('do anything')
+            @if(!$owner)
+                <div class="w-full text-center dark:bg-yellow-100 p-5 text-sm">
+                    <div>
+                        you have super powers
+                    </div>
+                    @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                            <strong class="font-bold">Oops!</strong>
+                            <span class="block sm:inline">Something went wrong.</span>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div>
+                        @if($editing)
+                            <button wire:click="savechanges" class="text-blue-500 hover:text-blue-700">
+                                save changes
+                            </button>
+                        @else
+                            <button wire:click="editmode" class="text-blue-500 hover:text-blue-700">
+                                edit this profile
+                            </button>
+                        @endif
+                    </div>
+                </div>
+            @endif
+        @endcan
         <!-- Cover photo -->
         <div class="w-full h-64 overflow-hidden bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500">
             @if(!empty($user->cover_photo_url))
@@ -44,6 +104,49 @@
                 </div>
             </div>
         </div>
+
+        <div>
+            <script>
+                document.addEventListener('livewire:init', () => {
+                   Livewire.on('bio-updated', (event) => {
+                        console.log(event);
+                        alert(event.message);
+                   });
+                });
+            </script>
+        </div>
+        @if($editing)
+            <div class="px-4 mt-6">
+                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4">
+                    {{ $user->handle }}'s bio
+                </h2>
+                <form wire:submit="updatebio">
+                    <div class="text-gray-900 dark:text-gray-200 mb-4">
+                        <textarea wire:model="bio" class="w-full h-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
+                            {{ $user->bio }}
+                        </textarea>
+                    </div>
+                    <div class="text-gray-900 dark:text-gray-200 mb-4">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            update bio
+                        </button>
+                    </div>
+                </form>
+            </div>
+        @else
+            <div class="px-4 mt-6">
+                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4">
+                    {{ $user->handle }}'s bio
+                </h2>
+                <div class="text-gray-900 dark:text-gray-200 mb-4">
+                    @if(empty($user->bio))
+                        {{ $user->handle }} has not written a bio yet.
+                    @else 
+                        {{ $user->bio }}
+                    @endif
+                </div>
+            </div>
+        @endif
 
         <!-- List of torrents -->
         <div class="px-4 mt-6">

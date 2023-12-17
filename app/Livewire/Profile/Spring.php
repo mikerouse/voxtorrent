@@ -16,6 +16,9 @@ class Spring extends Component
 {
     public $user;
     public $handle;
+    public $owner = false;
+    public $editing = false;
+    public $bio;
     public function mount($handle)
     {
         $this->handle = $handle;
@@ -25,6 +28,7 @@ class Spring extends Component
     {
         // Early return for guests
         if (Auth::guest()) {
+            $this->owner = false;
             return view('livewire.profile.spring')->layout('layouts.app');
         }
 
@@ -32,20 +36,44 @@ class Spring extends Component
             abort(404);
         }
 
-        // Not a guest, so get the user
-        $user = $this->user;
+        // Not a guest, so get the current logged-in user
+        $user = Auth::user();
 
-        // if the user has not set various required profile fields we need to redirect them to the appropriate page to set those details
-        if (empty($user->location)) {
-            $this->redirect('/profile');
-        }
-
-        // If the user is viewing their own spring, show the edit form or at least additional controls
+        // is this user looking at their own profile?
         if ($user->id === $this->user->id) {
+            $this->owner = true;
+            return view('livewire.profile.spring')->layout('layouts.app');
+        } else {
+            $this->owner = false;
             return view('livewire.profile.spring')->layout('layouts.app');
         }
+        
+    }
 
-        // If the user is not viewing their own spring, show the public profile
-        return view('livewire.profile.spring')->layout('layouts.app');
+    public function editmode()
+    {
+        $this->editing = true;
+    }
+
+    public function updatebio()
+    {
+        $bio = $this->bio;
+        $this->validate([
+            'bio' => 'required',
+        ]);
+        $this->user->bio = $bio;
+        $this->user->save();
+        $this->editing = false;
+        $this->dispatch('bio-updated', message: 'bio updated');
+    }
+    public function savechanges()
+    {
+        $this->validate([
+            'user.name' => 'required',
+            'user.handle' => 'required|unique:users,handle,' . $this->user->id,
+            'user.bio' => 'required',
+        ]);
+        $this->user->save();
+        $this->editing = false;
     }
 }
