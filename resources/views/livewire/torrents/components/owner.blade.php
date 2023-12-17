@@ -2,7 +2,7 @@
     <img class="w-15 h-15 rounded-full" src="{{ sprintf('https://ui-avatars.com/api/?name=%s', urlencode($torrent->owner->name)) }}" alt="{{ $torrent->owner->name }}'s photo">
     <span>
         <div class="font-bold">
-            {{ $torrent->owner->name }} 
+            <span class="dark:text-white">{{ $torrent->owner->name }}</span>
             <span>
                 <i class="fas fa-check-circle text-blue-400"></i>
             </span>
