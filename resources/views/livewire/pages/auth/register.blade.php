@@ -33,9 +33,70 @@ new #[Layout('layouts.guest')] class extends Component
 
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered($user = User::create($validated)));
+        $user = User::create([
+            'name' => $this->name,
+            'location' => $this->location,
+            'email' => $this->email,
+            'password' => Hash::make($this->password),
+            'is_verified' => false,
+            'is_active' => true,
+            'is_protected' => false,
+            'handle' => '',
+            'thumbnail_url' => '',
+            'cover_url' => '',
+            'is_suspended' => false,
+            'is_banned' => false,
+            'is_deleted' => false,
+            'is_flagged' => false,
+            'gender' => '',
+            'date_of_birth' => null,
+            'phone' => '',
+            'primary_constituency_id' => 0,
+            'primary_political_party_id' => 0,
+            'job_title' => '',
+            'bio' => '',
+            'hometown' => '',
+            'is_decision_maker' => false,
+            'is_mayor' => false,
+            'is_mp' => false,
+            'is_governor' => false,
+            'is_senator' => false,
+            'is_president' => false,
+            'is_vip' => false,
+            'is_team_member' => false,
+            'is_team_admin' => false,
+            'is_team_owner' => false,
+            'is_featured' => false,
+            'followers_count' => 0,
+            'following_count' => 0,
+            'posts_count' => 0,
+            'comments_count' => 0,
+            'likes_count' => 0,
+            'dislikes_count' => 0,
+            'shares_count' => 0,
+            'flags_count' => 0,
+            'views_count' => 1,
+            'last_login_at' => now(),
+            'last_login_ip' => request()->ip(),
+            'last_login_device' => request()->userAgent(),
+            'last_login_location' => '',
+            'last_login_country' => '',
+            'last_login_region' => '',
+        ]);
 
-        // If this is the first user
+        // Validate the user
+        $this->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'location' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        // Create the user
+        $createdUser = User::create($user);
+        // event(new Registered($createdUser));
+
+        // If this is the first user, make them a 'super admin'
         if (User::count() == 1) {
             // assign 'Super Admin' role to the first user
             $user->assignRole('super admin');
