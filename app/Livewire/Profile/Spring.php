@@ -36,7 +36,7 @@ class Spring extends Component
         $user = $this->user;
 
         // if the user has not set various required profile fields we need to redirect them to the appropriate page to set those details
-        if (empty($user->location) || empty($user->bio)) {
+        if (empty($user->location)) {
             $this->redirect('/profile');
         }
 
