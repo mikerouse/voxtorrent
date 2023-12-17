@@ -32,7 +32,11 @@
                             <span>
                                 <i class="fas fa-certificate"></i>
                                 <span>
-                                    {{ $user->is_verified }}
+                                    @if($user->is_verified)
+                                        {{ 'id verified' }}
+                                    @else
+                                        {{ 'id not verified' }}
+                                    @endif  
                                 </span>
                             </span>
                         </div>
