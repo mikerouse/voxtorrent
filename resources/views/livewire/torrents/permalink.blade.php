@@ -3,6 +3,7 @@
         <livewire:torrents.components.timeline-single :torrent="$torrent" :key="$torrent->id" />
     </div>
     <div class="max-w-2xl mt-1 tems-center justify-center items-center m-auto">
+        @auth
         <h2 class="my-4 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             add your voice to this torrent
         </h2>
@@ -52,5 +53,11 @@
                 </div>
             </form>
         </div>
+        @endauth
+        @guest
+        <h2 class="my-4 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            log in to add your voice to this torrent
+        </h2>
+        @endguest
     </div>
 </div>
