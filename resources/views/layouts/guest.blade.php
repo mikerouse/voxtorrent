@@ -26,5 +26,11 @@
                 {{ $slot }}
             </div>
         </div>
+        @livewire('insert-pro')
+        @livewireScripts
+        <script src="https://kit.fontawesome.com/f7ae14b249.js" crossorigin="anonymous"></script>
+         <!-- Include the insert-component.js script -->
+        <script src="{{ asset('vendor/wire-elements-pro/js/insert-component.js') }}"></script>
+        @vite(['resources/js/app.js'])
     </body>
 </html>

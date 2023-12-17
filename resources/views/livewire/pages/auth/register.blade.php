@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Permission;
 new #[Layout('layouts.guest')] class extends Component
 {
     public string $name = '';
+    public string $location = '';
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
@@ -25,6 +26,7 @@ new #[Layout('layouts.guest')] class extends Component
     {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
+            'location' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -61,9 +63,11 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <div class="mt-4">
-            <x-input-label for="location" :value="__('location (nearest town or city)')" />
-            <x-text-input wire:model="location" id="location" class="block mt-1 w-full" type="text" name="location" required autofocus autocomplete="city" />
-            <x-input-error :messages="$errors->get('location')" class="mt-2" />
+            <label for="location">
+                {{ __('location (nearest town or city)') }}
+            </label>
+            <input wire:model="location" {{ wep_insert(['town-city']) }} id="location" class="block mt-1 w-full" type="text" name="location" required autofocus autocomplete="city" />
+            {{-- <x-input-error :messages="$errors->get('location')" class="mt-2" /> --}}
         </div>
 
 

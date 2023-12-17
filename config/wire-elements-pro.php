@@ -41,6 +41,7 @@ return [
             'types' => [
                 'user' => \App\Insert\UserInsert::class,
                 'hashtag' => \App\Insert\HashtagInsert::class,
+                'town-city' => \App\Insert\TownCityInsert::class,
                 // 'command' => \App\CommandInsert::class,
             ],
             'default-behavior' => [
