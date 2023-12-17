@@ -148,6 +148,50 @@
             </div>
         @endif
 
+        @if($editing)
+            <div class="p-4 mt-6 bg-yellow-200 text-yellow-900">
+                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-900 mb-4">
+                     your political party affiliation
+                </h2>
+                <div>
+                    <p>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>
+                            this information is currently public
+                        </span>
+                    </p>
+                </div>
+                <form wire:submit="updateparty">
+                    <div class="text-gray-900 dark:text-gray-200 mb-4">
+                        <select wire:model="primary_political_party_id" class="w-full h-10 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" name="primary_political_party_id">
+                            <option value="">Select a political party</option>
+                            @foreach($this->political_parties as $political_party)
+                                <option value="{{ $political_party->id }}" class="dark:text-black">{{ $political_party->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="text-gray-900 dark:text-gray-200 mb-4">
+                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            update party
+                        </button>
+                    </div>
+                </form>
+            </div>
+        @else 
+            <div class="px-4 mt-6">
+                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4">
+                    {{ $user->handle }}'s party affiliation
+                </h2>
+                <div class="text-gray-900 dark:text-gray-200 mb-4">
+                    @if(empty($user->primary_political_party))
+                        {{ $user->handle }} has not selected a political party yet.
+                    @else 
+                        {{ $user->primary_political_party->name }}
+                    @endif
+                </div>
+            </div>
+        @endif
+
         <!-- List of torrents -->
         <div class="px-4 mt-6">
             <h2 class="text-xl font-bold text-gray-900 dark:text-gray-200 mb-4">

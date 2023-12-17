@@ -121,6 +121,11 @@ new class extends Component
                             <i class="fas fa-check-to-slot mr-4"></i>elections
                         </a>
                     </li>
+                    <li class="mb-3 flex items-center">
+                        <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('voting/parties') }}">
+                            <i class="fas fa-democrat mr-4"></i>political parties
+                        </a>
+                    </li>
                 </ul>  
             @endcan
         </div>
