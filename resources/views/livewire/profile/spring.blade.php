@@ -15,8 +15,27 @@
                     <img src="{{ !empty($user->profile_photo_url) ? $user->profile_photo_url : '' }}" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}'"
                         alt="Profile photo" class="w-24 h-24 rounded-full border-4 border-white">
                     <!-- Name -->
-                    <div class="text-gray-900 dark:text-gray-100">
-                        <h1 class="text-2xl font-bold">{{ $user->handle }}</h1>
+                    <div class="text-gray-900 dark:text-gray-100 mt-8">
+                        <h1 class="text-2xl font-bold">
+                            <span>
+                                {{ $user->handle }}
+                            </span>
+                            <span> 
+                                <i class="fas fa-check-circle text-sm text-blue-400"></i>
+                            </span>
+                        </h1>
+                        <div class="">
+                            <span class="mr-4">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ $user->location }}</span>
+                            </span>
+                            <span>
+                                <i class="fas fa-certificate"></i>
+                                <span>
+                                    {{ $user->is_verified }}
+                                </span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
