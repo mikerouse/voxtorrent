@@ -17,7 +17,7 @@
     </button>
     <span class="inline-flex items-center space-x-2 mr-3 text-gray-500 dark:text-gray-400">
         <i class="fas fa-certificate fa-lg text-blue-200"></i>
-        <span>{{ number_format($torrent->signatures_count) }}</span>
+        <span>{{ number_format($torrent->signatures->count()) }}</span>
     </span>
     <span class="inline-flex items-center space-x-2 mr-3 text-gray-500 dark:text-gray-400">
         <i class="fas fa-bookmark fa-lg text-gray-200"></i>

@@ -3,6 +3,75 @@
         <livewire:torrents.components.timeline-single :torrent="$torrent" :key="$torrent->id" />
     </div>
     <div class="max-w-2xl mt-1 tems-center justify-center items-center m-auto">
+        <h2 class="my-4 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            verified signatures
+        </h2>
+        <div class="space-y-4">
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <canvas id="signaturesChart"></canvas>
+            <script>
+                document.addEventListener('livewire:init', function () {
+      
+                    var data = {
+                        labels: @js(array_keys($this->signaturesByParty)),
+                        datasets: [{
+                            label: 'Number of Signatures',
+                            data: @js(array_values($this->signaturesByParty)),
+                            backgroundColor: @json($this->backgroundColors),
+                            borderColor: @json($this->borderColors),
+                            borderWidth: 1
+                        }]
+                    };
+
+                    console.log(data); // Check the data structure
+
+                    var ctx = document.getElementById('signaturesChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: data,
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+        </div>
+        <div class="space-y-4">
+            @foreach($signatures as $signature)
+            <div class="p-4 bg-white dark:bg-slate-600 rounded shadow" id="signature-user-container" x-data="{ color: '{{ $signature['signer']['primary_political_party']['brand_color_hex'] ?? '#000000' }}' }" x-bind:style="'border-right: 10px solid ' + color">
+                    <div class="flex items-start space-x-2">
+                        <img class="w-10 h-10 rounded-full" src="{{ sprintf('https://ui-avatars.com/api/?name=%s', urlencode($signature['signer']['name'])) }}" alt="{{ $signature['signer']['name'] }}'s photo">
+                        <div class="text-sm">
+                            <div class="">
+                                <span class="font-bold text-gray-900 dark:text-gray-100">
+                                    {{ $signature['signer']['name'] }}
+                                </span>
+                                <span class="ml-2 text-gray-400">
+                                    <a href="/{{ $signature['signer']['handle'] }}">{{ '@' . $signature['signer']['handle'] }}</a>
+                                </span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-100 text-lg">{{ $signature['reason_for_signing'] }}</p>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-500">
+                        Signed {{ $signature['created_at'] }}
+                    </div>
+                </div>
+                <div>
+
+                </div>
+            @endforeach
+            <div>
+                <button wire:click="goToPage(1)">1</button>
+                <button wire:click="goToPage(2)">2</button>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-2xl mt-1 tems-center justify-center items-center m-auto">
         @auth
         <h2 class="my-4 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             add your voice to this torrent
