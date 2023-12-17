@@ -19,11 +19,25 @@ class Permalink extends Component
     public $currentPage = 1;
     public $itemsPerPage = 25;
     public $signatures = [];
+    public $signaturesByParty = [];
+    public $backgroundColors = ['red', 'blue', 'green', 'yellow']; // Replace with your actual colors
+    public $borderColors = ['darkred', 'darkblue', 'darkgreen', 'darkyellow']; // Replace with your actual colors
 
     public function mount($torrentId)
     {
         $this->torrent = Torrent::find($torrentId);
         $this->loadSignatures();
+
+        $this->signaturesByParty = TorrentSigners::with('signer.primary_political_party')
+            ->get()
+            ->groupBy('signer.primary_political_party.name')
+            ->map->count();
+
+        // Convert to array if it's a collection
+        $this->signaturesByParty = $this->signaturesByParty->toArray();
+
+        $this->backgroundColors = array_slice($this->backgroundColors, 0, count($this->signaturesByParty));
+        $this->borderColors = array_slice($this->borderColors, 0, count($this->signaturesByParty));
     }
 
     public function loadSignatures()

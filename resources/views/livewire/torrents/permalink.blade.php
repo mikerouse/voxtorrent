@@ -7,6 +7,40 @@
             verified signatures
         </h2>
         <div class="space-y-4">
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <canvas id="signaturesChart"></canvas>
+            <script>
+                document.addEventListener('livewire:init', function () {
+      
+                    var data = {
+                        labels: @js(array_keys($this->signaturesByParty)),
+                        datasets: [{
+                            label: 'Number of Signatures',
+                            data: @js(array_values($this->signaturesByParty)),
+                            backgroundColor: @json($this->backgroundColors),
+                            borderColor: @json($this->borderColors),
+                            borderWidth: 1
+                        }]
+                    };
+
+                    console.log(data); // Check the data structure
+
+                    var ctx = document.getElementById('signaturesChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: data,
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+        </div>
+        <div class="space-y-4">
             @foreach($signatures as $signature)
             <div class="p-4 bg-white dark:bg-slate-600 rounded shadow" id="signature-user-container" x-data="{ color: '{{ $signature['signer']['primary_political_party']['brand_color_hex'] ?? '#000000' }}' }" x-bind:style="'border-right: 10px solid ' + color">
                     <div class="flex items-start space-x-2">
