@@ -61,7 +61,7 @@ class TorrentAttachments extends Model
 
     public function hashtags()
     {
-        return $this->belongsToMany(Hashtags::class);
+        return $this->belongsToMany(Hashtag::class);
     }
 
     public function constituencies()
