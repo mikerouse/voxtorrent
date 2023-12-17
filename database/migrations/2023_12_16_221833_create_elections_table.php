@@ -12,11 +12,11 @@ class CreateElectionsTable extends Migration
             $table->id();
             $table->string('name');
             $table->date('polling_day');
-            $table->integer('seats_contested');
-            $table->integer('seats_available');
-            $table->integer('seats_total');
-            $table->integer('registered_voters');
-            $table->integer('ballots_cast');
+            $table->integer('seats_contested')->nullable();
+            $table->integer('seats_available')->nullable();
+            $table->integer('seats_total')->nullable();
+            $table->integer('registered_voters')->nullable();
+            $table->integer('ballots_cast')->nullable();
             $table->text('description')->nullable();
             $table->string('slug')->unique();
             $table->boolean('is_active')->default(false);
