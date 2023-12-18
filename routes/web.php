@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Role;
 use App\Livewire\Profile\Spring;
 use App\Livewire\Hashtags;
 use App\Livewire\Voting\Elections;
+use App\Livewire\Voting\Parties\Dashboard as PartiesDashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,8 +113,13 @@ Route::get('/voting/elections', Elections\Dashboard::class)
     ->middleware(['auth', 'verified'])
     ->name('voting/elections');
 
-    Route::get('/voting/elections/types', Elections\Types::class)
+Route::get('/voting/elections/types', Elections\Types::class)
     ->middleware(['auth', 'verified'])
     ->name('voting/elections/types');
+
+Route::get('/voting/parties', PartiesDashboard::class)
+    ->middleware(['auth', 'verified'])
+    ->name('voting/parties');
+
 
 require __DIR__.'/auth.php';

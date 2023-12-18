@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
+use App\Models\PoliticalParty;
 
 /**
  * Because the framework I used already defined profile I've decided to call the user's public profile their 'Spring' because a river starts from a spring.
@@ -19,10 +20,13 @@ class Spring extends Component
     public $owner = false;
     public $editing = false;
     public $bio;
+    public $political_parties;
+    public $primary_political_party_id;
     public function mount($handle)
     {
         $this->handle = $handle;
         $this->user = User::where('handle', $this->handle)->first();
+        $this->political_parties = PoliticalParty::all();
     }
     public function render()
     {
@@ -65,6 +69,18 @@ class Spring extends Component
         $this->user->save();
         $this->editing = false;
         $this->dispatch('bio-updated', message: 'bio updated');
+    }
+
+    public function updateparty()
+    {
+        $this->validate([
+            'primary_political_party_id' => 'required|exists:political_parties,id',
+        ]);
+
+        $this->user->primary_political_party_id = $this->primary_political_party_id;
+        $this->user->save();
+
+        $this->editing = false;
     }
     public function savechanges()
     {
