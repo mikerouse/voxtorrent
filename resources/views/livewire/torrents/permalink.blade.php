@@ -4,7 +4,7 @@
     </div>
     <div class="max-w-2xl mt-1 tems-center justify-center items-center m-auto">
         <h2 class="my-4 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            verified signatures
+            verified signatures by party affiliation
         </h2>
         <div class="space-y-4">
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -39,6 +39,16 @@
                     });
                 });
             </script>
+        </div>
+        <h2 class="my-4 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            why people signed
+        </h2>
+        <div class="p-4 bg-blue-100 text-blue-700 border border-blue-300 rounded flex items-center mb-2">
+            <i class="fas fa-info-circle mr-2"></i>
+            <span>all signatures are by real id-verified people.</span>
+            <span class="ml-2 text-gray-500">
+                <a href="{{ route('register') }}">join voxtorrent to add yours.</a>
+            </span>
         </div>
         <div class="space-y-4">
             @foreach($signatures as $signature)
