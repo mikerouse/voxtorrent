@@ -22,6 +22,10 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $politicalPartyIds = PoliticalParty::pluck('id')->toArray();
+
+        // Add the IDs of the favored parties multiple times to introduce a bias
+        $politicalPartyIds = array_merge($politicalPartyIds, array_fill(0, 20, 1), array_fill(0, 20, 2));
+
         $genders = [
             'male',
             'female',
