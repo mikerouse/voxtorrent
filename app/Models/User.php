@@ -99,7 +99,7 @@ class User extends Authenticatable
 
     public function torrents_signed()
     {
-        return $this->hasMany(TorrentSigners::class);
+        return $this->hasMany(TorrentSigners::class, 'signer_id');
     }
 
     public function torrent_teams_joined()

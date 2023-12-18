@@ -64,6 +64,11 @@ class PoliticalParty extends Model
         return $this->hasMany(User::class);
     }
 
+    public function supporters()
+    {
+        return $this->hasMany(User::class, 'primary_political_party_id');
+    }
+
     public function members()
     {
         return $this->hasMany(User::class);
