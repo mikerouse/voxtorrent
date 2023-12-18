@@ -14,6 +14,6 @@ class HashtagSeeder extends Seeder
      */
     public function run(): void
     {
-        Hashtag::factory(50)->create();
+        Hashtag::factory(100)->create();
     }
 }

@@ -10,16 +10,15 @@ class Hashtags extends Component
 {
     use WithPagination;
 
-    public $all;
+    public $hashtags;
 
-    public function mount($all = false)
+    public function mount()
     {
-        $this->all = $all;
+        $this->hashtags = Hashtag::withCount('torrents')->get()->sortByDesc('torrents_count');
     }
 
     public function render()
     {
-        $hashtags = Hashtag::withCount('torrents')->paginate(25);
-        return view('livewire.hashtags.welcome', compact('hashtags'))->layout('layouts.app');
+        return view('livewire.hashtags.welcome')->layout('layouts.app');
     }
 }
