@@ -29,9 +29,9 @@ class TorrentSeeder extends Seeder
             // Add the IDs of the favored hashtags multiple times to introduce a bias
             $hashtagIds = array_merge($hashtagIds, array_fill(0, 10, 1), array_fill(0, 10, 2));
 
-            $signaturesCount = rand(12, 250);
+            $signaturesCount = rand(2, 200);
             for ($i = 0; $i < $signaturesCount; $i += 100) {
-                $count = min(100, $signaturesCount - $i);
+                $count = min(25, $signaturesCount - $i);
 
                 // Add signatures
                 $torrent->signatures()->createMany(
