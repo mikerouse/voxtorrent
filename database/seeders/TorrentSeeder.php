@@ -20,20 +20,22 @@ class TorrentSeeder extends Seeder
     public function run(): void
     {
         Torrent::factory(50)->create()->each(function ($torrent) {
-            $signaturesCount = rand(12, 500);
+            $signaturesCount = rand(12, 250);
             for ($i = 0; $i < $signaturesCount; $i += 100) {
                 $count = min(100, $signaturesCount - $i);
+
+                // Add signatures
                 $torrent->signatures()->createMany(
                     TorrentSigners::factory()->count($count)->make()->toArray()
                 );
 
                 // Add decision makers
-                $decisionMakers = DecisionMakers::inRandomOrder()->take(rand(1, 5))->pluck('id');
+                $decisionMakers = DecisionMakers::inRandomOrder()->take(rand(1, 8))->pluck('id');
                 $torrent->decision_makers()->attach($decisionMakers);
 
                 // Add hashtags
                 $torrent->hashtags()->attach(
-                    Hashtag::factory()->count(rand(1, 5))->create()
+                    Hashtag::factory()->count(rand(1, 8))->create()
                 );
 
             }
