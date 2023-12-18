@@ -9,12 +9,18 @@
             <div class="px-6 space-y-4 mt-4">
                 <div>
                     <h2 class="text-xl font-semibold dark:text-gray-300">
-                       the crown
+                       the british monarchy
                     </h2>
                     <div class="pl-4">
-                        <a href="{{ route('decision-makers/hoc-members') }}" class="block py-4 dark:text-white" wire:navigate>
+                        <a href="{{ route('theking') }}" class="block py-4 dark:text-white" wire:navigate>
                             <i class="fas fa-house-user mr-1"></i>
-                            {{ __('hm the king') }}
+                            {{ __('his majesty the king') }}
+                        </a>
+                    </div>
+                    <div class="pl-4">
+                        <a href="{{ route('thequeen') }}" class="block py-4 dark:text-white" wire:navigate>
+                            <i class="fas fa-house-user mr-1"></i>
+                            {{ __('her majesty the queen') }}
                         </a>
                     </div>
                 </div>
@@ -23,15 +29,21 @@
                        government of the united kingdom
                     </h2>
                     <div class="pl-4">
-                        <a href="{{ route('decision-makers/hoc-members') }}" class="block py-4 dark:text-white" wire:navigate>
+                        <a href="{{ route('pm') }}" class="block py-4 dark:text-white" wire:navigate>
                             <i class="fas fa-house-user mr-1"></i>
-                            {{ __('the prime minister and cabinet') }}
+                            {{ __('prime minister') }}
                         </a>
                     </div>
                     <div class="pl-4">
-                        <a href="{{ route('decision-makers/hoc-members') }}" class="block py-4 dark:text-white" wire:navigate>
+                        <a href="{{ route('cabinet') }}" class="block py-4 dark:text-white" wire:navigate>
                             <i class="fas fa-house-user mr-1"></i>
-                            {{ __('government departments') }}
+                            {{ __('cabinet') }}
+                        </a>
+                    </div>
+                    <div class="pl-4">
+                        <a href="{{ route('chancellor') }}" class="block py-4 dark:text-white" wire:navigate>
+                            <i class="fas fa-house-user mr-1"></i>
+                            {{ __('chancellor of the exchequer') }}
                         </a>
                     </div>
                 </div>
@@ -40,13 +52,13 @@
                        national legislative chambers
                     </h2>
                     <div class="pl-4">
-                        <a href="{{ route('decision-makers/hoc-members') }}" class="block py-4 dark:text-white" wire:navigate>
+                        <a href="{{ route('commons') }}" class="block py-4 dark:text-white" wire:navigate>
                             <i class="fas fa-house-user mr-1"></i>
                             {{ __('house of commons') }}
                         </a>
                     </div>
                     <div class="pl-4">
-                        <a href="{{ route('decision-makers/hoc-members') }}" class="block py-4 dark:text-white" wire:navigate>
+                        <a href="{{ route('lords') }}" class="block py-4 dark:text-white" wire:navigate>
                             <i class="fas fa-house-user mr-1"></i>
                             {{ __('house of lords') }}
                         </a>
@@ -57,15 +69,15 @@
                       devolved governing bodies
                     </h2>
                     <div class="pl-4 space-y-1">
-                        <a href="{{ route('decision-makers/hoc-members') }}" class="block py-4 dark:text-white" wire:navigate>
+                        <a href="{{ route('scotland') }}" class="block py-4 dark:text-white" wire:navigate>
                             <i class="fas fa-house-user mr-1"></i>
                             {{ __('scottish parliament') }}
                         </a>
-                        <a href="{{ route('decision-makers/hoc-members') }}" class="block py-4 dark:text-white" wire:navigate>
+                        <a href="{{ route('wales') }}" class="block py-4 dark:text-white" wire:navigate>
                             <i class="fas fa-house-user mr-1"></i>
                             {{ __('welsh assembly') }}
                         </a>
-                        <a href="{{ route('decision-makers/hoc-members') }}" class="block py-4 dark:text-white" wire:navigate>
+                        <a href="{{ route('northern-ireland') }}" class="block py-4 dark:text-white" wire:navigate>
                             <i class="fas fa-house-user mr-1"></i>
                             {{ __('northern ireland assembly') }}
                         </a>

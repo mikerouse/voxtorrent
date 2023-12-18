@@ -28,7 +28,7 @@ class DecisionMakers extends Model
         'is_deceased',
         'is_retired',
         'thumbnail_url',
-        'hop_id',
+        'hop_member_id',
     ];
 
     public function constituencies()
