@@ -49,7 +49,7 @@ return new class extends Migration
         Schema::create('political_party_decision_maker', function (Blueprint $table) {
             $table->id();
             $table->foreignId('political_party_id')->constrained();
-            $table->foreignId('decision_maker_id')->constrained();
+            $table->foreignId('decision_makers_id')->constrained();
             $table->timestamps();
         });
 
@@ -81,7 +81,7 @@ return new class extends Migration
         Schema::create('political_party_leader', function (Blueprint $table) {
             $table->id();
             $table->foreignId('political_party_id')->constrained();
-            $table->foreignId('decision_maker_id')->constrained();
+            $table->foreignId('decision_makers_id')->constrained();
             $table->timestamps();
         });
 
@@ -89,7 +89,7 @@ return new class extends Migration
         Schema::create('political_party_candidate', function (Blueprint $table) {
             $table->id();
             $table->foreignId('political_party_id')->constrained();
-            $table->foreignId('decision_maker_id')->constrained();
+            $table->foreignId('decision_makers_id')->constrained();
             $table->timestamps();
         });
 
@@ -97,7 +97,7 @@ return new class extends Migration
         Schema::create('political_party_official', function (Blueprint $table) {
             $table->id();
             $table->foreignId('political_party_id')->constrained();
-            $table->foreignId('decision_maker_id')->constrained();
+            $table->foreignId('decision_makers_id')->constrained();
             $table->timestamps();
         });
 

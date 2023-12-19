@@ -2,6 +2,7 @@
 
 namespace App\Models\Legislation;
 
+use App\Models\DecisionMakers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +13,7 @@ class Bill extends Model
     protected $fillable = [
         'shortTitle',
         'longTitle',
+        'summary',
         'hop_billId',
         'currentHouse',
         'lastUpdate',
@@ -19,34 +21,23 @@ class Bill extends Model
         'isDefeated',
         'billTypeId',
         'introducedSessionId',
-        'includedSessionIds' => [],
+        'includedSessionIds',
         'isAct',
-        'currentStage' => [
-            'id',
-            'stageId',
-            'sessionId',
-            'description',
-            'abbreviation',
-            'house',
-            'stageSittings' => [],
-            'sortOrder'
-        ],
+        'currentStage',
     ];
 
     protected $casts = [
         'includedSessionIds' => 'array',
         'currentStage' => 'array',
-        'hop_billId' => 'integer',
-        'billTypeId' => 'integer',
-        'introducedSessionId' => 'integer',
-        'isAct' => 'boolean',
-        'billWithdrawn' => 'boolean',
-        'isDefeated' => 'boolean',
-        'lastUpdate' => 'datetime',
     ];
 
     public function billType()
     {
-        return $this->belongsTo(BillType::class);
+        return $this->belongsTo(BillType::class, 'billTypeId');
+    }
+
+    public function sponsors()
+    {
+        return $this->belongsToMany(DecisionMakers::class, 'bill_decision_maker'); // Use the pivot table name
     }
 }

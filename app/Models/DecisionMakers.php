@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Constituency;
+use App\Models\Legislation\Bill;
 
 class DecisionMakers extends Model
 {
@@ -55,8 +56,13 @@ class DecisionMakers extends Model
     {
         return $this->belongsToMany(Hashtag::class);
     }
-    public function political_party()
+    public function political_parties()
     {
-        return $this->belongsTo(PoliticalParty::class);
+        return $this->belongsToMany(PoliticalParty::class, 'political_party_decision_maker');
+    }
+
+    public function bills_sponsoring()
+    {
+        return $this->belongsToMany(Bill::class, 'bill_decision_maker'); // Use the pivot table name
     }
 }

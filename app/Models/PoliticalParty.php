@@ -41,7 +41,12 @@ class PoliticalParty extends Model
 
     public function decisionMakers()
     {
-        return $this->belongsToMany(DecisionMakers::class);
+        return $this->hasMany(DecisionMakers::class, 'political_party_decision_maker');
+    }
+
+    public function mps()
+    {
+        return $this->hasMany(DecisionMakers::class, 'political_party_decision_maker');
     }
 
     public function leader()

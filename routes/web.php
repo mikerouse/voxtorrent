@@ -56,6 +56,15 @@ $reservedRouteSlugs = [
     'commons',
     'lords',
     'top',
+    'bills',
+    'cabinet',
+    'pm',
+    'chancellor',
+    'scotland',
+    'wales',
+    'northern-ireland',
+    'member',
+    'm',
 ];
 
 Route::view('/', 'welcome');
@@ -97,7 +106,13 @@ Route::get('/create', \App\Livewire\CreateTorrent::class)->name('create');
 
 Route::get('/latest', \App\Livewire\Torrents\Latest::class)->name('latest');
 
+Route::get('/bills', \App\Livewire\Legislation\Bills::class)->name('bills');
+
 Route::get('/hashtags', Hashtags::class)->name('hashtags');
+
+Route::get('/h/{hashtag}', Hashtags::class)->name('hashtag');
+
+Route::get('/m/{id}', App\Livewire\DecisionMakers\Dashboard::class)->name('decisionmaker');
 
 // If the route is *not* within the list of reserved routes, assume we are trying to view a user's profile and send them to the profile page for that user.
 Route::get('/{handle}', Spring::class)->where('handle', '^(?!' . implode('|', $reservedRouteSlugs) . ').*');

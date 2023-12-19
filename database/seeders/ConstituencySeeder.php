@@ -75,7 +75,7 @@ class ConstituencySeeder extends Seeder
         Log::channel('constituencySeeder')->info('Starting constituency update', ['count' => $constituenciesInDb->count()]);
 
         foreach ($constituenciesInDb as $constituencyInDb) {
-            Log::channel('constituencySeeder')->info('Searching for constituency by name', ['name' => $constituencyInDb->name]);
+            // Log::channel('constituencySeeder')->info('Searching for constituency by name', ['name' => $constituencyInDb->name]);
 
             $constituencyData = Cache::remember('constituency_' . $constituencyInDb->name, 60*96, function () use ($client, $constituencyInDb) {
                 $response = $client->request('GET', 'https://members-api.parliament.uk/api/Location/Constituency/Search/', [
@@ -90,9 +90,9 @@ class ConstituencySeeder extends Seeder
             $constituency = $constituencyData['items'][0]['value'] ?? null;
 
             if ($constituency) {
-                Log::channel('constituencySeeder')->info('Received response for constituency', ['name' => $constituencyInDb->name, 'response' => $constituency]);
+                // Log::channel('constituencySeeder')->info('Received response for constituency', ['name' => $constituencyInDb->name, 'response' => $constituency]);
                 if ($constituencyInDb) {
-                    Log::channel('constituencySeeder')->info('Mapping data for constituency', ['name' => $constituency['name'], 'data' => $constituency]);
+                    // Log::channel('constituencySeeder')->info('Mapping data for constituency', ['name' => $constituency['name'], 'data' => $constituency]);
         
                     $constituencyInDb->hop_id = $constituency['id'];
                     $constituencyInDb->start_date = $constituency['startDate'];

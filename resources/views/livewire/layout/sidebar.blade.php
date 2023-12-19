@@ -41,6 +41,11 @@ new class extends Component
                     </a>
                 </li>
                 <li class="mb-3 flex items-center">
+                    <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('bills') }}">
+                        <i class="fas fa-file-contract mr-4"></i>bills
+                    </a>
+                </li>
+                <li class="mb-3 flex items-center">
                     <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('top') }}">
                         <i class="fas fa-shower mr-4"></i>decision makers
                     </a>

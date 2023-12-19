@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             HashtagSeeder::class,
             TorrentSeeder::class,
             CitiesSeeder::class,
+            BillsTableSeeder::class,
         ]);
 
     }
