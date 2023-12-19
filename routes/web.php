@@ -52,6 +52,19 @@ $reservedRouteSlugs = [
     'h',
     'hashtags',
     'hashtag',
+    'theking',
+    'commons',
+    'lords',
+    'top',
+    'bills',
+    'cabinet',
+    'pm',
+    'chancellor',
+    'scotland',
+    'wales',
+    'northern-ireland',
+    'member',
+    'm',
 ];
 
 Route::view('/', 'welcome');
@@ -93,7 +106,13 @@ Route::get('/create', \App\Livewire\CreateTorrent::class)->name('create');
 
 Route::get('/latest', \App\Livewire\Torrents\Latest::class)->name('latest');
 
+Route::get('/bills', \App\Livewire\Legislation\Bills::class)->name('bills');
+
 Route::get('/hashtags', Hashtags::class)->name('hashtags');
+
+Route::get('/h/{hashtag}', Hashtags::class)->name('hashtag');
+
+Route::get('/m/{id}', App\Livewire\DecisionMakers\Dashboard::class)->name('decisionmaker');
 
 // If the route is *not* within the list of reserved routes, assume we are trying to view a user's profile and send them to the profile page for that user.
 Route::get('/{handle}', Spring::class)->where('handle', '^(?!' . implode('|', $reservedRouteSlugs) . ').*');
@@ -105,9 +124,38 @@ Route::get('/decision-makers/dashboard', \App\Livewire\DecisionMakers\Dashboard:
     ->middleware(['auth', 'verified'])
     ->name('decision-makers/dashboard');
 
-Route::get('/decision-makers/hoc-members', \App\Livewire\DecisionMakers\UKParliamentMembers::class)
-    ->middleware(['auth', 'verified'])
-    ->name('decision-makers/hoc-members');
+Route::get('/top', \App\Livewire\DecisionMakers\Top::class)
+    ->name('top');
+
+Route::get('/theking', \App\Livewire\DecisionMakers\Monarchy\TheSovereign::class)
+    ->name('theking');
+
+Route::get('/thequeen', \App\Livewire\DecisionMakers\Monarchy\TheQueen::class)
+    ->name('thequeen');
+
+Route::get('/cabinet', \App\Livewire\DecisionMakers\Cabinet::class)
+    ->name('cabinet');
+
+Route::get('/pm', \App\Livewire\DecisionMakers\Cabinet\PrimeMinister::class)
+    ->name('pm');
+
+Route::get('/chancellor', \App\Livewire\DecisionMakers\Cabinet\Chancellor::class)
+    ->name('chancellor');
+
+Route::get('/commons', \App\Livewire\DecisionMakers\Parliament\Commons::class)
+    ->name('commons');
+
+Route::get('/lords', \App\Livewire\DecisionMakers\Parliament\Lords::class)
+    ->name('lords');
+
+Route::get('/scotland', \App\Livewire\DecisionMakers\Devolved\Scotland::class)
+    ->name('scotland');
+
+Route::get('/wales', \App\Livewire\DecisionMakers\Devolved\Wales::class)
+    ->name('wales');
+
+Route::get('/northern-ireland', \App\Livewire\DecisionMakers\Devolved\NorthernIreland::class)
+    ->name('northern-ireland');
 
 Route::get('/voting/elections', Elections\Dashboard::class)
     ->middleware(['auth', 'verified'])

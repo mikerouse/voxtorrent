@@ -41,7 +41,12 @@ class PoliticalParty extends Model
 
     public function decisionMakers()
     {
-        return $this->belongsToMany(DecisionMakers::class);
+        return $this->hasMany(DecisionMakers::class, 'political_party_decision_maker');
+    }
+
+    public function mps()
+    {
+        return $this->hasMany(DecisionMakers::class, 'political_party_decision_maker');
     }
 
     public function leader()
@@ -62,6 +67,11 @@ class PoliticalParty extends Model
     public function voters()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function supporters()
+    {
+        return $this->hasMany(User::class, 'primary_political_party_id');
     }
 
     public function members()

@@ -59,9 +59,27 @@ return [
         ],
 
         'constituencySeeder' => [
-            'driver' => 'single',
+            'driver' => 'daily',
             'path' => storage_path('logs/constituencySeeder.log'),
             'level' => 'debug',
+            'days' => 3,
+            'replace_placeholders' => true,
+        ],
+
+        'billsSeeder' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/billsSeeder.log'),
+            'level' => 'debug',
+            'days' => 3,
+            'replace_placeholders' => true,
+        ],
+
+        'decisionMakersSeeder' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/decisionMakersSeeder.log'),
+            'level' => 'debug',
+            'days' => 3,
+            'replace_placeholders' => true,
         ],
 
         'single' => [
@@ -75,7 +93,7 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'days' => 1,
+            'days' => 2,
             'replace_placeholders' => true,
         ],
 
