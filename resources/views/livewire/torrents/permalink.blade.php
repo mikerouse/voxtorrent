@@ -1,4 +1,32 @@
 <div class="space-y-4">
+    <div id="torrent-{{ $torrent->id }}-editor-functions" class="torrent-editor-functions max-w-2xl m-auto p-6 mb-6">
+        @can('do anything')
+            <div class="superpowers float-right">
+                <a class="inline-flex items-center space-x-2 mr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                    href="{{ route('torrent.edit', $torrent->id) }}">
+                    <i class="fas fa-edit fa-lg text-gray-200"></i>
+                    <span>edit</span>
+                </a>
+                <a class="inline-flex items-center space-x-2 mr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                    <i class="fas fa-trash fa-lg text-red-200"></i>
+                    <span>delete</span>
+                </a>
+            </div>
+        @endcan
+        @if($torrent->owner_id == auth()->user()->id && !auth()->user()->hasRole('super admin'))
+            <div class="owner float-right">
+                <a class="inline-flex items-center space-x-2 mr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                    href="{{ route('torrent.edit', $torrent->id) }}">
+                    <i class="fas fa-edit fa-lg text-gray-200"></i>
+                    <span>edit</span>
+                </a>
+                <a class="inline-flex items-center space-x-2 mr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                    <i class="fas fa-trash fa-lg text-red-200"></i>
+                    <span>delete</span>
+                </a>
+            </div>
+        @endif
+    </div>
     <div class="max-w-2xl mt-1 tems-center justify-center items-center m-auto">
         <livewire:torrents.components.timeline-single :torrent="$torrent" :key="$torrent->id" />
     </div>

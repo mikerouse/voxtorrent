@@ -2,10 +2,14 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 justify-center">
         @foreach($influencers as $influencer)
             <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <img class="w-full h-64 object-cover" src="{{ $influencer->thumbnail_url }}" alt="{{ $influencer->name }}">
+                <a href="{{ route('mp', $influencer->id) }}">
+                    <img class="w-full h-64 object-cover" src="{{ $influencer->thumbnail_url }}" alt="{{ $influencer->name }}">
+                </a>
                 <div class="p-4">
                     <h2 class="text-lg font-bold">
-                        {{ $influencer->display_name }}
+                        <a href="{{ route('mp', $influencer->id) }}">
+                            {{ $influencer->display_name }}
+                        </a>
                     </h2>
                     <p class="text-gray-700">
                         @foreach($influencer->constituencies as $constituency)

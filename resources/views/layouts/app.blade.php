@@ -25,9 +25,9 @@
 
                 <!-- Sidebar -->
                 <!-- Desktop Sidebar - Always visible on md screens and larger -->
-                <div class="hidden md:block md:static md:overflow-y-auto md:flex-shrink-0 md:h-full md:w-64 bg-gray-800 text-white overflow-y-auto">
-                    <div class="h-full flex flex-col py-6">
-                        <!-- Your sidebar content for desktop -->
+                <div class="hidden md:block md:static md:overflow-y-auto md:flex-shrink-0 md:h-full md:w-64 dark:bg-slate-700 text-white overflow-y-auto">
+                    <div class="h-full flex flex-col">
+                        <!-- Sidebar content for desktop -->
                         <livewire:layout.sidebar />
                     </div>
                 </div>

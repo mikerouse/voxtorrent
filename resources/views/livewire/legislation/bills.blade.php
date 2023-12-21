@@ -12,7 +12,7 @@
                             @if(count($bill->sponsors) > 0)
                                 <div class="float-right">
                                     @foreach($bill->sponsors as $sponsor)
-                                        <a href="{{ route('decisionmaker', $sponsor->id) }}" class="inline-block">
+                                        <a href="{{ route('mp', $sponsor->id) }}" class="inline-block">
                                             <img src="{{ $sponsor->thumbnail_url }}" alt="{{ $sponsor->display_name }}" 
                                                 class="w-28 h-28 rounded-full inline-block border-8" style="border-color: {{  $sponsor->political_parties[0]->brand_color_hex }}">
                                         </a>
@@ -52,7 +52,7 @@
                                     <p class="text-gray-700 dark:text-gray-300">
                                         <strong>Sponsor(s): </strong>
                                         @foreach($bill->sponsors as $sponsor)
-                                            <a href="{{ route('decisionmaker', $sponsor->id) }}" class="inline-block">
+                                            <a href="{{ route('mp', $sponsor->id) }}" class="inline-block">
                                                 {{ $sponsor->display_name }}
                                             </a>
                                             @if(!$loop->last)
@@ -93,7 +93,6 @@
                                     <span>1234</span>
                                 </span>   
                             </div>
-
                         </div>
                         <div class="flex w-full h-2" id="likes-by-party-percentages-bar">
                             <div class="bg-blue-500" style="width: {{ rand(10, 80) }}%"></div>

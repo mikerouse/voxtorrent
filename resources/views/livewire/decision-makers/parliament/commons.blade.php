@@ -21,9 +21,15 @@
                 @foreach ($members as $member)
                     <li class="border p-4 rounded shadow">
                         @if ($member->thumbnail_url)
-                            <img src="{{ $member->thumbnail_url }}" alt="{{ $member->display_name }}" class="thumbnail-image w-full h-64 object-cover mb-4">
+                            <a href="{{ route('mp', $member->id) }}">
+                                <img src="{{ $member->thumbnail_url }}" alt="{{ $member->display_name }}" class="thumbnail-image w-full h-64 object-cover mb-4">
+                            </a>
                         @endif
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 leading-tight">{{ $member->display_name }}</h3>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 leading-tight">
+                            <a href="{{ route('mp', $member->id) }}">
+                                {{ $member->display_name }}
+                            </a>
+                        </h3>
                         <div class="flex items-center">
                             <div class="h-4 w-4 rounded-full 
                                 {{ $member->current_party == 'Conservative' ? 'bg-blue-500' : 
