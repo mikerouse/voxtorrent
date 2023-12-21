@@ -6,12 +6,12 @@
                 </div>
             @endif
     <div class="flex items-center justify-center bg-white dark:bg-gray-800" id="chooseWhat">
-        <div class="w-full max-w-xl bg-white dark:bg-gray-800 rounded shadow-md">
+        <div class="w-full max-w-3xl bg-white dark:bg-gray-800 rounded shadow-md py-6">
             <div class="px-6">
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
-                    <span class="text-red-500 dark:text-red-500">start</span> a torrent
+                    <span class="text-red-500 dark:text-red-500">Create</span> a new issue
                 </h1>
-                <p class="text-sm text-gray-600">what? why? </p>
+                <p class="text-sm text-gray-600">Help, guidance and tips</p>
                 <div>
                     @error('selectedDecisionMakers')
                         <span class="error">{{ $message }}</span>
@@ -24,6 +24,36 @@
                     @error('hashtags')
                         <span class="error">{{ $message }}</span>
                     @enderror
+                </div>
+            </div>
+            <div class="px-4" id="type-chooser-container">
+                <div class="mt-2">
+                    <label for="issueType" class="p-2 block text-sm font-medium mt-4 text-gray-400 dark:text-gray-300">
+                        Choose the type of issue you want to raise:
+                    </label>
+                    <input type="hidden" name="issueType" wire:model="issueType">
+                    <div id="type-chooser" class="grid grid-cols-2 gap-4 mt-4" x-data="{ chosen: null }">
+                        <div class="border rounded p-4" :class="{ 'dark:bg-orange-600 bg-orange-200': chosen === 'private' }" @click="chosen = 'private'" wire:click="setIssueType('casework')">
+                            <h2 class="font-bold text-lg dark:text-white p-2">
+                                Private Casework Issue <i class="fas fa-lock fa-xs text-gray-600 ml-1"></i>
+                            </h2>
+                            <p class="dark:text-gray-200 p-2">
+                                This type of issue is raised privately to achieve an outcome. It's ideal for raising local or personal issues.
+                            </p>
+                            <button id="choose-private" class="mt-2 ml-2 bg-orange-500 text-white px-4 py-2 rounded">
+                                Choose Private</button>
+                        </div>
+                        <div class="border rounded p-4" :class="{ 'bg-orange-200 dark:bg-orange-600': chosen === 'public' }" @click="chosen = 'public'" wire:click="setIssueType('petition')">
+                            <h2 class="font-bold text-lg dark:text-white p-2">
+                                Public Petition for Policy Change <i class="fas fa-globe fa-xs text-gray-600 ml-1"></i>
+                            </h2>
+                            <p class="dark:text-gray-200 p-2">
+                                These are available for anyone to support or contribute to, and are ideal for seeking changes to national or local policy.
+                            </p>
+                            <button id="choose-public" class="mt-2 ml-2 bg-orange-500 text-white px-4 py-2 rounded">
+                                Choose Petition</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="px-4">

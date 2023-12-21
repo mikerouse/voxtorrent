@@ -15,6 +15,7 @@ class Torrent extends Model
         'name',
         'slug',
         'description',
+        'type',
         'qr_code',
         'info_hash',
         'owner_id',

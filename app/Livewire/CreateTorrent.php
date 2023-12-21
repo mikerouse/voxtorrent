@@ -14,6 +14,7 @@ use App\Jobs\PopulateTorrentDescriptionJob;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate; 
+use Illuminate\Support\Facades\Validator;
 use Livewire\Form;
 use App\Insert\HashtagInsert;
 use WireElements\Pro\Icons\Hashtag;
@@ -31,6 +32,7 @@ class CreateTorrent extends Component
         'submitForm' => 'handleFormSubmission',
         'updateDescription' => 'updateDescription',
         'createNewHashtag' => 'handleNewHashtag',
+        'updateIssueType' => 'setIssueType',
     ];
 
     public function handleNewHashtag($query)
@@ -121,6 +123,8 @@ class CreateTorrent extends Component
     public $AiDescriptionId;
     public $isFormValid = false;
 
+    public $issueType;
+
 
     public function mount()
     {
@@ -136,6 +140,7 @@ class CreateTorrent extends Component
         $this->hashtags = [];
         $this->incomingHashtags = '';
         $this->isFormValid = false;
+        $this->issueType = '';
     }
 
     public function updated()
@@ -278,6 +283,20 @@ class CreateTorrent extends Component
         }
     }
 
+    /** 
+     * Event handlers
+     */
+
+     /**
+      * @param string $type
+      * @return void
+      * @todo - this probably needs to be moved to the Torrent class
+      */
+    public function setIssueType($type)
+    {
+        $this->issueType = $type;
+    }
+
     public function generateTorrentName()
     {
         $unixTime = time();
@@ -296,6 +315,14 @@ class CreateTorrent extends Component
             Log::info('User not logged in. Redirecting to login page.');
             session()->flash('error', 'You must be logged in to submit a torrent.');
             return redirect()->route('login');
+        }
+
+        if (empty($this->issueType))
+        {
+            // We need to know what type of issue this is, so we can route it to the correct decision makers and handle the content appropriately
+            Log::error('No issue type selected', ['user' => auth()->user()->id()]);
+            $this->dispatch('noIssueType');
+            return;
         }
 
         if (empty($this->torrentDescription)) {
@@ -330,6 +357,7 @@ class CreateTorrent extends Component
                 'decision_makers' => json_encode($this->selectedDecisionMakers),
                 'hashtags' => json_encode($this->hashtags),
                 'slug' => Str::slug($this->torrentName),
+                'type' => $this->issueType,
                 'owner_id' => auth()->user()->id,
             ]
         );
