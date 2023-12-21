@@ -65,6 +65,8 @@ $reservedRouteSlugs = [
     'northern-ireland',
     'member',
     'm',
+    'p',
+    't/edit',
 ];
 
 Route::view('/', 'welcome');
@@ -112,13 +114,19 @@ Route::get('/hashtags', Hashtags::class)->name('hashtags');
 
 Route::get('/h/{hashtag}', Hashtags::class)->name('hashtag');
 
-Route::get('/m/{id}', App\Livewire\DecisionMakers\Dashboard::class)->name('decisionmaker');
+Route::get('/p/{id}', App\Livewire\Voting\Parties\Party::class)->name('party');
+
+Route::get('/m/{id}', App\Livewire\DecisionMakers\Parliament\MP::class)->name('mp');
 
 // If the route is *not* within the list of reserved routes, assume we are trying to view a user's profile and send them to the profile page for that user.
 Route::get('/{handle}', Spring::class)->where('handle', '^(?!' . implode('|', $reservedRouteSlugs) . ').*');
 
 // Definte the route for a single torrent. this should be /t/{torrentId}
 Route::get('/t/{torrentId}', \App\Livewire\Torrents\Permalink::class)->name('torrent');
+
+Route::get('/t/edit/{torrentId}', \App\Livewire\Torrents\Edit::class)
+    ->middleware(['auth', 'verified'])
+    ->name('torrent.edit');
 
 Route::get('/decision-makers/dashboard', \App\Livewire\DecisionMakers\Dashboard::class)
     ->middleware(['auth', 'verified'])
