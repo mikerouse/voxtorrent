@@ -1,3 +1,33 @@
+<x-slot name="debug">
+    <div wire:poll.1000ms>
+        <table class="min-w-full divide-y divide-gray-200 shadow-sm overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Value</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        Issue Type</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ $issueType }}</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        Stage</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ $stage }}</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        Selected Decision Makers</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ var_dump($selectedDecisionMakers) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</x-slot>
+
 <div class="dark:bg-transparent bg-transparent pt-14">
     <form id="createTorrent" name="createTorrent" wire:submit.prevent="submitTorrent">
         @if (session()->has('error'))
@@ -6,20 +36,11 @@
             </div>
         @endif
         <div class="items-center max-w-3xl justify-center bg-transparent m-auto" id="chooseType">
-            <livewire:torrents.components.create-progress :variables="@([
-                'issueType' => $issueType,
-                'showAddMore' => $showAddMore,
-                'showTitleAndDescription' => $showTitleAndDescription,
-                'torrentName' => $torrentName,
-                'torrentDescription' => $torrentDescription,
-                'hashtags' => $hashtags,
-                'isFormValid' => $isFormValid,
-                'stage' => $stage,
-            ])" />
+            <livewire:torrents.components.create-progress :stage="$stage" />
             <div class="w-full max-w-3xl bg-transparent rounded">
                 <div class="">
                     <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
-                        {{ $pageTitle }} (Stage: {{ $stage }})
+                        {{ $pageTitle }}
                     </h1>
                     <p class="text-xs md:text-sm dark:text-white">
                         {{ $pageSubtitle }}

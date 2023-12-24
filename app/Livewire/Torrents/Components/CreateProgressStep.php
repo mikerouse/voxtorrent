@@ -7,7 +7,9 @@ use Livewire\Component;
 class CreateProgressStep extends Component
 {
     public $stage = 1;
+    public $active;
     public $isActiveStage = false;
+    protected $listeners = ['updateStageProgress' => 'goToStage'];
 
     public function mount($stage, $isActiveStage)
     {
@@ -17,20 +19,25 @@ class CreateProgressStep extends Component
     
     public function render()
     {
-        return view('livewire.torrents.components.create-progress-step');
+        return view('livewire.torrents.components.create-progress-step', [
+            'isActiveStage' => $this->isActiveStage, 
+            'active' => $this->active,
+            'stage' => $this->stage
+        ]);
     }
 
-    public function isActiveStage()
+    public function isStageActive()
     {
-        // Logic to determine if the stage is active
-        return $this->isActiveStage;
+        dd("isStageActive");
     }
 
     public function goToStage($stage)
     {
         $this->stage = $stage;
+        $this->active = $stage;
         // we also need to set the property on the parent component
-        $this->dispatch('goToStage', $stage);
+        $this->dispatch('stageUpdated', $stage);
+        $this->render();
     }
 
 }

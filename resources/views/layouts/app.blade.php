@@ -20,6 +20,10 @@
     </head>
     <body class="font-sans antialiased dark:bg-gray-800">
         <div class="min-h-screen bg-white dark:bg-gray-800">
+
+            @can('do anything')
+                <livewire:debugger.drawer />
+            @endcan
            
             <div class="flex h-screen bg-white dark:bg-black" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
 
@@ -53,7 +57,6 @@
                 
                     <main class="flex-1 relative overflow-y-auto focus:outline-none bg-transparent dark:bg-transparent">
                         <div class="">
-                            <!-- Your page content -->
                             {{ $slot }}
                         </div>
                     </main>

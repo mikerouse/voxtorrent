@@ -41,6 +41,11 @@ class Create extends Component
         $this->isFormValid = false;
         $this->issueType = '';
         $this->showTitleAndDescription = false;
+        $this->dispatch('updateDebug', [
+            'stage' => $this->stage,
+            'torrent' => $this->torrent,
+            'selectedDecisionMakers' => $this->selectedDecisionMakers,
+        ]);
     }
 
     public function render()
@@ -128,6 +133,12 @@ class Create extends Component
                 $this->pageSubtitle = '';
                 break;
         }
+        $this->dispatch('updateDebug', [
+            'stage' => $this->stage,
+            'torrent' => $this->torrent,
+            'selectedDecisionMakers' => $this->selectedDecisionMakers,
+        ]);
+        $this->dispatch('updateStageProgress', $this->stage);
         $this->render();
     }
 

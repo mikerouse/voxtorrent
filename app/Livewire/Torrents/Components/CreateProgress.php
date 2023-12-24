@@ -6,14 +6,19 @@ use Livewire\Component;
 
 class CreateProgress extends Component
 {
-    public $variables = [];
     public $stage;
+    public $active;
+    protected $listeners = ['stageUpdated' => 'updateStage'];
 
-    public function mount($variables)
+    public function mount($stage)
     {
-        foreach ($variables as $key => $value) {
-            $this->$key = $value;
-        }
+        $this->stage = $stage;
+    }
+
+    public function updateStage($stage)
+    {
+        $this->stage = $stage;
+        $this->active = $stage;
     }
     
     public function render()
