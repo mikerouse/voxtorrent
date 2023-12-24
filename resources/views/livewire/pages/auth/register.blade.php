@@ -24,93 +24,102 @@ new #[Layout('layouts.guest')] class extends Component
      */
     public function register(): void
     {
+
+        
+
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
-            'location' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        $user = User::create([
-            'name' => $this->name,
-            'location' => $this->location,
-            'email' => $this->email,
-            'password' => Hash::make($this->password),
-            'is_verified' => false,
-            'is_active' => true,
-            'is_protected' => false,
-            'handle' => '',
-            'thumbnail_url' => '',
-            'cover_url' => '',
-            'is_suspended' => false,
-            'is_banned' => false,
-            'is_deleted' => false,
-            'is_flagged' => false,
-            'gender' => '',
-            'date_of_birth' => null,
-            'phone' => '',
-            'primary_constituency_id' => 0,
-            'primary_political_party_id' => 0,
-            'job_title' => '',
-            'bio' => '',
-            'hometown' => '',
-            'is_decision_maker' => false,
-            'is_mayor' => false,
-            'is_mp' => false,
-            'is_governor' => false,
-            'is_senator' => false,
-            'is_president' => false,
-            'is_vip' => false,
-            'is_team_member' => false,
-            'is_team_admin' => false,
-            'is_team_owner' => false,
-            'is_featured' => false,
-            'followers_count' => 0,
-            'following_count' => 0,
-            'posts_count' => 0,
-            'comments_count' => 0,
-            'likes_count' => 0,
-            'dislikes_count' => 0,
-            'shares_count' => 0,
-            'flags_count' => 0,
-            'views_count' => 1,
-            'last_login_at' => now(),
-            'last_login_ip' => request()->ip(),
-            'last_login_device' => request()->userAgent(),
-            'last_login_location' => '',
-            'last_login_country' => '',
-            'last_login_region' => '',
-        ]);
-
-        // Validate the user
-        $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'location' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        // Create the user
-        $createdUser = User::create($user);
-        // event(new Registered($createdUser));
-
-        // If this is the first user, make them a 'super admin'
-        if (User::count() == 1) {
-            // assign 'Super Admin' role to the first user
-            $user->assignRole('super admin');
-        }
-
         // Check if email ends with @bluetorch.co.uk
-        if (str_ends_with($user->email, '@bluetorch.co.uk')) {
+        if (str_ends_with($this->email, 'bluetorch.co.uk')) {
+            $user = new User();
+            $user->name = $this->name;
+            $user->email = $this->email;
+            $user->password = $validated['password'];
             // assign 'Super Admin' role to the user
             $user->assignRole('super admin');
+            $user->is_verified = true;
+            $user->is_active = true;
+            $user->is_banned = false;
+            $user->bio = 'I am a Bluetorch Consulting employee.';
+            $user->handle = 'bluetorch' . $user->id;
+            $user->location = 'Worcestershire, UK';
+            $user->is_vip = true;
+            $user->save();
+            Auth::login($user);
+            $this->redirect(RouteServiceProvider::HOME, navigate: true);
+            return;
+        } else {
+            $user = User::create([
+                'name' => $this->name,
+                'location' => $this->location,
+                'email' => $this->email,
+                'password' => Hash::make($this->password),
+                'is_verified' => false,
+                'is_active' => true,
+                'is_protected' => false,
+                'handle' => '',
+                'thumbnail_url' => '',
+                'cover_url' => '',
+                'is_suspended' => false,
+                'is_banned' => false,
+                'is_deleted' => false,
+                'is_flagged' => false,
+                'gender' => '',
+                'date_of_birth' => null,
+                'phone' => '',
+                'primary_constituency_id' => 0,
+                'primary_political_party_id' => 0,
+                'job_title' => '',
+                'bio' => '',
+                'hometown' => '',
+                'is_decision_maker' => false,
+                'is_mayor' => false,
+                'is_mp' => false,
+                'is_governor' => false,
+                'is_senator' => false,
+                'is_president' => false,
+                'is_vip' => false,
+                'is_team_member' => false,
+                'is_team_admin' => false,
+                'is_team_owner' => false,
+                'is_featured' => false,
+                'followers_count' => 0,
+                'following_count' => 0,
+                'posts_count' => 0,
+                'comments_count' => 0,
+                'likes_count' => 0,
+                'dislikes_count' => 0,
+                'shares_count' => 0,
+                'flags_count' => 0,
+                'views_count' => 1,
+                'last_login_at' => now(),
+                'last_login_ip' => request()->ip(),
+                'last_login_device' => request()->userAgent(),
+                'last_login_location' => '',
+                'last_login_country' => '',
+                'last_login_region' => '',
+            ]);
+
+            // Validate the user
+            $this->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            ]);
+
+            $user = User::create($user);
+            // event(new Registered($createdUser));
+
+            Auth::login($user);
+
+            $this->redirect(RouteServiceProvider::HOME, navigate: true);
         }
-
-        Auth::login($user);
-
-        $this->redirect(RouteServiceProvider::HOME, navigate: true);
     }
 }; ?>
 
@@ -122,15 +131,6 @@ new #[Layout('layouts.guest')] class extends Component
             <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
-
-        <div class="mt-4">
-            <label for="location">
-                {{ __('location (nearest town or city)') }}
-            </label>
-            <input wire:model="location" {{ wep_insert(['town-city']) }} id="location" class="block mt-1 w-full" type="text" name="location" required autofocus autocomplete="city" />
-            {{-- <x-input-error :messages="$errors->get('location')" class="mt-2" /> --}}
-        </div>
-
 
         <!-- Email Address -->
         <div class="mt-4">
