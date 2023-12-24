@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Torrents;
 
 use App\Jobs\AnalyseTorrentContent;
 use Livewire\Component;
@@ -20,21 +20,120 @@ use App\Insert\HashtagInsert;
 use WireElements\Pro\Icons\Hashtag;
 use App\Models\Hashtag as ModelsHashtag;
 
-class CreateTorrent extends Component
+class Create extends Component
 {
+    /**
+     * Mount and render methods 
+     */
+    public function mount()
+    {
+        $this->decisionMakers = DecisionMakers::all();
+        $this->selectedDecisionMakers = [];
+        $this->torrent = new Torrent();
+        $this->torrentName;
+        $this->isTopicSet = false;
+        $this->torrentDescription;
+        $this->isAiThinking = false;
+        $this->isAiThinking_message = "Thinking...";
+        $this->AiDescriptionId = (string) Str::uuid();
+        $this->hashtags = [];
+        $this->incomingHashtags = '';
+        $this->isFormValid = false;
+        $this->issueType = '';
+        $this->showTitleAndDescription = false;
+    }
+
+    public function render()
+    {
+        return view('livewire.torrents.create')->layout('layouts.app');
+    }
+
+    /**
+     * My listeners
+     */
+    protected $listeners = [
+        'submitForm' => 'handleFormSubmission',
+        'updateDescription' => 'updateDescription',
+        'createNewHashtag' => 'handleNewHashtag',
+        'updateIssueType' => 'setIssueType',
+        'decisionMakerSelected' => 'decisionMakerSelected',
+        'goToStage' => 'goToStage',
+    ];
+
+    /**
+     * My properties
+     */
+    public $pageTitle = 'Choose the type of issue you want to raise'; 
+    public $pageSubtitle = '';
+    public $stage = 1;
     // An array to hold the decision makers who will be the recipients of the torrent
     #[Validate('required')]
     public $selectedDecisionMakers = [];
     #[Validate('required')]
     public $hashtags = [];
     public $incomingHashtags = '';
-    protected $listeners = [
-        'submitForm' => 'handleFormSubmission',
-        'updateDescription' => 'updateDescription',
-        'createNewHashtag' => 'handleNewHashtag',
-        'updateIssueType' => 'setIssueType',
-    ];
+    // Whilst difficult to name a torrent as they are merely an encapsulation of desired human change in the world, we do need a name for the torrent for system management purposes
+    public $name;
+    // A description of the torrent - which is the desired human change in the world in more detail
+    public $description;
+    // This variable will hold the decision makers that are returned from the database, not the list of selected decision makers
+    public $decisionMakers;
+    // Not sure what this is for yet
+    public $request;
+    // An empty search field to start with
+    public $searchText = '';
+    // An array to hold the search results temporarily
+    public $searchResults = [];
 
+    // When we get to Step 2 we start to populate the torrent 
+    public $torrent;
+    public $torrentName; 
+    public $isTopicSet = false;
+    #[Validate('required', onUpdate: false, message: 'Torrents cannot be blank')]
+    public $torrentDescription;
+    public $showSetTopicButton = false;
+    public $isAiThinking = false;
+    public $isAiThinking_message;
+    public $AiDescriptionId;
+    public $isFormValid = false;
+    public $showAddMore = false;
+    public $issueType;
+    public $showTitleAndDescription = false;
+
+    /**
+     * Listener handler methods
+     */
+    public function goToStage($stage)
+    {
+        $this->stage = $stage;
+        switch($stage) {
+            case 1:
+                $this->pageTitle = 'Choose the type of issue you want to raise';
+                $this->pageSubtitle = '';
+                break;
+            case 2:
+                $this->pageTitle = 'Choose the decision makers';
+                $this->pageSubtitle = 'Select the decision makers who can help.';
+                break;
+            case 3:
+                $this->pageTitle = 'Describe the issue';
+                $this->pageSubtitle = 'Describe the issue you want to raise. You can use the AI to help you write the description.';
+                break;
+            case 4:
+                $this->pageTitle = 'Review and submit';
+                $this->pageSubtitle = 'Review your issue before submitting it.';
+                break;
+            default:
+                $this->pageTitle = 'Choose the type of issue you want to raise';
+                $this->pageSubtitle = '';
+                break;
+        }
+        $this->render();
+    }
+
+    /**
+     * My methods
+     */
     public function handleNewHashtag($query)
     {
         // Check that the query is a string - it should be - and make sure it is a string
@@ -98,113 +197,50 @@ class CreateTorrent extends Component
         );
         Log::info('Saved new hashtag: ' . $hashtag . ' with slug: ' . $newHashtag->slug . ' to the database with ID '. $newHashtag->id);
     }
-    // Whilst difficult to name a torrent as they are merely an encapsulation of desired human change in the world, we do need a name for the torrent for system management purposes
-    public $name;
-    // A description of the torrent - which is the desired human change in the world in more detail
-    public $description;
-    // This variable will hold the decision makers that are returned from the database, not the list of selected decision makers
-    public $decisionMakers;
-    // Not sure what this is for yet
-    public $request;
-    // An empty search field to start with
-    public $searchText = '';
-    // An array to hold the search results temporarily
-    public $searchResults = [];
-
-    // When we get to Step 2 we start to populate the torrent 
-    public $torrent;
-    public $torrentName; 
-    public $isTopicSet = false;
-    #[Validate('required', onUpdate: false, message: 'Torrents cannot be blank')]
-    public $torrentDescription;
-    public $showSetTopicButton = false;
-    public $isAiThinking = false;
-    public $isAiThinking_message;
-    public $AiDescriptionId;
-    public $isFormValid = false;
-
-    public $issueType;
-
-
-    public function mount()
-    {
-        $this->decisionMakers = DecisionMakers::all();
-        $this->selectedDecisionMakers = [];
-        $this->torrent = new Torrent();
-        $this->torrentName;
-        $this->isTopicSet = false;
-        $this->torrentDescription;
-        $this->isAiThinking = false;
-        $this->isAiThinking_message = "Thinking...";
-        $this->AiDescriptionId = (string) Str::uuid();
-        $this->hashtags = [];
-        $this->incomingHashtags = '';
-        $this->isFormValid = false;
-        $this->issueType = '';
-    }
 
     public function updated()
     {
         Log::info('Component Updated', ['torrentDescription' => $this->torrentDescription]);
     }
 
+    /**
+     * @param string $type
+     * @return void
+     * This method is called when a decision maker is selected from the search results
+     */
+    public function decisionMakerSelected($id)
+    {
+        $decisionMaker = DecisionMakers::find($id);
+
+        if (!is_array($this->selectedDecisionMakers)) {
+            $this->selectedDecisionMakers = [];
+        }
+
+        if (!array_key_exists($decisionMaker->id, $this->selectedDecisionMakers)) {
+            $this->selectedDecisionMakers[$decisionMaker->id] = $decisionMaker;
+        }
+
+        // $this->dispatch('decisionMakerSelected', $decisionMaker->id);
+        $this->showAddMore = false;
+    }
+
+    public function showDecisionMakerChooser()
+    {
+        $this->showAddMore = true;
+        // $this->dispatch('showDecisionMakerChooser');
+    }
+
+    public function switchIssueType($newIssueType)
+    {
+        $this->issueType = "";
+        $this->pageTitle = "Choose the type of issue you want to raise";
+        $this->pageSubtitle = "";
+        $this->dispatch('issueTypeChanged', $newIssueType);
+    }
+
     public function updateDescription($htmlContent)
     {
         $this->torrentDescription = $htmlContent;
-    }
-
-    public function render()
-    {
-        return view('livewire.torrents.create')->layout('layouts.app');
-    }
-
-    public function performSearch()
-    {
-        if(strlen($this->searchText) >= 3) {
-            $this->searchResults = DecisionMakers::where('display_name', 'like', '%' . $this->searchText . '%')
-                ->get()
-                ->map(function ($decisionMaker) {
-                    $constituencies = $decisionMaker->constituencies->pluck('name')->join(', ');
-                    $decisionMaker->constituencies_list = $constituencies;
-                    return $decisionMaker;
-                });
-        } else {
-            $this->searchResults = [];
-        }
-    }
-
-    public function addDecisionMaker($decisionMakerId)
-    {
-        if (count($this->selectedDecisionMakers) >= 10) {
-            session()->flash('error', 'You can only add up to 10 decision makers at this time. We believe that this is the maximum number of decision makers that can be effectively targeted at once to avoid your message being diluted.');
-            return;
-        }
-    
-        $decisionMaker = DecisionMakers::findOrFail($decisionMakerId);
-    
-        if (!array_key_exists($decisionMakerId, $this->selectedDecisionMakers)) {
-            $this->selectedDecisionMakers[$decisionMakerId] = [
-                'id' => $decisionMaker->id,
-                'display_name' => $decisionMaker->display_name,
-                'thumbnail_url' => $decisionMaker->thumbnail_url,
-                'constituency' => $decisionMaker->constituencies[0]->name,
-                'constituency_type' => $decisionMaker->constituencies[0]->constituency_type->name,
-            ];
-            Log::info("Adding decision maker to recipient list: " . $this->selectedDecisionMakers[$decisionMakerId]['display_name']);
-        }
-    
-        $this->onRefreshList(); 
-    }
-
-    public function onRefreshList()
-    {
-        $this->searchResults = [];
-        $this->searchText = '';
-        if (empty($this->searchText))
-        {
-            // The text is empty here, we just need to tell the blade that it's empty and refresh the view
-            $this->dispatch('refresh');
-        }
     }
 
     public function removeDecisionMaker($decisionMakerId)
@@ -217,6 +253,7 @@ class CreateTorrent extends Component
         $this->torrent->name = $this->torrentName;
         if (strlen($this->torrent->name) > 5) {
             $this->showSetTopicButton = true;
+            $this->stage = 2;
         } else {
             $this->showSetTopicButton = false;
         }
@@ -267,6 +304,7 @@ class CreateTorrent extends Component
     {
         Log::info('Handling form submission');
         Log::info('Data: ' . print_r($data, true));
+        dd($data);
     }
 
     public function isFormValid()
@@ -290,11 +328,44 @@ class CreateTorrent extends Component
      /**
       * @param string $type
       * @return void
-      * @todo - this probably needs to be moved to the Torrent class
       */
     public function setIssueType($type)
     {
         $this->issueType = $type;
+        switch($type)
+        {
+            case 'casework':
+                $this->pageTitle = 'Create a new casework issue';
+                $this->pageSubtitle = 'Casework issues are for when you need help with a personal issue, such as a problem with your benefits, or a problem with a government department.';
+                break;
+            case 'bill':
+                $this->pageTitle = 'Create a new bill';
+                break;
+            case 'petition':
+                $this->pageTitle = 'Create a new petition';
+                $this->pageSubtitle = 'Petitions are for when you want to raise awareness of an issue, or to get people to sign a petition.';
+                break;
+            case 'campaign':
+                $this->pageTitle = 'Create a new campaign';
+                break;
+            case 'policy':
+                $this->pageTitle = 'Create a new policy';
+                break;
+            case 'question':
+                $this->pageTitle = 'Create a new question';
+                break;
+            case 'idea':
+                $this->pageTitle = 'Create a new idea';
+                break;
+            case 'other':
+                $this->pageTitle = 'Create a new issue';
+                break;
+            default:
+                $this->pageTitle = 'Create a new issue';
+                break;
+        }
+        $this->stage = 2;
+        $this->goToStage(2);
     }
 
     public function generateTorrentName()
@@ -316,6 +387,16 @@ class CreateTorrent extends Component
             session()->flash('error', 'You must be logged in to submit a torrent.');
             return redirect()->route('login');
         }
+
+        $formDetails = [
+            'selectedDecisionMakers' => $this->selectedDecisionMakers, 
+            'torrentDescription' => $this->torrentDescription, 
+            'hashtags' => $this->hashtags, 
+            'issueType' => $this->issueType
+        ];
+        Log::info('Form details: ' . json_encode($formDetails));
+
+        dd($formDetails);
 
         if (empty($this->issueType))
         {

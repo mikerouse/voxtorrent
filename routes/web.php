@@ -104,7 +104,9 @@ Route::get('/handle', \App\Livewire\Profile\Handle::class)
     ->middleware(['auth'])
     ->name('handle');
 
-Route::get('/create', \App\Livewire\CreateTorrent::class)->name('create');
+Route::get('/create', \App\Livewire\Torrents\Create::class)
+    ->middleware(['auth', 'verified'])
+    ->name('create');
 
 Route::get('/latest', \App\Livewire\Torrents\Latest::class)->name('latest');
 
