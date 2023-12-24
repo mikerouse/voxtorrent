@@ -42,6 +42,7 @@ return [
                 'user' => \App\Insert\UserInsert::class,
                 'hashtag' => \App\Insert\HashtagInsert::class,
                 'town-city' => \App\Insert\TownCityInsert::class,
+                'decision-maker' => \App\Insert\DecisionMakerInsert::class,
                 // 'command' => \App\CommandInsert::class,
             ],
             'default-behavior' => [
