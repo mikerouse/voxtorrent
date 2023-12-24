@@ -19,9 +19,9 @@
         @livewireStyles
     </head>
     <body class="font-sans antialiased dark:bg-gray-800">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-800">
+        <div class="min-h-screen bg-white dark:bg-gray-800">
            
-            <div class="flex h-screen bg-gray-300 dark:bg-gray-800" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
+            <div class="flex h-screen bg-white dark:bg-black" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
 
                 <!-- Sidebar -->
                 <!-- Desktop Sidebar - Always visible on md screens and larger -->
@@ -51,8 +51,8 @@
                         </button>
                     </div>
                 
-                    <main class="flex-1 relative overflow-y-auto focus:outline-none bg-white dark:bg-gray-800">
-                        <div class="py-6">
+                    <main class="flex-1 relative overflow-y-auto focus:outline-none bg-transparent dark:bg-transparent">
+                        <div class="">
                             <!-- Your page content -->
                             {{ $slot }}
                         </div>

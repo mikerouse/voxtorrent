@@ -19,9 +19,9 @@ new class extends Component
 <div id="primary-navigation-sidebar" class="py-6">
     <nav class="p-6 mt-0 w-full"> 
         <div class="container mx-auto flex flex-col items-start">
-            <div class="text-white font-extrabold mb-4">
-                <a class="text-white no-underline hover:text-white hover:no-underline" href="/">
-                    <span class="text-2xl pl-0">vime</span>
+            <div class="font-extrabold mb-4">
+                <a class="no-underline hover:text-white hover:no-underline" href="/">
+                    <span class="text-2xl pl-0 text-orange-500 dark:text-orange-300">vime</span>
                 </a>
             </div>
             <div class="mb-4 p-0 w-full">
@@ -31,35 +31,35 @@ new class extends Component
             </div>
             <ul class="list-reset flex flex-col justify-between flex-1 items-start dark:text-white">
                 <li class="mb-3 flex items-center">
-                    <a class="inline-block py-2 text-gray-300 no-underline" href="{{ route('latest') }}">
+                    <a class="inline-block py-2 dark:text-orange-100 text-orange-400 no-underline" href="{{ route('latest') }}">
                         <i class="fas fa-timeline mr-4"></i>latest
                     </a>
                 </li>
                 <li class="mb-3 flex items-center">
-                    <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('latest') }}">
+                    <a class="inline-block py-2 dark:text-orange-100 text-orange-400 no-underline" href="{{ route('latest') }}">
                         <i class="fas fa-arrow-up-right-dots mr-4"></i>uprising
                     </a>
                 </li>
                 <li class="mb-3 flex items-center">
-                    <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('bills') }}">
+                    <a class="inline-block py-2 dark:text-orange-100 text-orange-400 no-underline" href="{{ route('bills') }}">
                         <i class="fas fa-file-contract mr-4"></i>bills
                     </a>
                 </li>
                 <li class="mb-3 flex items-center">
-                    <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('top') }}">
+                    <a class="inline-block py-2 dark:text-orange-100 text-orange-400 no-underline" href="{{ route('top') }}">
                         <i class="fas fa-shower mr-4"></i>decision makers
                     </a>
                 </li>
                 <li class="mb-3 flex items-center">
-                    <a class="inline-block py-2 text-gray-500 no-underline" href="{{ route('hashtags') }}">
+                    <a class="inline-block py-2 dark:text-orange-100 text-orange-400 no-underline" href="{{ route('hashtags') }}">
                         <i class="fas fa-hashtag mr-4"></i>hashtags
                     </a>
                 </li>
             </ul>
             @auth
-                <div class="text-white font-light mt-4 mb-4">
-                    <a class="text-white no-underline hover:text-white hover:no-underline" href="#">
-                        <span class="text-2xl pl-0">{{ auth()->user()->handle }}</span>
+                <div class="font-light mt-4 mb-4">
+                    <a class=" no-underline hover:text-orange-600 hover:no-underline" href="#">
+                        <span class="text-2xl pl-0 dark:text-orange-100 text-orange-400">{{ auth()->user()->handle }}</span>
                     </a>
                 </div>
                 <ul class="list-reset flex flex-col justify-between flex-1 items-start dark:text-white">
